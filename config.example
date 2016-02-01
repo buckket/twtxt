@@ -1,0 +1,7 @@
+[twtxt]
+nick = John
+file = /home/john/public_html/twitter.txt
+
+[following]
+bob:https://example.org/bob.txt
+alice:https://example.org/alice.txt

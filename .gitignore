@@ -1,0 +1,9 @@
+.DS_Store
+*.pyc
+*.egg-info
+*.pex
+.cache
+.idea
+build
+dist
+venv
