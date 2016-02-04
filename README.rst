@@ -1,6 +1,10 @@
 twtxt
 ~~~~~
 
+.. image:: https://badges.gitter.im/buckket/twtxt.svg
+   :alt: Join the chat at https://gitter.im/buckket/twtxt
+   :target: https://gitter.im/buckket/twtxt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
 Installation
