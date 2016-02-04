@@ -1,9 +1,13 @@
 twtxt
 ~~~~~
-twtxt is a decentralised, minimalist microblogging service for hackers.
+
+*twtxt* is a decentralised, minimalist microblogging service for hackers.
 
 Installation
 ------------
+
+Release version:
+================
 1) Make sure that you have at least Python 3.4.1 installed.
 
 2) Afterwards install this package simply via pip:
@@ -14,14 +18,16 @@ Installation
 
 3) Now run ``twtxt``. :)
 
-If you want to install the development version do as follows:
-
+Development version:
+====================
 1) Clone the repository:
+
 .. code::
 
     $ git clone https://github.com/buckket/twtxt.git
 
 2) Install the package via pip in developer mode:
+
 .. code::
 
     $ pip install -e twtxt/
@@ -29,17 +35,21 @@ If you want to install the development version do as follows:
 
 Usage
 -----
-twtxt features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` to get information about all available commands, options and arguments. Here are a few of the most common operations you encounter when using twtxt:
+*twtxt* features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` to get information about all available commands, options and arguments.
+
+Here are a few of the most common operations you encounter when using twtxt:
 
 Follow a source:
-~~~~~~~~~~~~~~~~
+================
+
 .. code::
 
     $ twtxt follow bob http://bobsplace.xyz/twtxt
     ✓ You’re now following bob.
 
 List all sources you’re following:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==================================
+
 .. code::
 
     $ twtxt following
@@ -47,20 +57,23 @@ List all sources you’re following:
     ➤ bob @ http://bobsplace.xyz/twtxt
 
 Unfollow a source:
-~~~~~~~~~~~~~~~~~~
+==================
+
 .. code::
 
     $ twtxt unfollow bob
     ✓ You’ve unfollowed bob.
 
 Post a status update:
-~~~~~~~~~~~~~~~~~~~~~
+=====================
+
 .. code::
 
     $ twtxt tweet "Hello, this is twtxt!"
 
 View your timeline:
-~~~~~~~~~~~~~~~~~~~
+===================
+
 .. code::
 
     $ twtxt timeline
@@ -73,7 +86,7 @@ View your timeline:
 
 Format specification:
 ---------------------
-The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory. The file must be encoded with UTF-8, and must use LF (\\n) as line separators. A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters. Take a look at this example file:
+The central component of sharing information, i.e. status updates, with *twtxt* is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory. The file must be encoded with UTF-8, and must use LF (\\n) as line separators. A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters. Take a look at this example file:
 
 .. code::
 
