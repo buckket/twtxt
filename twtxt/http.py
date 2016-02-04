@@ -1,10 +1,22 @@
-import click
-import asyncio
-import aiohttp
+"""
+    twtxt.http
+    ~~~~~~~~~~
 
+    This module handles HTTP requests via aiohttp/asyncio.
+
+    :copyright: (c) 2016 by buckket.
+    :license: MIT, see LICENSE for more details.
+"""
+
+import asyncio
+import logging
 from itertools import islice
 
+import aiohttp
+
 from twtxt.parser import parse_string
+
+logger = logging.getLogger(__name__)
 
 
 @asyncio.coroutine
@@ -15,7 +27,7 @@ def retrieve_status(source):
         status = response.status
         yield from response.release()
     except Exception as e:
-        pass
+        logger.debug(e)
     finally:
         return source, status
 
@@ -26,10 +38,11 @@ def retrieve_file(source, limit):
         response = yield from aiohttp.get(source.url)
         content = yield from response.text()
     except Exception as e:
+        logger.debug(e)
         return []
     if response.status == 200:
-            tweets = parse_string(content.splitlines(), source, limit)
-            return tweets
+        tweets = parse_string(content.splitlines(), source, limit)
+        return tweets
     else:
         return []
 

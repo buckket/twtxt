@@ -1,11 +1,23 @@
+"""
+    twtxt.helper
+    ~~~~~~~~~~~~
+
+    This module implements various helper for use in twtxt.
+
+    :copyright: (c) 2016 by buckket.
+    :license: MIT, see LICENSE for more details.
+"""
+
 import click
+
+from twtxt.parser import parse_iso8601
 
 
 def style_tweet(tweet):
     return "➤ {nick} ({time}):\n{tweet}".format(
-            nick=click.style(tweet.source.nick, bold=True),
-            tweet=tweet.limited_text,
-            time=click.style(tweet.relative_datetime, dim=True))
+        nick=click.style(tweet.source.nick, bold=True),
+        tweet=tweet.limited_text,
+        time=click.style(tweet.relative_datetime, dim=True))
 
 
 def style_source(source):
@@ -25,3 +37,20 @@ def style_source_with_status(source, status):
         nick=click.style(source.nick, bold=True, fg=scolor),
         url=source.url,
         status=click.style(smessage, fg=scolor))
+
+
+def validate_created_at(ctx, param, value):
+    if value:
+        try:
+            return parse_iso8601(value)
+        except (ValueError, OverflowError) as e:
+            raise click.BadParameter("{}.".format(e))
+
+
+def validate_text(ctx, param, value):
+    if value:
+        if len(value) > 140:
+            click.confirm("✂ Warning: Tweet is longer than 140 characters. Are you sure?", abort=True)
+        return value
+    else:
+        raise click.BadArgumentUsage("Text can’t be empty.")

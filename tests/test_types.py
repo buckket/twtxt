@@ -36,6 +36,8 @@ def test_tweet_relative_datetime():
     tweet = Tweet("foobar")
     assert tweet.relative_datetime == "a moment ago"
 
+    # test future
+
 
 def test_tweet_limited_text():
     tweet = Tweet("A " * 100)
@@ -44,6 +46,20 @@ def test_tweet_limited_text():
 
 
 def test_tweet_ordering():
-    pass
+    tweet_1 = Tweet("A", 1454493697)
+    tweet_2 = Tweet("B", 1454493698)
+    tweet_3 = Tweet("C", 1454493699)
+    tweet_4 = Tweet("D", 1454493699)
+    tweet_5 = Tweet("D", 1454493699)
 
-
+    # explicit testing
+    assert tweet_1 < tweet_2
+    assert tweet_1 <= tweet_2
+    assert tweet_2 > tweet_1
+    assert tweet_2 >= tweet_1
+    assert tweet_3 != tweet_4
+    assert tweet_5 == tweet_4
+    assert tweet_5 >= tweet_4
+    assert tweet_5 <= tweet_4
+    assert not(tweet_3 <= tweet_4)
+    assert not(tweet_3 >= tweet_4)

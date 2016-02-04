@@ -1,6 +1,8 @@
 [twtxt]
-nick = John
-file = /home/john/public_html/twitter.txt
+output = /home/john/public_html/twitter.txt
+check_following = True
+use_pager = False
+limit_timeline = 20
 
 [following]
 bob:https://example.org/bob.txt

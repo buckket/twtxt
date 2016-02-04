@@ -1,47 +1,82 @@
 twtxt
 ~~~~~
-
 twtxt is a decentralised, minimalist microblogging service for hackers.
-Features
---------
-- Search autocompletion (uses DeckBrew API)
-- Loading and saving decks as plain text files
-- Sample hand window, including mulligans button
-- Mana curve plot shows colored mana requirements
-
-Screenshot
-----------
-.. image:: https://uncloaked.net/~loom/stuff/mtg_deck_editor.png
 
 Installation
 ------------
-1) Under Debian GNU/Linux, install major dependencies with:
+1) Make sure that you have at least Python 3.4.1 installed.
 
-.. code:: bash
-
-    $ apt-get install gir1.2-gtk-3.0 python-gi-cairo python-matplotlib
-
-2) Afterwards install this package simply via pip.
-
-.. code:: bash
-
-    $ pip install mtg-deck-editor
-
-3) Now run ``mtg-deck-editor``. :)
-
-
-Format specification:
----------------------
-The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an unix timestamp. A specific ordering is not mandatory, but it’s recommended to put the newest status at the beginning of the file, so that humans can parse the new content more easily. The file should be encoded with UTF-8, and must use LF (\n) as line separators (unix-style). A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Take a look at this example file:
+2) Afterwards install this package simply via pip:
 
 .. code::
 
-    1454287712: You can really go crazy here! ┐(ﾟ∀ﾟ)┌ ?
-    1454243768: Python 3 is a superb programming language. ;)
-    1454243968: This is just another example.
-    1454252639: Fiat Lux!
+    $ pip install twtxt
 
-Links
+3) Now run ``twtxt``. :)
+
+If you want to install the development version do as follows:
+
+1) Clone the repository:
+.. code::
+
+    $ git clone https://github.com/buckket/twtxt.git
+
+2) Install the package via pip in developer mode:
+.. code::
+
+    $ pip install -e twtxt/
+
+
+Usage
 -----
-- `website (upstream) <http://news.dieweltistgarnichtso.net/bin/mtg-deck-editor.html>`_
-- `development version <https://github.com/buckket/mtg-deck-editor>`_
+twtxt features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` to get information about all available commands, options and arguments. Here are a few of the most common operations you encounter when using twtxt:
+
+Follow a source:
+~~~~~~~~~~~~~~~~
+.. code::
+
+    $ twtxt follow bob http://bobsplace.xyz/twtxt
+    ✓ You’re now following bob.
+
+List all sources you’re following:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code::
+
+    $ twtxt following
+    ➤ alice @ https://example.org/alice.txt
+    ➤ bob @ http://bobsplace.xyz/twtxt
+
+Unfollow a source:
+~~~~~~~~~~~~~~~~~~
+.. code::
+
+    $ twtxt unfollow bob
+    ✓ You’ve unfollowed bob.
+
+Post a status update:
+~~~~~~~~~~~~~~~~~~~~~
+.. code::
+
+    $ twtxt tweet "Hello, this is twtxt!"
+
+View your timeline:
+~~~~~~~~~~~~~~~~~~~
+.. code::
+
+    $ twtxt timeline
+
+    ➤ bob (5 minutes ago):
+    This is my first "tweet". :)
+
+    ➤ alice (2 hours ago):
+    I wonder if this is a thing?
+
+Format specification:
+---------------------
+The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory. The file must be encoded with UTF-8, and must use LF (\\n) as line separators. A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters. Take a look at this example file:
+
+.. code::
+
+    2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
+    2016-02-01T11:00+01	This is just another example.
+    2015-12-12T12:00+01	Fiat lux!
