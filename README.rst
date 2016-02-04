@@ -1,7 +1,7 @@
 twtxt
 ~~~~~
 
-*twtxt* is a decentralised, minimalist microblogging service for hackers.
+**twtxt** is a decentralised, minimalist microblogging service for hackers.
 
 Installation
 ------------
@@ -14,7 +14,7 @@ Release version:
 
 .. code::
 
-    $ pip install twtxt
+    $ pip3 install twtxt
 
 3) Now run ``twtxt``. :)
 
@@ -30,14 +30,14 @@ Development version:
 
 .. code::
 
-    $ pip install -e twtxt/
+    $ pip3 install -e twtxt/
 
 
 Usage
 -----
-*twtxt* features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` to get information about all available commands, options and arguments.
+**twtxt** features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` or call commands without arguments to get information about all available commands, options and arguments.
 
-Here are a few of the most common operations you encounter when using twtxt:
+Here are a few of the most common operations you may encounter when using **twtxt**:
 
 Follow a source:
 ================
@@ -86,7 +86,13 @@ View your timeline:
 
 Format specification:
 ---------------------
-The central component of sharing information, i.e. status updates, with *twtxt* is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory. The file must be encoded with UTF-8, and must use LF (\\n) as line separators. A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters. Take a look at this example file:
+The central component of sharing information, i.e. status updates, with **twtxt** is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB [\\t] to separate it from the actual text. A specific ordering of the statuses is not mandatory.
+
+The file must be encoded with UTF-8, and must use LF [\\n} as line separators.
+
+A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. **twtxt** will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters.
+
+Take a look at this example file:
 
 .. code::
 
