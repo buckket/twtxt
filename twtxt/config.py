@@ -68,6 +68,25 @@ class Config:
 
         return following
 
+    @property
+    def options(self):
+        cfg = self.open_config()
+        try:
+            return dict(cfg.items("twtxt"))
+        except configparser.NoSectionError as e:
+            logger.debug(e)
+            return {}
+
+    @property
+    def nick(self):
+        cfg = self.open_config()
+        return cfg.get("twtxt", "nick", fallback=os.environ.get('USER', ''))
+
+    @property
+    def post_tweet_hook(self):
+        cfg = self.open_config()
+        return cfg.get("twtxt", "post_tweet_hook", fallback=None)
+
     def add_source(self, source):
         cfg = self.open_config()
 
@@ -90,21 +109,20 @@ class Config:
     def build_default_map(self):
         cfg = self.open_config()
 
+        twtfile = os.path.expanduser(cfg.get("twtxt", "twtfile", fallback="twtxt.txt"))
+
         default_map = {
             "following": {
-                "check": cfg.get("twtxt", "check_following", fallback=False),
+                "check": cfg.get("twtxt", "check_following", fallback=True),
             },
             "tweet": {
-                "output": cfg.get("twtxt", "output", fallback="twtxt.txt"),
+                "twtfile": twtfile,
             },
             "timeline": {
                 "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
                 "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
+                "twtfile": twtfile,
             }
         }
 
         return default_map
-
-    def get(self, section, option, fallback):
-        cfg = self.open_config()
-        return cfg.get(section, option, fallback=fallback)

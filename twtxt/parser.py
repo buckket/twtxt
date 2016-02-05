@@ -10,7 +10,6 @@
 
 import logging
 from datetime import timezone
-from itertools import islice
 
 import dateutil.parser
 
@@ -29,12 +28,9 @@ def parse_iso8601(string):
     return make_aware(dateutil.parser.parse(string))
 
 
-def parse_string(string, source, limit=None):
+def parse_string(string, source):
     """Parses a multi-line string and returns extracted :class:`Tweet` objects."""
     tweets = []
-
-    if limit:
-        string = islice(string, limit)
 
     for line in string:
         try:

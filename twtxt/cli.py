@@ -9,13 +9,16 @@
 """
 
 import logging
+import sys
 
 import click
 
 from twtxt.config import Config
+from twtxt.file import get_local_tweets, add_local_tweet
+from twtxt.helper import run_post_tweet_hook
 from twtxt.helper import style_tweet, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
-from twtxt.http import get_tweets, get_status
+from twtxt.http import get_remote_tweets, get_remote_status
 from twtxt.log import init_logging
 from twtxt.types import Tweet, Source
 
@@ -24,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 @click.group()
 @click.option("--config", "-c",
-              type=click.Path(exists=True, readable=True, resolve_path=True),
+              type=click.Path(exists=True, file_okay=True, readable=True, writable=True, resolve_path=True),
               help="Specify a custom config file location.")
 @click.option("--verbose", "-v",
               is_flag=True, default=False,
@@ -35,16 +38,17 @@ def cli(ctx, config, verbose):
     """Decentralised, minimalist microblogging service for hackers."""
     init_logging(debug=verbose)
 
+    if ctx.invoked_subcommand == "quickstart":
+        return
+
     try:
         if config:
             conf = Config.from_file(config)
         else:
             conf = Config.discover()
     except ValueError:
-        click.echo("Error loading config file.")
-        if not config:
-            if click.confirm("Do you want to run the twtxt quickstart wizard?", abort=True):
-                raise NotImplemented
+        click.echo("✗ Config file not found or not readable. You may want to run twtxt quickstart.")
+        sys.exit()
 
     ctx.default_map = conf.build_default_map()
     ctx.obj = {'conf': conf}
@@ -54,16 +58,20 @@ def cli(ctx, config, verbose):
 @click.option("--created-at",
               callback=validate_created_at,
               help="ISO 8601 formatted datetime string to use in Tweet, instead of current time.")
-@click.option("--output", "-o",
+@click.option("--twtfile", "-f",
               type=click.Path(file_okay=True, writable=True, resolve_path=True),
-              help="Location of twtxt file.")
+              help="Location of your twtxt file. (Default: twtxt.txt)")
 @click.argument("text", callback=validate_text)
 @click.pass_context
-def tweet(ctx, created_at, output, text):
+def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
-    with open(output, "a") as fh:
-        fh.write("{}\n".format(str(tweet)))
+    if not add_local_tweet(tweet, twtfile):
+        click.echo("✗ Couldn’t write to file.")
+    else:
+        hook = ctx.obj["conf"].post_tweet_hook
+        if hook:
+            run_post_tweet_hook(hook, ctx.obj["conf"].options)
 
 
 @cli.command()
@@ -73,11 +81,20 @@ def tweet(ctx, created_at, output, text):
 @click.option("--limit", "-l",
               type=click.INT,
               help="Limit total number of shown tweets. (Default: 20)")
+@click.option("--twtfile", "-f",
+              type=click.Path(exists=True, file_okay=True, readable=True, resolve_path=True),
+              help="Location of your twtxt file. (Default: twtxt.txt")
 @click.pass_context
-def timeline(ctx, pager, limit):
+def timeline(ctx, pager, limit, twtfile):
     """Retrieve your personal timeline."""
-    sources = ctx.obj['conf'].following
-    tweets = get_tweets(sources, limit)
+    sources = ctx.obj["conf"].following
+    tweets = get_remote_tweets(sources, limit)
+
+    if twtfile:
+        source = Source(ctx.obj["conf"].nick, file=twtfile)
+        tweets.extend(get_local_tweets(source, limit))
+
+    tweets = sorted(tweets, reverse=True)[:limit]
 
     if pager:
         click.echo_via_pager("\n\n".join(
@@ -90,16 +107,16 @@ def timeline(ctx, pager, limit):
 
 
 @cli.command()
-@click.option("--check",
+@click.option("--check/--no-check",
               is_flag=True,
-              help="Check if source URL is valid and readable.")
+              help="Check if source URL is valid and readable. (Default: True)")
 @click.pass_context
 def following(ctx, check):
     """Return the list of sources you’re following."""
     sources = ctx.obj['conf'].following
 
     if check:
-        sources = get_status(sources)
+        sources = get_remote_status(sources)
         for (source, status) in sources:
             click.echo(style_source_with_status(source, status))
     else:
@@ -138,7 +155,7 @@ def unfollow(ctx, nick):
 @click.pass_context
 def quickstart(ctx):
     """Quickstart wizard for setting up twtxt."""
-    pass
+    click.prompt("Nick", default="Penis")
 
 
 main = cli

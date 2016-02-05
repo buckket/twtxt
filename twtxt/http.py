@@ -10,7 +10,6 @@
 
 import asyncio
 import logging
-from itertools import islice
 
 import aiohttp
 
@@ -41,8 +40,8 @@ def retrieve_file(source, limit):
         logger.debug(e)
         return []
     if response.status == 200:
-        tweets = parse_string(content.splitlines(), source, limit)
-        return tweets
+        tweets = parse_string(content.splitlines(), source)
+        return sorted(tweets, reverse=True)[:limit]
     else:
         return []
 
@@ -64,16 +63,16 @@ def process_sources_for_file(sources, limit):
     for coroutine in asyncio.as_completed(coroutines):
         tweets = yield from coroutine
         g_tweets.extend(tweets)
-    return sorted(g_tweets, reverse=True)
+    return sorted(g_tweets, reverse=True)[:limit]
 
 
-def get_tweets(sources, limit=None):
+def get_remote_tweets(sources, limit=None):
     loop = asyncio.get_event_loop()
     tweets = loop.run_until_complete(process_sources_for_file(sources, limit))
-    return islice(tweets, limit) if limit else tweets
+    return tweets
 
 
-def get_status(sources):
+def get_remote_status(sources):
     loop = asyncio.get_event_loop()
     result = loop.run_until_complete(process_sources_for_status(sources))
     return result

@@ -8,6 +8,9 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import shlex
+import subprocess
+
 import click
 
 from twtxt.parser import parse_iso8601
@@ -54,3 +57,12 @@ def validate_text(ctx, param, value):
         return value
     else:
         raise click.BadArgumentUsage("Text can’t be empty.")
+
+
+def run_post_tweet_hook(hook, options):
+    try:
+        command = shlex.split(hook.format(**options))
+    except KeyError:
+        click.echo("✗ Invalid variables in post_tweet_hook.")
+        return False
+    subprocess.run(command, shell=True, stdout=subprocess.PIPE)

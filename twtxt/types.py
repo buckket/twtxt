@@ -68,6 +68,7 @@ class Tweet:
 
 
 class Source:
-    def __init__(self, nick, url):
+    def __init__(self, nick, url=None, file=None):
         self.nick = nick
         self.url = url
+        self.file = file
