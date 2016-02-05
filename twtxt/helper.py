@@ -65,4 +65,4 @@ def run_post_tweet_hook(hook, options):
     except KeyError:
         click.echo("✗ Invalid variables in post_tweet_hook.")
         return False
-    subprocess.run(command, shell=True, stdout=subprocess.PIPE)
+    subprocess.call(command, shell=True, stdout=subprocess.PIPE)
