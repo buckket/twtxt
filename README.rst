@@ -40,6 +40,8 @@ Release version:
 
     $ pip3 install twtxt
 
+*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``.
+
 3) Now run ``twtxt quickstart``. :)
 
 Development version:
@@ -150,10 +152,10 @@ Here’s an example ``conf`` file, showing every currently supported option:
 
 [followings] section:
 =====================
-This section holds all your followings as nick, URL pairs. You can edit this section manually or use the ``follow``/``unfollow`` command of twtxt for greater comfort.
+This section holds all your followings as nick, URL pairs. You can edit this section manually or use the ``follow``/``unfollow`` commands of twtxt for greater comfort.
 
-Format specification:
----------------------
+Format specification
+--------------------
 The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
 The file must be encoded with UTF-8, and must use LF (\\n) as line separators.
