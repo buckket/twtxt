@@ -2,7 +2,6 @@ language: python
 python:
   - "3.4"
   - "3.5"
-  - "pypy3"
 
 install:
   - pip install --editable .
