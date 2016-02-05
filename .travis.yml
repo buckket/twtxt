@@ -7,7 +7,7 @@ python:
 install:
   - pip install --editable .
   - pip install coveralls
-  - pip install pytest pytest.cov
+  - pip install pytest pytest-cov
 
 script: make test
 
