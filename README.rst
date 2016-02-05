@@ -6,15 +6,22 @@ twtxt
 
 So you want to get some thoughts out on the internet? In a convenient and slick way? While also following the gibberish of others? Instead of signing up at a closed and/or regulated microblogging platform, getting your status updates out with twtxt is as easy as putting them in a publicly accessible text file. The URL pointing to this file is your identity, your account. twtxt than can tracks those text files, like a feedreader, and build your unique timeline out of them, depending on which files you track. The format is simple, human readable, and goes well together with all those beloved UNIX command line utilities.
 
+
 |demo|
 
-**tl;dr**: twtxt is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
+**tl;dr**: **twtxt** is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
+
+.. contents::
+    :local:
+    :depth: 1
+    :backlinks: none
 
 Features
 --------
 - A beautiful command-line interface thanks to click.
 - Asynchronous HTTP requests thanks to asyncio/aiohttp and Python 3.
 - Integrates well with existing tools (scp, cut, echo, date, etc.) and your shell.
+- Don’t like the official client? Tweet using ``echo -e "`date -Im`\tHello world!" >> twtxt.txt``!
 
 Installation
 ------------
@@ -98,9 +105,9 @@ View your timeline:
 
 Configuration
 -------------
-twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create one. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
+**twtxt** uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
 
-Here’s an example ``conf`` file, showing every supported option:
+Here’s an example ``conf`` file, showing every currently supported option:
 
 .. code::
 
@@ -117,26 +124,28 @@ Here’s an example ``conf`` file, showing every supported option:
     alice = https://example.org/alice.txt
 
 
-twtxt section:
-==============
+[twtxt] section:
+================
 +-------------------+-------+----------+---------------------------------------------------+
 | Option:           | Type: | Default: | Help:                                             |
 +===================+=======+==========+===================================================+
-| nick              | TEXT  |          | your nick, will be displayed in your the timeline |
+| nick              | TEXT  |          | your nick, will be displayed in your timeline     |
 +-------------------+-------+----------+---------------------------------------------------+
 | twtfile           | PATH  |          | path to your local twtxt file                     |
 +-------------------+-------+----------+---------------------------------------------------+
 | check_following   | BOOL  | True     | try to resolve URLs when listing followings       |
 +-------------------+-------+----------+---------------------------------------------------+
-| use_pager         | BOOL  | False    | use a pager (less) to display timeline            |
+| use_pager         | BOOL  | False    | use a pager (less) to display your timeline       |
 +-------------------+-------+----------+---------------------------------------------------+
 | limit_timeline    | INT   | 20       | limit amount of tweets shown in your timeline     |
 +-------------------+-------+----------+---------------------------------------------------+
 | post_tweet_hook   | TEXT  |          | command to be executed after tweeting             |
 +-------------------+-------+----------+---------------------------------------------------+
 
-followings section:
-===================
+``post_tweet_hook`` is very useful if you want to push your twtxt file on a remote (web) server. Check the example above tho see how it’s used with ``scp``.
+
+[followings] section:
+=====================
 This section holds all your followings as nick, URL pairs. You can edit this section manually or use the ``follow``/``unfollow`` command of twtxt for greater comfort.
 
 Format specification:
@@ -154,6 +163,10 @@ Take a look at this example file:
     2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
     2016-02-01T11:00+01	This is just another example.
     2015-12-12T12:00+01	Fiat lux!
+
+License
+-------
+**twtxt** is released under the MIT License. See the bundled LICENSE file for details.
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/twtxt.svg?style=flat&label=version
