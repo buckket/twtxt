@@ -4,6 +4,18 @@ twtxt
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
+So you want to get some thoughts out on the internet? In a convenient and slick way? While also following the gibberish of others? Instead of signing up at a closed and/or regulated microblogging platform, getting your status updates out with twtxt is as easy as putting them in a publicly accessible text file. The URL pointing to this file is your identity, your account. twtxt than can tracks those text files, like a feedreader, and build your unique timeline out of them, depending on which files you track. The format is simple, human readable, and goes well together with all those beloved UNIX command line utilities.
+
+|demo|
+
+**tl;dr**: twtxt is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
+
+Features
+--------
+- A beautiful command-line interface thanks to click.
+- Asynchronous HTTP requests thanks to asyncio/aiohttp and Python 3.
+- Integrates well with existing tools (scp, cut, echo, date, etc.) and your shell.
+
 Installation
 ------------
 
@@ -17,11 +29,11 @@ Release version:
 
     $ pip3 install twtxt
 
-3) Now run ``twtxt``. :)
+3) Now run ``twtxt quickstart``. :)
 
 Development version:
 ====================
-1) Clone the repository:
+1) Clone the git repository:
 
 .. code::
 
@@ -32,7 +44,6 @@ Development version:
 .. code::
 
     $ pip3 install -e twtxt/
-
 
 Usage
 -----
@@ -85,9 +96,52 @@ View your timeline:
     ➤ alice (2 hours ago):
     I wonder if this is a thing?
 
+Configuration
+-------------
+twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create one. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
+
+Here’s an example ``conf`` file, showing every supported option:
+
+.. code::
+
+    [twtxt]
+    nick = buckket
+    twtfile = ~/twtxt.txt
+    check_following = True
+    use_pager = False
+    limit_timeline = 20
+    post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
+
+    [following]
+    bob = https://example.org/bob.txt
+    alice = https://example.org/alice.txt
+
+
+twtxt section:
+==============
++-------------------+-------+----------+---------------------------------------------------+
+| Option:           | Type: | Default: | Help:                                             |
++===================+=======+==========+===================================================+
+| nick              | TEXT  |          | your nick, will be displayed in your the timeline |
++-------------------+-------+----------+---------------------------------------------------+
+| twtfile           | PATH  |          | path to your local twtxt file                     |
++-------------------+-------+----------+---------------------------------------------------+
+| check_following   | BOOL  | True     | try to resolve URLs when listing followings       |
++-------------------+-------+----------+---------------------------------------------------+
+| use_pager         | BOOL  | False    | use a pager (less) to display timeline            |
++-------------------+-------+----------+---------------------------------------------------+
+| limit_timeline    | INT   | 20       | limit amount of tweets shown in your timeline     |
++-------------------+-------+----------+---------------------------------------------------+
+| post_tweet_hook   | TEXT  |          | command to be executed after tweeting             |
++-------------------+-------+----------+---------------------------------------------------+
+
+followings section:
+===================
+This section holds all your followings as nick, URL pairs. You can edit this section manually or use the ``follow``/``unfollow`` command of twtxt for greater comfort.
+
 Format specification:
 ---------------------
-The central component of sharing information, i.e. status updates, with **twtxt** is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
+The central component of sharing information, i.e. status updates, with **twtxt** is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
 The file must be encoded with UTF-8, and must use LF (\\n) as line separators.
 
@@ -121,3 +175,7 @@ Take a look at this example file:
 .. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
     :target: https://raw.githubusercontent.com/buckket/twtxt/master/LICENSE
     :alt: Package license
+
+.. |demo| image:: https://asciinema.org/a/1w2q3suhgrzh2hgltddvk9ot4.png
+    :target: https://asciinema.org/a/1w2q3suhgrzh2hgltddvk9ot4
+    :alt: Demo
