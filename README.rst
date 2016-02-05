@@ -11,10 +11,14 @@ So you want to get some thoughts out on the internet? In a convenient and slick 
 
 **tl;dr**: **twtxt** is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
 
+-----
+
 .. contents::
     :local:
     :depth: 1
     :backlinks: none
+
+-----
 
 Features
 --------
