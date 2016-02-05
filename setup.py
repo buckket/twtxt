@@ -23,7 +23,6 @@ setup(
 
     install_requires=[
         'aiohttp',
-        'appdirs',
         'python-dateutil',
         'humanize',
         'click',

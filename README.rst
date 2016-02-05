@@ -32,15 +32,15 @@ Installation
 
 Release version:
 ================
-1) Make sure that you have at least Python 3.4.1 installed.
+1) Make sure that you have at least **Python 3.4.1** installed.
 
-2) Afterwards install this package simply via pip:
+2) You than can install this package simply via pip:
 
 .. code::
 
     $ pip3 install twtxt
 
-*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``.
+*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``. (Using pyvenv is also an option!)
 
 3) Now run ``twtxt quickstart``. :)
 

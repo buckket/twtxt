@@ -8,11 +8,11 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import click
 import configparser
 import logging
 import os
 
-from appdirs import user_config_dir
 
 from twtxt.types import Source
 
@@ -39,11 +39,30 @@ class Config:
 
     @classmethod
     def discover(cls):
-        config_dir = user_config_dir("twtxt", "buckket")
+        config_dir = click.get_app_dir("twtxt")
         config_file = "config"
-
         path = os.path.join(config_dir, config_file)
         return cls.from_file(path)
+
+    def create_config(self, nick, twtfile, add_news):
+        config_dir = click.get_app_dir("twtxt")
+        if not os.path.exists(config_dir):
+            os.makedirs(config_dir)
+        config_file = "config"
+        path = os.path.join(config_dir, config_file)
+        self.config_file = path
+
+        cfg = configparser.ConfigParser()
+
+        cfg.add_section("twtxt")
+        cfg.set("twtxt", "nick", nick)
+        cfg.set("twtxt", "twtfile", twtfile)
+
+        cfg.add_section("following")
+        if add_news:
+            cfg.set("following", "twtxt", "https://buckket.org/twtxt_news.txt")
+
+        self.write_config(cfg)
 
     def open_config(self):
         cfg = configparser.ConfigParser()
@@ -80,7 +99,7 @@ class Config:
     @property
     def nick(self):
         cfg = self.open_config()
-        return cfg.get("twtxt", "nick", fallback=os.environ.get('USER', ''))
+        return cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
 
     @property
     def post_tweet_hook(self):

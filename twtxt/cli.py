@@ -8,7 +8,9 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import textwrap
 import logging
+import os
 import sys
 
 import click
@@ -95,6 +97,8 @@ def timeline(ctx, pager, limit, twtfile):
         tweets.extend(get_local_tweets(source, limit))
 
     tweets = sorted(tweets, reverse=True)[:limit]
+    if not tweets:
+        return
 
     if pager:
         click.echo_via_pager("\n\n".join(
@@ -155,7 +159,30 @@ def unfollow(ctx, nick):
 @click.pass_context
 def quickstart(ctx):
     """Quickstart wizard for setting up twtxt."""
-    click.prompt("Nick", default="Penis")
+    width = click.get_terminal_size()[0]
+    width = width if width <= 79 else 79
+
+    click.secho("twtxt - quickstart", fg="cyan")
+    click.secho("==================", fg="cyan")
+    click.echo()
+
+    help = "This wizard will generate a basic configuration file for twtxt with all mandatory options set. " \
+           "Have a look at the README.rst to get information about the other available options and their meaning."
+    click.echo(textwrap.fill(help, width))
+
+    click.echo()
+    nick = click.prompt("➤ Please enter your desired nick", default=os.environ.get("USER", ""))
+    twtfile = click.prompt("➤ Please enter the desired location for your twtxt file", "~/twtxt.txt", type=click.Path())
+
+    click.echo()
+    add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
+
+    conf = Config(None)
+    conf.create_config(nick, twtfile, add_news)
+    open(os.path.expanduser(twtfile), 'a').close()
+
+    click.echo()
+    click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
 
 
 main = cli
