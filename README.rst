@@ -1,11 +1,9 @@
 twtxt
 ~~~~~
 
-----
-
 |pypi| |build| |coverage| |gitter| |license|
-
 ----
+
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
