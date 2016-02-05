@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 @click.group()
 @click.option("--config", "-c",
-              type=click.Path(exists=True, readable=True),
+              type=click.Path(exists=True, readable=True, resolve_path=True),
               help="Specify a custom config file location.")
 @click.option("--verbose", "-v",
               is_flag=True, default=False,
@@ -44,7 +44,7 @@ def cli(ctx, config, verbose):
         click.echo("Error loading config file.")
         if not config:
             if click.confirm("Do you want to run the twtxt quickstart wizard?", abort=True):
-                pass
+                raise NotImplemented
 
     ctx.default_map = conf.build_default_map()
     ctx.obj = {'conf': conf}
@@ -55,7 +55,7 @@ def cli(ctx, config, verbose):
               callback=validate_created_at,
               help="ISO 8601 formatted datetime string to use in Tweet, instead of current time.")
 @click.option("--output", "-o",
-              type=click.Path(file_okay=True, writable=True),
+              type=click.Path(file_okay=True, writable=True, resolve_path=True),
               help="Location of twtxt file.")
 @click.argument("text", callback=validate_text)
 @click.pass_context
