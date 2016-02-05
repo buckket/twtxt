@@ -8,7 +8,7 @@ if sys.version_info < (3, 4, 1):
 
 setup(
     name='twtxt',
-    version='1.0dev',
+    version='1.0.0',
 
     url='https://github.com/buckket/twtxt',
 
