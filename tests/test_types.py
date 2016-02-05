@@ -1,4 +1,5 @@
 import pytest
+from datetime import datetime, timezone, timedelta
 
 from twtxt.types import Tweet, Source
 
@@ -9,34 +10,36 @@ def test_source():
     assert source.url == "bar"
 
     with pytest.raises(TypeError):
-        source = Source()
+        Source()
 
 
 def test_tweet_init():
     with pytest.raises(ValueError) as e:
-        tweet = Tweet("", 1454334870)
+        Tweet("")
     assert "empty text" in str(e.value)
 
-    with pytest.raises(ValueError) as e:
-        tweet = Tweet("foobar", "invalid")
-    assert "invalid timestamp" in str(e.value)
-
-    with pytest.raises(ValueError) as e:
-        tweet = Tweet("foobar", 900000000000)
-    assert "invalid timestamp" in str(e.value)
-
     source = Source("foo", "bar")
-    tweet = Tweet("foobar", 1454334870, source)
+    created_at = datetime.now(timezone.utc)
+    tweet = Tweet("foobar", created_at, source)
     assert tweet.text == "foobar"
-    assert tweet.timestamp == 1454334870
+    assert tweet.created_at == created_at
     assert tweet.source == source
+
+
+def test_tweet_str():
+    tweet = Tweet("foobar", datetime(2000, 1, 1, 12, 0, tzinfo=timezone.utc))
+    assert str(tweet) == "2000-01-01T12:00:00+00:00\tfoobar"
 
 
 def test_tweet_relative_datetime():
     tweet = Tweet("foobar")
     assert tweet.relative_datetime == "a moment ago"
 
-    # test future
+    tweet = Tweet("foobar", datetime.now(timezone.utc) + timedelta(hours=1, minutes=1))
+    assert tweet.relative_datetime == "an hour from now"
+
+    tweet = Tweet("foobar", datetime.now(timezone.utc) - timedelta(hours=1, minutes=1))
+    assert tweet.relative_datetime == "an hour ago"
 
 
 def test_tweet_limited_text():
@@ -46,13 +49,30 @@ def test_tweet_limited_text():
 
 
 def test_tweet_ordering():
-    tweet_1 = Tweet("A", 1454493697)
-    tweet_2 = Tweet("B", 1454493698)
-    tweet_3 = Tweet("C", 1454493699)
-    tweet_4 = Tweet("D", 1454493699)
-    tweet_5 = Tweet("D", 1454493699)
+    now = datetime.now(timezone.utc)
+    tweet_1 = Tweet("A", now)
+    tweet_2 = Tweet("B", now + timedelta(hours=1))
+    tweet_3 = Tweet("C", now + timedelta(hours=2))
+    tweet_4 = Tweet("D", now + timedelta(hours=2))
+    tweet_5 = Tweet("D", now + timedelta(hours=2))
+
+    source = Source("foo", "bar")
 
     # explicit testing
+    with pytest.raises(TypeError):
+        tweet_1 < source
+
+    with pytest.raises(TypeError):
+        tweet_1 <= source
+
+    with pytest.raises(TypeError):
+        tweet_1 > source
+
+    with pytest.raises(TypeError):
+        tweet_1 >= source
+
+    assert tweet_1 != source
+
     assert tweet_1 < tweet_2
     assert tweet_1 <= tweet_2
     assert tweet_2 > tweet_1

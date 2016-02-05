@@ -1,2 +1,2 @@
-include LICENSE README.rst
+include LICENSE README.rst config.example
 global-exclude *.py[cdo] __pycache__ *.so *.pyd
