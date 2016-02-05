@@ -1,6 +1,12 @@
 twtxt
 ~~~~~
 
+----
+
+|pypi| |build| |coverage| |gitter| |license|
+
+----
+
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
 Installation
@@ -99,3 +105,24 @@ Take a look at this example file:
     2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
     2016-02-01T11:00+01	This is just another example.
     2015-12-12T12:00+01	Fiat lux!
+
+
+.. |pypi| image:: https://img.shields.io/pypi/v/twtxt.svg?style=flat&label=version
+    :target: https://pypi.python.org/pypi/twtxt
+    :alt: Latest version released on PyPi
+
+.. |build| image:: https://img.shields.io/travis/buckket/twtxt/master.svg?style=flat
+    :target: http://travis-ci.org/buckket/twtxt
+    :alt: Build status of the master branch
+
+.. |coverage| image:: https://img.shields.io/coveralls/buckket/twtxt/master.svg?style=flat
+    :target: https://coveralls.io/r/buckket/twtxt?branch=master
+    :alt: Test coverage
+
+.. |gitter| image:: https://img.shields.io/gitter/room/buckket/twtxt.svg?style=flat
+    :target: https://gitter.im/buckket/twtxt
+    :alt: Chat on gitter
+
+.. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
+    :target: https://raw.githubusercontent.com/buckket/twtxt/master/LICENSE
+    :alt: Package license
