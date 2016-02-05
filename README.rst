@@ -58,9 +58,9 @@ Development version:
 
 Usage
 -----
-**twtxt** features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` or call commands without arguments to get information about all available commands, options and arguments.
+twtxt features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` or call commands without arguments to get information about all available commands, options and arguments.
 
-Here are a few of the most common operations you may encounter when using **twtxt**:
+Here are a few of the most common operations you may encounter when using twtxt:
 
 Follow a source:
 ================
@@ -109,7 +109,7 @@ View your timeline:
 
 Configuration
 -------------
-**twtxt** uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
+twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
 
 Here’s an example ``conf`` file, showing every currently supported option:
 
@@ -146,7 +146,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
 | post_tweet_hook   | TEXT  |          | command to be executed after tweeting             |
 +-------------------+-------+----------+---------------------------------------------------+
 
-``post_tweet_hook`` is very useful if you want to push your twtxt file on a remote (web) server. Check the example above tho see how it’s used with ``scp``.
+``post_tweet_hook`` is very useful if you want to push your twtxt file to a remote (web) server. Check the example above tho see how it’s used with ``scp``.
 
 [followings] section:
 =====================
@@ -154,11 +154,11 @@ This section holds all your followings as nick, URL pairs. You can edit this sec
 
 Format specification:
 ---------------------
-The central component of sharing information, i.e. status updates, with **twtxt** is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
+The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
 The file must be encoded with UTF-8, and must use LF (\\n) as line separators.
 
-A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. **twtxt** will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters.
+A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters.
 
 Take a look at this example file:
 
@@ -170,7 +170,7 @@ Take a look at this example file:
 
 License
 -------
-**twtxt** is released under the MIT License. See the bundled LICENSE file for details.
+twtxt is released under the MIT License. See the bundled LICENSE file for details.
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/twtxt.svg?style=flat&label=version
