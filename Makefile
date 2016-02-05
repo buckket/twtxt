@@ -1,3 +1,3 @@
 test:
 	@echo "---> running tests"
-	@py.test --cov twtxt/ tests/
+	@py.test --tb=short -v --cov twtxt/ tests/
