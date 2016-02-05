@@ -9,7 +9,7 @@ So you want to get some thoughts out on the internet? In a convenient and slick 
 
 |demo|
 
-**tl;dr**: **twtxt** is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
+**tl;dr**: twtxt is a CLI tool, as well as a format specification for self-hosted flat file based microblogging.
 
 -----
 
@@ -40,7 +40,7 @@ Release version:
 
     $ pip3 install twtxt
 
-*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``. (Using pyvenv is also an option!)
+*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``. Using pyvenv and running twtxt from within a virtualenv is of course also an option!
 
 3) Now run ``twtxt quickstart``. :)
 
@@ -111,7 +111,7 @@ View your timeline:
 
 Configuration
 -------------
-twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `appdirs <https://github.com/ActiveState/appdirs>`_ to find out the config directory for other operating systems.
+twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for it’s configuration. Consult `get_app_dir <http://click.pocoo.org/6/api/#click.get_app_dir>`_ to find out the config directory for other operating systems.
 
 Here’s an example ``conf`` file, showing every currently supported option:
 
