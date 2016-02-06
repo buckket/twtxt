@@ -124,6 +124,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     use_pager = False
     limit_timeline = 20
     timeout = 5.0
+    sorting = descending
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
 
     [following]
@@ -133,23 +134,25 @@ Here’s an example ``conf`` file, showing every currently supported option:
 
 [twtxt] section:
 ================
-+-------------------+-------+----------+---------------------------------------------------+
-| Option:           | Type: | Default: | Help:                                             |
-+===================+=======+==========+===================================================+
-| nick              | TEXT  |          | your nick, will be displayed in your timeline     |
-+-------------------+-------+----------+---------------------------------------------------+
-| twtfile           | PATH  |          | path to your local twtxt file                     |
-+-------------------+-------+----------+---------------------------------------------------+
-| check_following   | BOOL  | True     | try to resolve URLs when listing followings       |
-+-------------------+-------+----------+---------------------------------------------------+
-| use_pager         | BOOL  | False    | use a pager (less) to display your timeline       |
-+-------------------+-------+----------+---------------------------------------------------+
-| limit_timeline    | INT   | 20       | limit amount of tweets shown in your timeline     |
-+-------------------+-------+----------+---------------------------------------------------+
-| timeout           | FLOAT | 5.0      | maximal time a http request is allowed to take    |
-+-------------------+-------+----------+---------------------------------------------------+
-| post_tweet_hook   | TEXT  |          | command to be executed after tweeting             |
-+-------------------+-------+----------+---------------------------------------------------+
++-------------------+-------+------------+---------------------------------------------------+
+| Option:           | Type: | Default:   | Help:                                             |
++===================+=======+============+===================================================+
+| nick              | TEXT  |            | your nick, will be displayed in your timeline     |
++-------------------+-------+------------+---------------------------------------------------+
+| twtfile           | PATH  |            | path to your local twtxt file                     |
++-------------------+-------+------------+---------------------------------------------------+
+| check_following   | BOOL  | True       | try to resolve URLs when listing followings       |
++-------------------+-------+------------+---------------------------------------------------+
+| use_pager         | BOOL  | False      | use a pager (less) to display your timeline       |
++-------------------+-------+------------+---------------------------------------------------+
+| limit_timeline    | INT   | 20         | limit amount of tweets shown in your timeline     |
++-------------------+-------+------------+---------------------------------------------------+
+| timeout           | FLOAT | 5.0        | maximal time a http request is allowed to take    |
++-------------------+-------+------------+---------------------------------------------------+
+| sorting           | TEXT  | descending | sort timeline either descending or ascending      |
++-------------------+-------+------------+---------------------------------------------------+
+| post_tweet_hook   | TEXT  |            | command to be executed after tweeting             |
++-------------------+-------+------------+---------------------------------------------------+
 
 ``post_tweet_hook`` is very useful if you want to push your twtxt file to a remote (web) server. Check the example above tho see how it’s used with ``scp``.
 
