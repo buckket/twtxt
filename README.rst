@@ -170,6 +170,12 @@ Take a look at this example file:
     2016-02-01T11:00+01	This is just another example.
     2015-12-12T12:00+01	Fiat lux!
 
+Contributions
+-------------
+- A web-based directory of twtxt users: http://twtxt.reednj.com/
+- A web-based twtxt feed hoster for the masses: https://github.com/plomlompom/htwtxt
+- A twitter-to-twtxt converter in node.js: https://gist.github.com/DracoBlue/488466eaabbb674c636f
+
 License
 -------
 twtxt is released under the MIT License. See the bundled LICENSE file for details.
