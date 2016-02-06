@@ -8,11 +8,11 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import click
 import configparser
 import logging
 import os
 
+import click
 
 from twtxt.types import Source
 
@@ -106,11 +106,6 @@ class Config:
         cfg = self.open_config()
         return cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
-    @property
-    def timeline_sorting(self):
-        cfg = self.open_config()
-        return cfg.get("twtxt", "timeline_sorting", fallback="descending")
-
     def add_source(self, source):
         cfg = self.open_config()
 
@@ -147,6 +142,7 @@ class Config:
                 "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
                 "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
                 "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
+                "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
                 "twtfile": twtfile,
             }
         }

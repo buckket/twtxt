@@ -20,7 +20,7 @@ from twtxt.file import get_local_tweets, add_local_tweet
 from twtxt.helper import run_post_tweet_hook
 from twtxt.helper import style_tweet, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
-from twtxt.helper import sort_tweets
+from twtxt.helper import sort_and_truncate_tweets
 from twtxt.http import get_remote_tweets, get_remote_status
 from twtxt.log import init_logging
 from twtxt.types import Tweet, Source
@@ -87,10 +87,14 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--twtfile", "-f",
               type=click.Path(exists=True, file_okay=True, readable=True, resolve_path=True),
               help="Location of your twtxt file. (Default: twtxt.txt")
+@click.option("--ascending", "sorting", flag_value="ascending",
+              help="Sort timeline in ascending order.")
+@click.option("--descending", "sorting", flag_value="descending",
+              help="Sort timeline in descending order. (Default)")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, timeout):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout):
     """Retrieve your personal timeline."""
     sources = ctx.obj["conf"].following
     tweets = get_remote_tweets(sources, limit, timeout)
@@ -99,8 +103,7 @@ def timeline(ctx, pager, limit, twtfile, timeout):
         source = Source(ctx.obj["conf"].nick, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
-    timeline_dir = ctx.obj["conf"].timeline_sorting
-    tweets = sort_tweets(tweets, timeline_dir, limit)
+    tweets = sort_and_truncate_tweets(tweets, sorting, limit)
 
     if not tweets:
         return

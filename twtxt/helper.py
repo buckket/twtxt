@@ -69,7 +69,8 @@ def run_post_tweet_hook(hook, options):
         return False
     subprocess.call(command, shell=True, stdout=subprocess.PIPE)
 
-def sort_tweets(tweets, direction, limit):
+
+def sort_and_truncate_tweets(tweets, direction, limit):
     if direction == "descending":
         return sorted(tweets, reverse=True)[:limit]
     elif direction == "ascending":
@@ -78,4 +79,4 @@ def sort_tweets(tweets, direction, limit):
         else:
             return sorted(tweets)
     else:
-        return None
+        return []
