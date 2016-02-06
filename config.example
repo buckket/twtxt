@@ -4,6 +4,7 @@ twtfile = ~/twtxt.txt
 check_following = True
 use_pager = False
 limit_timeline = 20
+timeout = 5.0
 post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
 
 [following]

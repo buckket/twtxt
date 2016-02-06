@@ -133,6 +133,7 @@ class Config:
         default_map = {
             "following": {
                 "check": cfg.get("twtxt", "check_following", fallback=True),
+                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
             },
             "tweet": {
                 "twtfile": twtfile,
@@ -140,6 +141,7 @@ class Config:
             "timeline": {
                 "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
                 "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
+                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
                 "twtfile": twtfile,
             }
         }

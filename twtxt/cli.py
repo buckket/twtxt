@@ -86,11 +86,13 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--twtfile", "-f",
               type=click.Path(exists=True, file_okay=True, readable=True, resolve_path=True),
               help="Location of your twtxt file. (Default: twtxt.txt")
+@click.option("--timeout", type=click.FLOAT,
+              help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile):
+def timeline(ctx, pager, limit, twtfile, timeout):
     """Retrieve your personal timeline."""
     sources = ctx.obj["conf"].following
-    tweets = get_remote_tweets(sources, limit)
+    tweets = get_remote_tweets(sources, limit, timeout)
 
     if twtfile:
         source = Source(ctx.obj["conf"].nick, file=twtfile)
@@ -114,13 +116,15 @@ def timeline(ctx, pager, limit, twtfile):
 @click.option("--check/--no-check",
               is_flag=True,
               help="Check if source URL is valid and readable. (Default: True)")
+@click.option("--timeout", type=click.FLOAT,
+              help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.pass_context
-def following(ctx, check):
+def following(ctx, check, timeout):
     """Return the list of sources you’re following."""
     sources = ctx.obj['conf'].following
 
     if check:
-        sources = get_remote_status(sources)
+        sources = get_remote_status(sources, timeout)
         for (source, status) in sources:
             click.echo(style_source_with_status(source, status))
     else:

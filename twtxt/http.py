@@ -19,10 +19,11 @@ logger = logging.getLogger(__name__)
 
 
 @asyncio.coroutine
-def retrieve_status(source):
+def retrieve_status(source, timeout):
     status = None
     try:
-        response = yield from aiohttp.head(source.url)
+        with aiohttp.Timeout(timeout):
+            response = yield from aiohttp.head(source.url)
         status = response.status
         yield from response.release()
     except Exception as e:
@@ -32,9 +33,10 @@ def retrieve_status(source):
 
 
 @asyncio.coroutine
-def retrieve_file(source, limit):
+def retrieve_file(source, limit, timeout):
     try:
-        response = yield from aiohttp.get(source.url)
+        with aiohttp.Timeout(timeout):
+            response = yield from aiohttp.get(source.url)
         content = yield from response.text()
     except Exception as e:
         logger.debug(e)
@@ -47,9 +49,9 @@ def retrieve_file(source, limit):
 
 
 @asyncio.coroutine
-def process_sources_for_status(sources):
+def process_sources_for_status(sources, timeout):
     g_status = []
-    coroutines = [retrieve_status(source) for source in sources]
+    coroutines = [retrieve_status(source, timeout) for source in sources]
     for coroutine in asyncio.as_completed(coroutines):
         status = yield from coroutine
         g_status.append(status)
@@ -57,22 +59,22 @@ def process_sources_for_status(sources):
 
 
 @asyncio.coroutine
-def process_sources_for_file(sources, limit):
+def process_sources_for_file(sources, limit, timeout):
     g_tweets = []
-    coroutines = [retrieve_file(source, limit) for source in sources]
+    coroutines = [retrieve_file(source, limit, timeout) for source in sources]
     for coroutine in asyncio.as_completed(coroutines):
         tweets = yield from coroutine
         g_tweets.extend(tweets)
     return sorted(g_tweets, reverse=True)[:limit]
 
 
-def get_remote_tweets(sources, limit=None):
+def get_remote_tweets(sources, limit=None, timeout=5.0):
     loop = asyncio.get_event_loop()
-    tweets = loop.run_until_complete(process_sources_for_file(sources, limit))
+    tweets = loop.run_until_complete(process_sources_for_file(sources, limit, timeout))
     return tweets
 
 
-def get_remote_status(sources):
+def get_remote_status(sources, timeout=5.0):
     loop = asyncio.get_event_loop()
-    result = loop.run_until_complete(process_sources_for_status(sources))
+    result = loop.run_until_complete(process_sources_for_status(sources, timeout))
     return result

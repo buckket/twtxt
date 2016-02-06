@@ -123,6 +123,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     check_following = True
     use_pager = False
     limit_timeline = 20
+    timeout = 5.0
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
 
     [following]
@@ -144,6 +145,8 @@ Here’s an example ``conf`` file, showing every currently supported option:
 | use_pager         | BOOL  | False    | use a pager (less) to display your timeline       |
 +-------------------+-------+----------+---------------------------------------------------+
 | limit_timeline    | INT   | 20       | limit amount of tweets shown in your timeline     |
++-------------------+-------+----------+---------------------------------------------------+
+| timeout           | FLOAT | 5.0      | maximal time a http request is allowed to take    |
 +-------------------+-------+----------+---------------------------------------------------+
 | post_tweet_hook   | TEXT  |          | command to be executed after tweeting             |
 +-------------------+-------+----------+---------------------------------------------------+
