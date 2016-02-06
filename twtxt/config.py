@@ -106,6 +106,11 @@ class Config:
         cfg = self.open_config()
         return cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
+    @property
+    def timeline_sorting(self):
+        cfg = self.open_config()
+        return cfg.get("twtxt", "timeline_sorting", fallback="descending")
+
     def add_source(self, source):
         cfg = self.open_config()
 
