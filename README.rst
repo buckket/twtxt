@@ -172,9 +172,10 @@ Take a look at this example file:
 
 Contributions
 -------------
-- A web-based directory of twtxt users: http://twtxt.reednj.com/
-- A web-based twtxt feed hoster for the masses: https://github.com/plomlompom/htwtxt
-- A twitter-to-twtxt converter in node.js: https://gist.github.com/DracoBlue/488466eaabbb674c636f
+- A web-based directory of twtxt users by `reednj <https://twitter.com/reednj>`_: http://twtxt.reednj.com/
+- A web-based directory of twtxt users by `xena <https://git.xeserv.us/xena>`_: https://twtxtlist.cf
+- A web-based twtxt feed hoster for the masses by `plomlompom <http://www.plomlompom.de/>`_: https://github.com/plomlompom/htwtxt
+- A twitter-to-twtxt converter in node.js by `DracoBlue <https://github.com/DracoBlue>`_: https://gist.github.com/DracoBlue/488466eaabbb674c636f
 
 License
 -------
