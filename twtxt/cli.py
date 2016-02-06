@@ -20,6 +20,7 @@ from twtxt.file import get_local_tweets, add_local_tweet
 from twtxt.helper import run_post_tweet_hook
 from twtxt.helper import style_tweet, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
+from twtxt.helper import sort_tweets
 from twtxt.http import get_remote_tweets, get_remote_status
 from twtxt.log import init_logging
 from twtxt.types import Tweet, Source
@@ -96,7 +97,9 @@ def timeline(ctx, pager, limit, twtfile):
         source = Source(ctx.obj["conf"].nick, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
-    tweets = sorted(tweets, reverse=True)[:limit]
+    timeline_dir = ctx.obj["conf"].timeline_sorting
+    tweets = sort_tweets(tweets, timeline_dir, limit)
+
     if not tweets:
         return
 
