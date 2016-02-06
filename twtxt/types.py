@@ -10,21 +10,27 @@
 
 import textwrap
 from datetime import datetime, timezone
+from dateutil.tz import tzlocal
 
 import humanize
 
 
 class Tweet:
-    def __init__(self, text, created_at=datetime.now(timezone.utc), source=None):
+    def __init__(self, text, created_at=datetime.now(tzlocal()), source=None):
         if text:
             self.text = text
         else:
             raise ValueError("empty text")
 
-        self.created_at = created_at
+        try:
+            self.created_at = created_at.replace(microsecond=0)
+        except AttributeError:
+            raise TypeError("created_at is of invalid type")
+
         self.source = source
 
-    def _is_valid_operand(self, other):
+    @staticmethod
+    def _is_valid_operand(other):
         return (hasattr(other, "text") and
                 hasattr(other, "created_at"))
 

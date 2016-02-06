@@ -18,17 +18,21 @@ def test_tweet_init():
         Tweet("")
     assert "empty text" in str(e.value)
 
+    with pytest.raises(TypeError) as e:
+        Tweet("foobar", 0)
+    assert "created_at is of invalid type" in str(e.value)
+
     source = Source("foo", "bar")
     created_at = datetime.now(timezone.utc)
     tweet = Tweet("foobar", created_at, source)
     assert tweet.text == "foobar"
-    assert tweet.created_at == created_at
+    assert tweet.created_at == created_at.replace(microsecond=0)
     assert tweet.source == source
 
 
 def test_tweet_str():
-    tweet = Tweet("foobar", datetime(2000, 1, 1, 12, 0, tzinfo=timezone.utc))
-    assert str(tweet) == "2000-01-01T12:00:00+00:00\tfoobar"
+    tweet = Tweet("foobar", datetime(2000, 1, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
+    assert str(tweet) == "2000-01-01T01:01:01+00:00\tfoobar"
 
 
 def test_tweet_relative_datetime():
