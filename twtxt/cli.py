@@ -63,7 +63,7 @@ def cli(ctx, config, verbose):
 @click.option("--twtfile", "-f",
               type=click.Path(file_okay=True, writable=True, resolve_path=True),
               help="Location of your twtxt file. (Default: twtxt.txt)")
-@click.argument("text", callback=validate_text)
+@click.argument("text", callback=validate_text, nargs=-1)
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""

@@ -51,6 +51,8 @@ def validate_created_at(ctx, param, value):
 
 
 def validate_text(ctx, param, value):
+    if isinstance(value, tuple):
+        value = " ".join(value)
     if value:
         if len(value) > 140:
             click.confirm("✂ Warning: Tweet is longer than 140 characters. Are you sure?", abort=True)
