@@ -9,7 +9,7 @@
 """
 
 import logging
-from datetime import timezone
+from datetime import datetime, timezone
 
 import dateutil.parser
 
@@ -28,7 +28,7 @@ def parse_iso8601(string):
     return make_aware(dateutil.parser.parse(string))
 
 
-def parse_string(string, source):
+def parse_string(string, source, now=datetime.now(timezone.utc)):
     """Parses a multi-line string and returns extracted :class:`Tweet` objects."""
     tweets = []
 
@@ -37,6 +37,9 @@ def parse_string(string, source):
             parts = line.partition("\t")
             created_at = parse_iso8601(parts[0])
             text = parts[2].lstrip().rstrip()
+
+            if created_at > now:
+                raise ValueError("tweet is from the future")
 
             tweet = Tweet(text, created_at, source)
             tweets.append(tweet)
