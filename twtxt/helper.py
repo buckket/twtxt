@@ -68,3 +68,15 @@ def run_post_tweet_hook(hook, options):
         click.echo("✗ Invalid variables in post_tweet_hook.")
         return False
     subprocess.call(command, shell=True, stdout=subprocess.PIPE)
+
+
+def sort_and_truncate_tweets(tweets, direction, limit):
+    if direction == "descending":
+        return sorted(tweets, reverse=True)[:limit]
+    elif direction == "ascending":
+        if limit < len(tweets):
+            return sorted(tweets)[len(tweets) - limit:]
+        else:
+            return sorted(tweets)
+    else:
+        return []

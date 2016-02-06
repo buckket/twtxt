@@ -8,11 +8,11 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import click
 import configparser
 import logging
 import os
 
+import click
 
 from twtxt.types import Source
 
@@ -142,6 +142,7 @@ class Config:
                 "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
                 "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
                 "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
+                "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
                 "twtfile": twtfile,
             }
         }
