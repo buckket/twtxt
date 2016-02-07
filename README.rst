@@ -126,6 +126,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     timeout = 5.0
     sorting = descending
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
+    # post_tweet_hook = "aws s3 {twtfile} s3://mybucket.org/twtxt.txt --acl public-read --storage-class REDUCED_REDUNDANCY --cache-control 'max-age=60,public'"
 
     [following]
     bob = https://example.org/bob.txt
