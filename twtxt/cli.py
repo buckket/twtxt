@@ -11,6 +11,7 @@
 import textwrap
 import logging
 import os
+import subprocess
 import sys
 
 import click
@@ -67,6 +68,13 @@ def cli(ctx, config, verbose):
 @click.argument("text", callback=validate_text, nargs=-1)
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
+    """spell check the tweet before sending, and let the user know!"""
+    s = subprocess.check_output(["aspell","-a"],input=text,universal_newlines=True)     if s.find("&") != -1:
+        print("Theres a spelling mistake in your tweet:\n"+text+"\nWould you like to send it anyway? (Y/N)")
+        i = input()
+        if i != "Y":
+            quit()
+
     """Append a new tweet to your twtxt file."""
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
     if not add_local_tweet(tweet, twtfile):
