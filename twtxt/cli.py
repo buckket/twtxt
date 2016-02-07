@@ -73,7 +73,9 @@ def tweet(ctx, created_at, twtfile, text):
     if s.find("&") != -1:
         print("Theres a spelling mistake in your tweet:\n"+text+"\nWould you like to send it anyway? (Y/N)")
         i = input()
-        if i != "Y" or i != "y":
+        if i != "Y" and i != "y":
+            print("Quitting")
+            print(i)
             quit()
 
     """Append a new tweet to your twtxt file."""
