@@ -8,11 +8,14 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import shlex
-import subprocess
+import os
 import sys
-
+import shlex
+import shutil
+import subprocess
 import click
+import contextlib
+import uuid
 
 from twtxt.parser import parse_iso8601
 
@@ -110,3 +113,28 @@ def sort_and_truncate_tweets(tweets, direction, limit):
             return sorted(tweets)
     else:
         return []
+
+
+@contextlib.contextmanager
+def atomic_write(path, mode):
+    """
+        Simple contextmanager to safely write to a
+        file.
+
+        :param str filename: the path to write to
+        :param str mode: the mode to open the file
+    """
+    # generate random filepath in same location as given filename
+    tmpfilepath = os.path.join(os.path.dirname(path), ".{}".format(uuid.uuid4()))
+    try:
+        if "a" in mode:
+            shutil.copyfile(path, tmpfilepath)
+
+        with open(tmpfilepath, mode) as atomicfile:
+            yield atomicfile
+        os.rename(tmpfilepath, path)
+    finally:
+        try:
+            os.unlink(tmpfilepath)
+        except:
+            pass
