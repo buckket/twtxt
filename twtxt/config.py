@@ -87,6 +87,11 @@ class Config:
 
         return following
 
+    def get_follower_source(self, nick):
+        """Returns the source of the given follower."""
+        cfg = self.open_config()
+        return next((Source(n, u) for n, u in cfg.items("following") if n == nick), None)
+
     @property
     def options(self):
         cfg = self.open_config()
@@ -152,6 +157,13 @@ class Config:
                 "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
                 "porcelain": porcelain,
                 "twtfile": twtfile,
+            },
+            "view": {
+                "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
+                "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
+                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
+                "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
+                "porcelain": porcelain,
             }
         }
 
