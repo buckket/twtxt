@@ -109,6 +109,18 @@ View your timeline:
     ➤ alice (2 hours ago):
     I wonder if this is a thing?
 
+View feed of specific source
+============================
+
+.. code::
+
+    $ twtxt view twtxt
+    Tweets from twtxt:
+
+    ➤ twtxt (a day ago):
+    Fiat Lux!
+
+
 Configuration
 -------------
 twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for its configuration. OSX uses ``~/Library/Application Support/twtxt/config``. Consult `get_app_dir <http://click.pocoo.org/6/api/#click.get_app_dir>`_ to find out the config directory for other operating systems.

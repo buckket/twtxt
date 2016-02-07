@@ -95,13 +95,22 @@ def tweet(ctx, created_at, twtfile, text):
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
+@click.option("--source", "-s", "nick",
+              help="Only show the feed of the given source.")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, nick):
     """Retrieve your personal timeline."""
-    sources = ctx.obj["conf"].following
+    if nick:
+        source = ctx.obj["conf"].get_follower_source(nick)
+        if not source:
+            raise click.UsageError("You are not following '{0}'".format(nick))
+        sources = [source]
+    else:
+        sources = ctx.obj["conf"].following
+
     tweets = get_remote_tweets(sources, limit, timeout)
 
-    if twtfile:
+    if twtfile and not nick:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
@@ -199,5 +208,24 @@ def quickstart(ctx):
     click.echo()
     click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
 
+
+@cli.command()
+@click.argument("nick")
+@click.option("--pager/--no-pager", is_flag=True,
+              help="Use a pager to display content. (Default: False)")
+@click.option("--limit", "-l", type=click.INT,
+              help="Limit total number of shown tweets. (Default: 20)")
+@click.option("--ascending", "sorting", flag_value="ascending",
+              help="Sort timeline in ascending order.")
+@click.option("--descending", "sorting", flag_value="descending",
+              help="Sort timeline in descending order. (Default)")
+@click.option("--timeout", type=click.FLOAT,
+              help="Maximum time requests are allowed to take. (Default: 5.0)")
+@click.option("--porcelain", is_flag=True,
+              help="Style output in an easy-to-parse format. (Default: False)")
+@click.pass_context
+def view(ctx, nick, pager, limit, sorting, porcelain, timeout):
+    """Show feed of the given source"""
+    ctx.invoke(timeline, pager=pager, limit=limit, sorting=sorting, timeout=timeout, porcelain=porcelain, nick=nick)
 
 main = cli
