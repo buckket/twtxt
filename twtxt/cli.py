@@ -68,17 +68,15 @@ def cli(ctx, config, verbose):
 @click.argument("text", callback=validate_text, nargs=-1)
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
-    """spell check the tweet before sending, and let the user know!"""
-    s = subprocess.check_output(["aspell","-a"],input=text,universal_newlines=True)     
-    if s.find("&") != -1:
-        print("Theres a spelling mistake in your tweet:\n"+text+"\nWould you like to send it anyway? (Y/N)")
-        i = input()
-        if i != "Y" and i != "y":
-            print("Quitting")
-            print(i)
-            quit()
-
     """Append a new tweet to your twtxt file."""
+
+    """spell check the tweet before sending, and let the user know!"""
+    subprocessReturn = subprocess.check_output(["aspell", "-a"], input=text, universal_newlines=True)
+    if subprocessReturn.find("&") != -1:
+        print("Theres a spelling mistake in your tweet:\n"+text+"\n")
+        if not click.confirm("Would you like to send your tweet anyway?"):
+            return
+
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
