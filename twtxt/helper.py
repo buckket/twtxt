@@ -8,9 +8,11 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import re
 import sys
 import shlex
 import subprocess
+import textwrap
 
 import click
 
@@ -20,7 +22,7 @@ from twtxt.parser import parse_iso8601
 def style_tweet(tweet):
     return "➤ {nick} ({time}):\n{tweet}".format(
         nick=click.style(tweet.source.nick, bold=True),
-        tweet=tweet.limited_text,
+        tweet=textwrap.shorten(format_mention(tweet.text), 140),
         time=click.style(tweet.relative_datetime, dim=True))
 
 
@@ -85,3 +87,53 @@ def sort_and_truncate_tweets(tweets, direction, limit):
             return sorted(tweets)
     else:
         return []
+
+mention_re = re.compile(r'@<(?:(?P<name>.*?)\s)?(?P<url>.*?://.*?)>')
+short_mention_re = re.compile(r'@(?P<name>\S+)')
+
+
+def expand_mention(text, embed_names=True):
+    """ Searches the text for mentions in the format of @Mention and formats them to @<Mention url>
+    """
+    if embed_names:
+        format = '@<{name} {url}>'
+    else:
+        format = '@<{url}>'
+
+    def handle_mention(match):
+        source = get_source_by_name(match.group(1))
+        if source is None:
+            return '@' + match.group(1)
+        return format.format(name=source.nick,
+                             url=source.url)
+
+    return short_mention_re.sub(handle_mention, text)
+
+
+def get_source_by_url(url):
+    sources = click.get_current_context().obj["conf"].following
+    for source in sources:
+        if source.url == url:
+            return source
+    return None
+
+
+def get_source_by_name(name):
+    sources = click.get_current_context().obj["conf"].following
+    for source in sources:
+        if source.nick == name:
+            return source
+    return None
+
+
+def format_mention(text, embedded_names=False):
+    """ Decodes every mention in the format of @<Some Name http://url/to/twtxt.txt> to a more (human-)readable format
+    """
+    def handle_mention(match):
+        name, url = match.groups()
+        source = get_source_by_url(url)
+        if source is not None and (not name or embedded_names is False):
+            name = source.nick
+            url = source.url
+        return '@' + name
+    return mention_re.sub(handle_mention, text)

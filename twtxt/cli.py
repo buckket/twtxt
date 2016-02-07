@@ -17,7 +17,7 @@ import click
 
 from twtxt.config import Config
 from twtxt.file import get_local_tweets, add_local_tweet
-from twtxt.helper import run_post_tweet_hook
+from twtxt.helper import run_post_tweet_hook, expand_mention
 from twtxt.helper import style_tweet, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
 from twtxt.helper import sort_and_truncate_tweets
@@ -68,6 +68,7 @@ def cli(ctx, config, verbose):
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""
+    text = expand_mention(text)
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
