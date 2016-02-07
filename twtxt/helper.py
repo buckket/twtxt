@@ -59,6 +59,7 @@ def validate_text(ctx, param, value):
         value = click.get_text_stream("stdin").read()
 
     if value:
+        value = value.strip()
         if len(value) > 140:
             click.confirm("✂ Warning: Tweet is longer than 140 characters. Are you sure?", abort=True)
         return value
