@@ -111,19 +111,11 @@ def expand_mention(text, embed_names=True):
 
 
 def get_source_by_url(url):
-    sources = click.get_current_context().obj["conf"].following
-    for source in sources:
-        if source.url == url:
-            return source
-    return None
+    return next((source for source in click.get_current_context().obj["conf"].following if source.url == url), None)
 
 
-def get_source_by_name(name):
-    sources = click.get_current_context().obj["conf"].following
-    for source in sources:
-        if source.nick == name:
-            return source
-    return None
+def get_source_by_name(nick):
+    return next((source for source in click.get_current_context().obj["conf"].following if source.nick == nick), None)
 
 
 def format_mention(text, embedded_names=False):
