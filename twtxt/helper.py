@@ -66,6 +66,14 @@ def validate_text(ctx, param, value):
         raise click.BadArgumentUsage("Text can’t be empty.")
 
 
+def run_pre_tweet_hook(hook, options):
+    try:
+        command = shlex.split(hook.format(**options))
+    except KeyError:
+        click.echo("✗ Invalid variables in pre_tweet_hook.")
+        return False
+    return not subprocess.call(command, shell=True, stdout=subprocess.PIPE)
+
 def run_post_tweet_hook(hook, options):
     try:
         command = shlex.split(hook.format(**options))

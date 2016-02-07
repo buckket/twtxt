@@ -102,6 +102,11 @@ class Config:
         return cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
 
     @property
+    def pre_tweet_hook(self):
+        cfg = self.open_config()
+        return cfg.get("twtxt", "pre_tweet_hook", fallback=None)
+
+    @property
     def post_tweet_hook(self):
         cfg = self.open_config()
         return cfg.get("twtxt", "post_tweet_hook", fallback=None)
