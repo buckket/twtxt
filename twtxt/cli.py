@@ -93,8 +93,10 @@ def tweet(ctx, created_at, twtfile, text):
               help="Sort timeline in descending order. (Default)")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
+@click.option("--porcelain", is_flag=True,
+              help="Give the output in an easy-to-parse format for scripts.")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain):
     """Retrieve your personal timeline."""
     sources = ctx.obj["conf"].following
     tweets = get_remote_tweets(sources, limit, timeout)
@@ -108,14 +110,15 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout):
     if not tweets:
         return
 
-    if pager:
-        click.echo_via_pager("\n\n".join(
-            (style_tweet(tweet) for tweet in tweets)))
+    if porcelain:
+        timeline_output = "\n".join(str(tweet) for tweet in tweets)
     else:
-        click.echo()
-        for tweet in tweets:
-            click.echo(style_tweet(tweet))
-            click.echo()
+        timeline_output = "\n\n".join(style_tweet(tweet) for tweet in tweets)
+
+    if pager:
+        click.echo_via_pager(timeline_output)
+    else:
+        click.echo(timeline_output)
 
 
 @cli.command()
