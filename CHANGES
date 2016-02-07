@@ -1,0 +1,26 @@
+Changelog
+=========
+
+These are all the changes in twtxt since the first public release.
+
+1.1.0
+-----
+
+- Ignore status updates coming form the future.
+- Improved timestamp format by by removing microseconds and using local time.
+- Get confirmation before overwriting an existing source.
+- Allow tweet command to read from stdin. (echo "Test" | twtxt tweet)
+- Allow tweet command to accept unlimited amount of arguments. (twtxt tweet This is  also valid)
+- Added an option to change the timeline sorting.
+- Added an option to specify max wait time for HTTP requests.
+
+
+1.0.1
+-----
+
+- use subprocess.call() instead of subprocess.run() which is Python 3.5 only.
+
+1.0.0
+-----
+
+Initial public release.
