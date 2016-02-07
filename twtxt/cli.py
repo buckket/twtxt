@@ -73,7 +73,7 @@ def tweet(ctx, created_at, twtfile, text):
     """spell check the tweet before sending, and let the user know!"""
     subprocessReturn = subprocess.check_output(["aspell", "-a"], input=text, universal_newlines=True)
     if subprocessReturn.find("&") != -1:
-        print("Theres a spelling mistake in your tweet:\n"+text+"\n")
+        click.echo("Theres a spelling mistake in your tweet:\n"+text+"\n")
         if not click.confirm("Would you like to send your tweet anyway?"):
             return
 
