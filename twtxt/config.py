@@ -14,7 +14,7 @@ import os
 
 import click
 
-from twtxt.types import Source
+from twtxt.models import Source
 
 logger = logging.getLogger(__name__)
 

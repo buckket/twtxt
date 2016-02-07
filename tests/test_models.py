@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime, timezone, timedelta
 
-from twtxt.types import Tweet, Source
+from twtxt.models import Tweet, Source
 
 
 def test_source():
