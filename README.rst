@@ -4,7 +4,7 @@ twtxt
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
-So you want to get some thoughts out on the internet? In a convenient and slick way? While also following the gibberish of others? Instead of signing up at a closed and/or regulated microblogging platform, getting your status updates out with twtxt is as easy as putting them in a publicly accessible text file. The URL pointing to this file is your identity, your account. twtxt than can tracks those text files, like a feedreader, and build your unique timeline out of them, depending on which files you track. The format is simple, human readable, and goes well together with all those beloved UNIX command line utilities.
+So you want to get some thoughts out on the internet in a convenient and slick way while also following the gibberish of others? Instead of signing up at a closed and/or regulated microblogging platform, getting your status updates out with twtxt is as easy as putting them in a publicly accessible text file. The URL pointing to this file is your identity, your account. twtxt then tracks these text files, like a feedreader, and builds your unique timeline out of them, depending on which files you track. The format is simple, human readable, and integrates well with UNIX command line utilities.
 
 
 |demo|
@@ -34,15 +34,15 @@ Release version:
 ================
 1) Make sure that you have at least **Python 3.4.1** installed.
 
-2) You than can install this package simply via pip:
+2) Install this package using pip:
 
 .. code::
 
     $ pip3 install twtxt
 
-*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, but you then have to make sure that you have included ``~/.local/bin/`` in your ``$PATH``. Using pyvenv and running twtxt from within a virtualenv is of course also an option!
+*Tip*: Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip, make sure that you include ``~/.local/bin/`` in your ``$PATH``. Using pyvenv and running twtxt from within a virtualenv is also an option!
 
-3) Now run ``twtxt quickstart``. :)
+3) Run ``twtxt quickstart``. :)
 
 Development version:
 ====================
@@ -164,7 +164,7 @@ Format specification
 --------------------
 The central component of sharing information, i.e. status updates, with twtxt is a simple text file containing all the status updates of a single user. One status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
-The file must be encoded with UTF-8, and must use LF (\\n) as line separators.
+The file must be encoded with UTF-8 and must use LF (\\n) as line separators.
 
 A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters.
 
