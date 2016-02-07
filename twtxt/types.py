@@ -16,11 +16,14 @@ import humanize
 
 
 class Tweet:
-    def __init__(self, text, created_at=datetime.now(tzlocal()), source=None):
+    def __init__(self, text, created_at=None, source=None):
         if text:
             self.text = text
         else:
             raise ValueError("empty text")
+
+        if created_at is None:
+            created_at = datetime.now(tzlocal())
 
         try:
             self.created_at = created_at.replace(microsecond=0)
