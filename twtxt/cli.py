@@ -69,10 +69,11 @@ def cli(ctx, config, verbose):
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
     """spell check the tweet before sending, and let the user know!"""
-    s = subprocess.check_output(["aspell","-a"],input=text,universal_newlines=True)     if s.find("&") != -1:
+    s = subprocess.check_output(["aspell","-a"],input=text,universal_newlines=True)     
+    if s.find("&") != -1:
         print("Theres a spelling mistake in your tweet:\n"+text+"\nWould you like to send it anyway? (Y/N)")
         i = input()
-        if i != "Y":
+        if i != "Y" or i != "y":
             quit()
 
     """Append a new tweet to your twtxt file."""
