@@ -8,6 +8,7 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import sys
 import shlex
 import subprocess
 
@@ -53,6 +54,10 @@ def validate_created_at(ctx, param, value):
 def validate_text(ctx, param, value):
     if isinstance(value, tuple):
         value = " ".join(value)
+
+    if not value and not sys.stdin.isatty():
+        value = click.get_text_stream("stdin").read()
+
     if value:
         if len(value) > 140:
             click.confirm("✂ Warning: Tweet is longer than 140 characters. Are you sure?", abort=True)
