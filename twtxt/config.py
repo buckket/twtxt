@@ -102,6 +102,11 @@ class Config:
         return cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
 
     @property
+    def twturl(self):
+        cfg = self.open_config()
+        return cfg.get("twtxt", "twturl", fallback=None)
+
+    @property
     def post_tweet_hook(self):
         cfg = self.open_config()
         return cfg.get("twtxt", "post_tweet_hook", fallback=None)
@@ -129,11 +134,13 @@ class Config:
         cfg = self.open_config()
 
         twtfile = os.path.expanduser(cfg.get("twtxt", "twtfile", fallback="twtxt.txt"))
+        porcelain = cfg.getboolean("twtxt", "porcelain", fallback=False)
 
         default_map = {
             "following": {
                 "check": cfg.get("twtxt", "check_following", fallback=True),
                 "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
+                "porcelain": porcelain,
             },
             "tweet": {
                 "twtfile": twtfile,
@@ -143,6 +150,7 @@ class Config:
                 "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
                 "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
                 "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
+                "porcelain": porcelain,
                 "twtfile": twtfile,
             }
         }

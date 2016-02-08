@@ -1,8 +1,10 @@
 [twtxt]
 nick = buckket
 twtfile = ~/twtxt.txt
+twturl = http://example.org/twtxt.txt
 check_following = True
 use_pager = False
+porcelain = False
 limit_timeline = 20
 timeout = 5.0
 sorting = descending
