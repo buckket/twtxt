@@ -58,8 +58,8 @@ def format_mentions(text, embedded_names=False):
     For example:
     "@<bob http://example.org/twtxt.txt>" will result in "@bob"
 
-    If you follow a Source: source.nick will be bold
-    If you are the mentioned Source: nick.nick will be bold and coloured
+    If you follow a source: source.nick will be bold
+    If you are the mentioned source: nick.nick will be bold and coloured
     If nothing from the above is true: nick will be unstyled
     """
 
