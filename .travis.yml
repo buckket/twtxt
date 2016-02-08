@@ -4,11 +4,9 @@ python:
   - "3.5"
 
 install:
-  - pip install --editable .
-  - pip install coveralls
-  - pip install pytest pytest-cov
+  - pip install tox && pip install tox-travis
 
-script: make test
+script: tox
 
 after_success:
   coveralls
