@@ -7,7 +7,7 @@
     :copyright: (c) 2016 by buckket.
     :license: MIT, see LICENSE for more details.
 """
-
+import hashlib
 import logging
 
 from twtxt.parser import parse_string
@@ -33,4 +33,25 @@ def add_local_tweet(tweet, file):
     except (FileNotFoundError, PermissionError) as e:
         logger.debug(e)
         return False
+    
+    try:
+        with open(file+"-hashes", "a") as fh:
+            fh.write("{}\n".format(str(hashlib.sha224(str(tweet.text).encode()).hexdigest())))
+    except (FileNotFoundError, PermissionError) as e:
+        logger.debug(e)
+        return False
     return True
+
+def check_hashes(tweet, file):
+    try:
+        with open(file+"-hashes", "r") as fh:
+            lines = fh.read().splitlines()
+            h = hashlib.sha224(str(tweet.text).encode()).hexdigest()
+            if h in lines:
+                return 1
+            else:
+                return 0
+    except (FileNotFoundError, PermissionError) as e:
+        logger.debug(e)
+        return -1
+        
