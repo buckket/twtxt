@@ -120,8 +120,10 @@ Here’s an example ``conf`` file, showing every currently supported option:
     [twtxt]
     nick = buckket
     twtfile = ~/twtxt.txt
+    twturl = http://example.org/twtxt.txt
     check_following = True
     use_pager = False
+    porcelain = False
     limit_timeline = 20
     timeout = 5.0
     sorting = descending
@@ -142,9 +144,13 @@ Here’s an example ``conf`` file, showing every currently supported option:
 +-------------------+-------+------------+---------------------------------------------------+
 | twtfile           | PATH  |            | path to your local twtxt file                     |
 +-------------------+-------+------------+---------------------------------------------------+
+| twturl            | TEXT  |            | URL to your public twtxt file                     |
++-------------------+-------+------------+---------------------------------------------------+
 | check_following   | BOOL  | True       | try to resolve URLs when listing followings       |
 +-------------------+-------+------------+---------------------------------------------------+
 | use_pager         | BOOL  | False      | use a pager (less) to display your timeline       |
++-------------------+-------+------------+---------------------------------------------------+
+| porcelain         | BOOL  | False      | style output in an easy-to-parse format           |
 +-------------------+-------+------------+---------------------------------------------------+
 | limit_timeline    | INT   | 20         | limit amount of tweets shown in your timeline     |
 +-------------------+-------+------------+---------------------------------------------------+

@@ -8,19 +8,19 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import textwrap
 import logging
 import os
 import sys
+import textwrap
 
 import click
 
 from twtxt.config import Config
 from twtxt.file import get_local_tweets, add_local_tweet
 from twtxt.helper import run_post_tweet_hook
-from twtxt.helper import style_tweet, style_source, style_source_with_status
-from twtxt.helper import validate_created_at, validate_text
 from twtxt.helper import sort_and_truncate_tweets
+from twtxt.helper import style_timeline, style_source, style_source_with_status
+from twtxt.helper import validate_created_at, validate_text
 from twtxt.http import get_remote_tweets, get_remote_status
 from twtxt.log import init_logging
 from twtxt.types import Tweet, Source
@@ -93,14 +93,16 @@ def tweet(ctx, created_at, twtfile, text):
               help="Sort timeline in descending order. (Default)")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
+@click.option("--porcelain", is_flag=True,
+              help="Style output in an easy-to-parse format. (Default: False)")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain):
     """Retrieve your personal timeline."""
     sources = ctx.obj["conf"].following
     tweets = get_remote_tweets(sources, limit, timeout)
 
     if twtfile:
-        source = Source(ctx.obj["conf"].nick, file=twtfile)
+        source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
     tweets = sort_and_truncate_tweets(tweets, sorting, limit)
@@ -109,13 +111,9 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout):
         return
 
     if pager:
-        click.echo_via_pager("\n\n".join(
-            (style_tweet(tweet) for tweet in tweets)))
+        click.echo_via_pager(style_timeline(tweets, porcelain))
     else:
-        click.echo()
-        for tweet in tweets:
-            click.echo(style_tweet(tweet))
-            click.echo()
+        click.echo(style_timeline(tweets, porcelain))
 
 
 @cli.command()
@@ -124,19 +122,21 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout):
               help="Check if source URL is valid and readable. (Default: True)")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
+@click.option("--porcelain", is_flag=True,
+              help="Style output in an easy-to-parse format. (Default: False)")
 @click.pass_context
-def following(ctx, check, timeout):
+def following(ctx, check, timeout, porcelain):
     """Return the list of sources you’re following."""
     sources = ctx.obj['conf'].following
 
     if check:
         sources = get_remote_status(sources, timeout)
         for (source, status) in sources:
-            click.echo(style_source_with_status(source, status))
+            click.echo(style_source_with_status(source, status, porcelain))
     else:
         sources = sorted(sources, key=lambda source: source.nick)
         for source in sources:
-            click.echo(style_source(source))
+            click.echo(style_source(source, porcelain))
 
 
 @cli.command()

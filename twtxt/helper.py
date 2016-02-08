@@ -8,39 +8,63 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import sys
 import shlex
 import subprocess
+import sys
 
 import click
 
 from twtxt.parser import parse_iso8601
 
 
-def style_tweet(tweet):
-    return "➤ {nick} ({time}):\n{tweet}".format(
-        nick=click.style(tweet.source.nick, bold=True),
-        tweet=tweet.limited_text,
-        time=click.style(tweet.relative_datetime, dim=True))
-
-
-def style_source(source):
-    return "➤ {nick} @ {url}".format(
-        nick=click.style(source.nick, bold=True),
-        url=source.url)
-
-
-def style_source_with_status(source, status):
-    if status == 200:
-        scolor, smessage = "green", str(status)
-    elif status:
-        scolor, smessage = "red", str(status)
+def style_timeline(tweets, porcelain=False):
+    if porcelain:
+        return "\n".join(style_tweet(tweet, porcelain) for tweet in tweets)
     else:
-        scolor, smessage = "red", "ERROR"
-    return "➤ {nick} @ {url} ({status})".format(
-        nick=click.style(source.nick, bold=True, fg=scolor),
-        url=source.url,
-        status=click.style(smessage, fg=scolor))
+        return "\n{}\n".format("\n\n".join(style_tweet(tweet, porcelain) for tweet in tweets))
+
+
+def style_tweet(tweet, porcelain=False):
+    if porcelain:
+        return "{nick}\t{url}\t{tweet}".format(
+            nick=tweet.source.nick,
+            url=tweet.source.url,
+            tweet=str(tweet))
+    else:
+        return "➤ {nick} ({time}):\n{tweet}".format(
+            nick=click.style(tweet.source.nick, bold=True),
+            tweet=tweet.limited_text,
+            time=click.style(tweet.relative_datetime, dim=True))
+
+
+def style_source(source, porcelain=False):
+    if porcelain:
+        return "{nick}\t{url}".format(
+            nick=source.nick,
+            url=source.url)
+    else:
+        return "➤ {nick} @ {url}".format(
+            nick=click.style(source.nick, bold=True),
+            url=source.url)
+
+
+def style_source_with_status(source, status, porcelain=False):
+    if porcelain:
+        return "{nick}\t{url}\t{status}".format(
+            nick=source.nick,
+            url=source.url,
+            status=status)
+    else:
+        if status == 200:
+            scolor, smessage = "green", str(status)
+        elif status:
+            scolor, smessage = "red", str(status)
+        else:
+            scolor, smessage = "red", "ERROR"
+        return "➤ {nick} @ {url} ({status})".format(
+            nick=click.style(source.nick, bold=True, fg=scolor),
+            url=source.url,
+            status=click.style(smessage, fg=scolor))
 
 
 def validate_created_at(ctx, param, value):
