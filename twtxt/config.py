@@ -74,6 +74,17 @@ class Config:
             cfg.write(config_file)
 
     @property
+    def twitter(self):
+        cfg = self.open_config()
+
+        try:
+            return dict(cfg.items("twitter"))
+        except configparser.NoSectionError as e:
+            logger.debug(e)
+
+        return None
+
+    @property
     def following(self):
         cfg = self.open_config()
 

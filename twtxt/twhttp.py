@@ -1,8 +1,9 @@
 """
-    twtxt.http
+    twtxt.twhttp
     ~~~~~~~~~~
 
     This module handles HTTP requests via aiohttp/asyncio.
+    Named twhttp to prevent conflict with python's http and http.server.
 
     :copyright: (c) 2016 by buckket.
     :license: MIT, see LICENSE for more details.

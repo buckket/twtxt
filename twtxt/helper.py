@@ -8,9 +8,12 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import json
+import oauth2
 import sys
 import shlex
 import subprocess
+import urllib.parse
 
 import click
 
@@ -85,3 +88,28 @@ def sort_and_truncate_tweets(tweets, direction, limit):
             return sorted(tweets)
     else:
         return []
+
+def publish_to_twitter(tweet_text, twitter_config):
+    # via: https://dev.twitter.com/oauth/overview/single-user
+
+    consumer = oauth2.Consumer(key=twitter_config.get('consumer_key'), secret=twitter_config.get('consumer_secret'))
+    token = oauth2.Token(key=twitter_config.get('token'), secret=twitter_config.get('token_secret'))
+    client = oauth2.Client(consumer, token)
+
+    (resp, strcontent) = client.request(
+        'https://api.twitter.com/1.1/statuses/update.json',
+        method='POST',
+        body=urllib.parse.urlencode({'status':tweet_text})
+    )
+    content = json.loads(strcontent.decode('utf-8'))
+
+    if resp.get('status') == '200' and content.get('id_str'):
+        idstring = content['id_str']
+        user = content['user']['screen_name']
+        twitter_url = 'https://twitter.com/' + user + '/status/' + idstring
+        click.echo('✓ Posted to twitter: {}'.format(twitter_url))
+        return twitter_url
+
+    click.echo('✗ posting tweet to twitter failed, http status={}, text: {}'.format(resp.get('status'), content))
+    return False
+

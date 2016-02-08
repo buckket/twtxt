@@ -131,6 +131,13 @@ Here’s an example ``conf`` file, showing every currently supported option:
     bob = https://example.org/bob.txt
     alice = https://example.org/alice.txt
 
+    [twitter]
+    enabled = true
+    consumer_key = asdf
+    consumer_secret = sdfg
+    token = dfgh
+    token_secret = fghj
+
 
 [twtxt] section:
 ================
@@ -159,6 +166,24 @@ Here’s an example ``conf`` file, showing every currently supported option:
 [followings] section:
 =====================
 This section holds all your followings as nick, URL pairs. You can edit this section manually or use the ``follow``/``unfollow`` commands of twtxt for greater comfort.
+
+[twitter] section:
+=====================
++-------------------+-------+------------+---------------------------------------------------+
+| Option:           | Type: | Default:   | Help:                                             |
++===================+=======+============+===================================================+
+| enabled           | BOOL  | False      | publish to Twitter after completing twtxt actions |
++-------------------+-------+------------+---------------------------------------------------+
+| consumer_key      | TEXT  |            | twitter OAUTH2 consumer key                       |
++-------------------+-------+------------+---------------------------------------------------+
+| consumer_secret   | TEXT  |            | twitter OAUTH2 consumer secret                    |
++-------------------+-------+------------+---------------------------------------------------+
+| token             | TEXT  |            | twitter OAUTH2 token                              |
++-------------------+-------+------------+---------------------------------------------------+
+| token_secret      | TEXT  |            | twitter OAUTH2 token secret                       |
++-------------------+-------+------------+---------------------------------------------------+
+
+To get these four OAUTH tokens, `create a new Twitter application <https://apps.twitter.com/app/new>`_, then fetch the consumer key on the resulting page. Then click on "manage keys and access tokens", fetch the consumer secret, then scroll down and click "Create my access token". Copy the "access token" and "access token secret".
 
 Format specification
 --------------------
