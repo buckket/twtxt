@@ -23,6 +23,7 @@ from twtxt.helper import style_timeline, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
 from twtxt.http import get_remote_tweets, get_remote_status
 from twtxt.log import init_logging
+from twtxt.mentions import expand_mentions
 from twtxt.types import Tweet, Source
 
 logger = logging.getLogger(__name__)
@@ -68,6 +69,7 @@ def cli(ctx, config, verbose):
 @click.pass_context
 def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""
+    text = expand_mentions(text)
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
