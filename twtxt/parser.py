@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import dateutil.parser
 
-from twtxt.types import Tweet
+from twtxt.models import Tweet
 
 logger = logging.getLogger(__name__)
 
