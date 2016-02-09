@@ -16,7 +16,7 @@ import textwrap
 import click
 
 from twtxt.config import Config
-from twtxt.file import get_local_tweets, add_local_tweet
+from twtxt.file import get_local_tweets, add_local_tweet, check_hashes
 from twtxt.helper import run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
@@ -69,6 +69,14 @@ def cli(ctx, config, verbose):
 def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
+
+    ret = check_hashes(tweet, twtfile)
+    if ret == 1:
+        if not click.confirm ("You've already tweeted that. Tweet anyway?"):
+            return
+    elif ret == -1:
+        return
+
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
     else:
@@ -227,6 +235,7 @@ def quickstart(ctx):
     conf = Config(None)
     conf.create_config(nick, twtfile, add_news)
     open(os.path.expanduser(twtfile), 'a').close()
+    open(os.path.expanduser(twtfile+"-hashes"), 'w').close()
 
     click.echo()
     click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
