@@ -13,7 +13,7 @@ import logging
 
 import aiohttp
 
-from twtxt.parser import parse_string
+from twtxt.parser import parse_tweets
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def retrieve_file(source, limit, timeout):
         logger.debug(e)
         return []
     if response.status == 200:
-        tweets = parse_string(content.splitlines(), source)
+        tweets = parse_tweets(content.splitlines(), source)
         return sorted(tweets, reverse=True)[:limit]
     else:
         return []
