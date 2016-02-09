@@ -5,6 +5,7 @@
 *.pex
 .cache
 .idea
+.tox
 build
 dist
 venv
