@@ -109,8 +109,8 @@ View your timeline:
     ➤ alice (2 hours ago):
     I wonder if this is a thing?
 
-View feed of specific source
-============================
+View feed of specific source:
+=============================
 
 .. code::
 
