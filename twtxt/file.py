@@ -10,7 +10,7 @@
 
 import logging
 
-from twtxt.parser import parse_string
+from twtxt.parser import parse_tweets
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ def get_local_tweets(source, limit):
     except (FileNotFoundError, PermissionError) as e:
         logger.debug(e)
         return []
-    local_tweets = parse_string(input_lines, source)
+    local_tweets = parse_tweets(input_lines, source)
     return sorted(local_tweets, reverse=True)[:limit]
 
 
