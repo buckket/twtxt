@@ -87,8 +87,8 @@ class Config:
 
         return following
 
-    def get_follower_source(self, nick):
-        """Returns the source of the given follower."""
+    def get_follower_source_by_nick(self, nick):
+        """Returns the source of the given nick."""
         cfg = self.open_config()
         return next((Source(n, u) for n, u in cfg.items("following") if n == nick), None)
 

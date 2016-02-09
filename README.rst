@@ -115,11 +115,16 @@ View feed of specific source
 .. code::
 
     $ twtxt view twtxt
-    Tweets from twtxt:
 
     ➤ twtxt (a day ago):
     Fiat Lux!
 
+.. code::
+
+    $ twtxt view http://example.org/twtxt.txt
+
+    ➤ http://example.org/twtxt.txt (a day ago):
+    Fiat Lux!
 
 Configuration
 -------------

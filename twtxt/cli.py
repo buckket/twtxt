@@ -95,22 +95,23 @@ def tweet(ctx, created_at, twtfile, text):
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
-@click.option("--source", "-s", "nick",
-              help="Only show the feed of the given source.")
+@click.option("--source", "-s",
+              help="Only show feed of the given source. (Can be nick or URL)")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, nick):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source):
     """Retrieve your personal timeline."""
-    if nick:
-        source = ctx.obj["conf"].get_follower_source(nick)
-        if not source:
-            raise click.UsageError("You are not following '{0}'".format(nick))
-        sources = [source]
+    if source:
+        source_obj = ctx.obj["conf"].get_follower_source_by_nick(source)
+        if not source_obj:
+            logger.debug("Not following {}, trying as URL".format(source))
+            source_obj = Source(source, source)
+        sources = [source_obj]
     else:
         sources = ctx.obj["conf"].following
 
     tweets = get_remote_tweets(sources, limit, timeout)
 
-    if twtfile and not nick:
+    if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
@@ -123,6 +124,28 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, nick):
         click.echo_via_pager(style_timeline(tweets, porcelain))
     else:
         click.echo(style_timeline(tweets, porcelain))
+
+
+@cli.command()
+@click.option("--pager/--no-pager",
+              is_flag=True,
+              help="Use a pager to display content. (Default: False)")
+@click.option("--limit", "-l",
+              type=click.INT,
+              help="Limit total number of shown tweets. (Default: 20)")
+@click.option("--ascending", "sorting", flag_value="ascending",
+              help="Sort timeline in ascending order.")
+@click.option("--descending", "sorting", flag_value="descending",
+              help="Sort timeline in descending order. (Default)")
+@click.option("--timeout", type=click.FLOAT,
+              help="Maximum time requests are allowed to take. (Default: 5.0)")
+@click.option("--porcelain", is_flag=True,
+              help="Style output in an easy-to-parse format. (Default: False)")
+@click.argument("source")
+@click.pass_context
+def view(ctx, pager, limit, sorting, timeout, porcelain, source):
+    """Show feed of given source."""
+    ctx.forward(timeline)
 
 
 @cli.command()
@@ -208,24 +231,5 @@ def quickstart(ctx):
     click.echo()
     click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
 
-
-@cli.command()
-@click.argument("nick")
-@click.option("--pager/--no-pager", is_flag=True,
-              help="Use a pager to display content. (Default: False)")
-@click.option("--limit", "-l", type=click.INT,
-              help="Limit total number of shown tweets. (Default: 20)")
-@click.option("--ascending", "sorting", flag_value="ascending",
-              help="Sort timeline in ascending order.")
-@click.option("--descending", "sorting", flag_value="descending",
-              help="Sort timeline in descending order. (Default)")
-@click.option("--timeout", type=click.FLOAT,
-              help="Maximum time requests are allowed to take. (Default: 5.0)")
-@click.option("--porcelain", is_flag=True,
-              help="Style output in an easy-to-parse format. (Default: False)")
-@click.pass_context
-def view(ctx, nick, pager, limit, sorting, porcelain, timeout):
-    """Show feed of the given source"""
-    ctx.invoke(timeline, pager=pager, limit=limit, sorting=sorting, timeout=timeout, porcelain=porcelain, nick=nick)
 
 main = cli
