@@ -1,6 +1,6 @@
 """
-    twtxt.file
-    ~~~~~~~~~~
+    twtxt.twfile
+    ~~~~~~~~~~~~
 
     This module handles interaction with the local twtxt file.
 

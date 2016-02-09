@@ -5,7 +5,7 @@ from dateutil.tz import tzoffset
 
 from twtxt.parser import make_aware, parse_iso8601
 from twtxt.parser import parse_tweet, parse_tweets
-from twtxt.types import Source
+from twtxt.models import Source
 
 
 def test_make_aware():

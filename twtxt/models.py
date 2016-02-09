@@ -1,8 +1,8 @@
 """
-    twtxt.types
-    ~~~~~~~~~~~
+    twtxt.models
+    ~~~~~~~~~~~~
 
-    This module implements the main data types used in twtxt.
+    This module implements the main models used in twtxt.
 
     :copyright: (c) 2016 by buckket.
     :license: MIT, see LICENSE for more details.

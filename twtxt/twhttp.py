@@ -1,6 +1,6 @@
 """
-    twtxt.http
-    ~~~~~~~~~~
+    twtxt.twhttp
+    ~~~~~~~~~~~~
 
     This module handles HTTP requests via aiohttp/asyncio.
 
