@@ -29,7 +29,7 @@ setup(
     ],
 
     entry_points={
-        'console_scripts': ['twtxt=twtxt.cli:main']
+        'console_scripts': ['twtxt=twtxt.__main__:main']
     },
 
     description='Decentralised, minimalist microblogging service for hackers.',
