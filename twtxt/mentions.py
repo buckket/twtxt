@@ -12,7 +12,7 @@ import re
 
 import click
 
-mention_re = re.compile(r'@<(?:(?P<name>.+?)\s+)?(?P<url>.*?://.*?)>')
+mention_re = re.compile(r'@<(?:(?P<name>\S+?)\s+)?(?P<url>\S+?://.*?)>')
 short_mention_re = re.compile(r'@(?P<name>\S+)')
 
 
