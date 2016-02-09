@@ -74,6 +74,6 @@ def parse_tweet(raw_tweet, source, now=None):
     created_at = parse_iso8601(raw_created_at)
 
     if created_at > now:
-        raise ValueError("tweet is from the future")
+        raise ValueError("Tweet is from the future")
 
     return Tweet(text.strip(), created_at, source)
