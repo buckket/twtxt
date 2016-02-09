@@ -28,23 +28,52 @@ def parse_iso8601(string):
     return make_aware(dateutil.parser.parse(string))
 
 
-def parse_string(string, source, now=datetime.now(timezone.utc)):
-    """Parses a multi-line string and returns extracted :class:`Tweet` objects."""
+def parse_tweets(raw_tweets, source, now=None):
+    """
+        Parses a list of raw tweet lines from a twtxt file
+        and returns a list of :class:`Tweet` objects.
+
+        :param list raw_tweets: list of raw tweet lines
+        :param Source source: the source of the given tweets
+        :param Datetime now: the current datetime
+
+        :returns: a list of parsed tweets :class:`Tweet` objects
+        :rtype: list
+    """
+    if now is None:
+        now = datetime.now(timezone.utc)
+
     tweets = []
-
-    for line in string:
+    for line in raw_tweets:
         try:
-            parts = line.partition("\t")
-            created_at = parse_iso8601(parts[0])
-            text = parts[2].lstrip().rstrip()
-
-            if created_at > now:
-                raise ValueError("tweet is from the future")
-
-            tweet = Tweet(text, created_at, source)
-            tweets.append(tweet)
-
+            tweet = parse_tweet(line, source, now)
         except (ValueError, OverflowError) as e:
             logger.debug(e)
+        else:
+            tweets.append(tweet)
 
     return tweets
+
+
+def parse_tweet(raw_tweet, source, now=None):
+    """
+        Parses a single raw tweet line from a twtxt file
+        and returns a :class:`Tweet` object.
+
+        :param str raw_tweet: a single raw tweet line
+        :param Source source: the source of the given tweet
+        :param Datetime now: the current datetime
+
+        :returns: the parsed tweet
+        :rtype: Tweet
+    """
+    if now is None:
+        now = datetime.now(timezone.utc)
+
+    raw_created_at, text = raw_tweet.split("\t", 1)
+    created_at = parse_iso8601(raw_created_at)
+
+    if created_at > now:
+        raise ValueError("tweet is from the future")
+
+    return Tweet(text.strip(), created_at, source)
