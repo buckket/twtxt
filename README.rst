@@ -182,7 +182,7 @@ Take a look at this example file:
 .. code::
 
     2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
-    2016-02-03T23:05+01 @<example http://example.org/twtxt.txt> welcome to twtxt!
+    2016-02-03T23:05+01	@<example http://example.org/twtxt.txt> welcome to twtxt!
     2016-02-01T11:00+01	This is just another example.
     2015-12-12T12:00+01	Fiat lux!
 
