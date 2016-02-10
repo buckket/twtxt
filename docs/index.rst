@@ -1,22 +1,19 @@
-.. twtxt documentation master file, created by
-   sphinx-quickstart on Tue Feb  9 19:15:10 2016.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Welcome to twtxt!
+=================
 
-Welcome to twtxt's documentation!
-=================================
+Welcome to twtxt's documentation. This documentation is divided into multiple parts.
+We recommend you to get started with the :ref:`installation` and then head over to the
+:ref:`quickstart` section. There is a more detailed :ref:`tutorial` about how to use
+twtxt from the CLI. The internals of twtxt are documented in the :ref:`api` chapter.
+
+Feel free to contribute to this project. The source code is maintained on `Github`_.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
+   intro
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. _Github: https://github.com/buckket/twtxt
