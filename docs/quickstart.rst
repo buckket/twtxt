@@ -1,3 +1,5 @@
+.. _quickstart:
+
 Quickstart
 ==========
 
@@ -28,4 +30,4 @@ The quickstart wizard prompts for the following configuration values:
 - The desired location for your twtxt file (*<TWTXTX FILE LOCATION>*)
 - If you want to follow the twtxt news feed
 
-The configurations can easily be changed in the twtxt configuration file. See :ref:`configurationfile`.
+The configurations can easily be changed in the twtxt configuration file. See :ref:`configuration`.
