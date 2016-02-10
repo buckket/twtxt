@@ -17,6 +17,7 @@ Contents:
    installation
    quickstart
    usage
+   configuration
 
 
 .. _Github: https://github.com/buckket/twtxt
