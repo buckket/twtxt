@@ -5,8 +5,8 @@ python:
 
 install:
   - pip install --editable .
-  - pip install coveralls
-  - pip install pytest pytest-cov
+  - pip install --upgrade coveralls
+  - pip install --upgrade pytest pytest-cov
 
 script: make pytest
 
