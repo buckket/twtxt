@@ -15,6 +15,7 @@ Contents:
 
    intro
    installation
+   quickstart
 
 
 .. _Github: https://github.com/buckket/twtxt
