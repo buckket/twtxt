@@ -20,37 +20,42 @@ logger = logging.getLogger(__name__)
 
 
 class Config:
-    def __init__(self, config_file):
+    config_dir = click.get_app_dir("twtxt")
+    config_name = "config"
+
+    def __init__(self, config_file, cfg):
+        """Initializes new :class:`Config` object.
+
+        :param config_file: full path to the loaded config file.
+        :param cfg: a ConfigParser object, with config loaded.
+        """
         self.config_file = config_file
+        self.cfg = cfg
 
     @classmethod
     def from_file(cls, file):
+        """Try loading given config file."""
         if not os.path.exists(file):
             raise ValueError("Config file not found.")
-
         cfg = configparser.ConfigParser()
         try:
-            if cfg.read(file):
-                return cls(file)
-            else:
-                raise ValueError("Config file is empty.")
+            cfg.read(file)
+            return cls(file, cfg)
         except configparser.Error:
             raise ValueError("Config file is invalid.")
 
     @classmethod
     def discover(cls):
-        config_dir = click.get_app_dir("twtxt")
-        config_file = "config"
-        path = os.path.join(config_dir, config_file)
-        return cls.from_file(path)
+        """Make a guess about the config file location an try loading it."""
+        file = os.path.join(Config.config_dir, Config.config_name)
+        return cls.from_file(file)
 
-    def create_config(self, nick, twtfile, add_news):
-        config_dir = click.get_app_dir("twtxt")
-        if not os.path.exists(config_dir):
-            os.makedirs(config_dir)
-        config_file = "config"
-        path = os.path.join(config_dir, config_file)
-        self.config_file = path
+    @classmethod
+    def create_config(cls, nick, twtfile, add_news):
+        """Creates a new config file at the default location."""
+        if not os.path.exists(Config.config_dir):
+            os.makedirs(Config.config_dir)
+        file = os.path.join(Config.config_dir, Config.config_name)
 
         cfg = configparser.ConfigParser()
 
@@ -62,24 +67,21 @@ class Config:
         if add_news:
             cfg.set("following", "twtxt", "https://buckket.org/twtxt_news.txt")
 
-        self.write_config(cfg)
+        conf = cls(file, cfg)
+        conf.write_config()
+        return conf
 
-    def open_config(self):
-        cfg = configparser.ConfigParser()
-        cfg.read(self.config_file)
-        return cfg
-
-    def write_config(self, cfg):
+    def write_config(self):
+        """Writes ConfigParser object to file."""
         with open(self.config_file, "w") as config_file:
-            cfg.write(config_file)
+            self.cfg.write(config_file)
 
     @property
     def following(self):
-        cfg = self.open_config()
-
+        """Returns a list of all source objects."""
         following = []
         try:
-            for (nick, url) in cfg.items("following"):
+            for (nick, url) in self.cfg.items("following"):
                 source = Source(nick, url)
                 following.append(source)
         except configparser.NoSectionError as e:
@@ -87,84 +89,102 @@ class Config:
 
         return following
 
-    def get_follower_source_by_nick(self, nick):
-        """Returns the source of the given nick."""
-        cfg = self.open_config()
-        return next((Source(n, u) for n, u in cfg.items("following") if n == nick), None)
-
     @property
     def options(self):
-        cfg = self.open_config()
+        """Returns a dict of all config options."""
         try:
-            return dict(cfg.items("twtxt"))
+            return dict(self.cfg.items("twtxt"))
         except configparser.NoSectionError as e:
             logger.debug(e)
             return {}
 
     @property
     def nick(self):
-        cfg = self.open_config()
-        return cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
+        return self.cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
+
+    @property
+    def twtfile(self):
+        return os.path.expanduser(self.cfg.get("twtxt", "twtfile", fallback="twtxt.txt"))
 
     @property
     def twturl(self):
-        cfg = self.open_config()
-        return cfg.get("twtxt", "twturl", fallback=None)
+        return self.cfg.get("twtxt", "twturl", fallback=None)
+
+    @property
+    def check_following(self):
+        return self.cfg.getboolean("twtxt", "check_following", fallback=True)
+
+    @property
+    def use_pager(self):
+        return self.cfg.getboolean("twtxt", "use_pager", fallback=False)
+
+    @property
+    def porcelain(self):
+        return self.cfg.getboolean("twtxt", "porcelain", fallback=False)
+
+    @property
+    def limit_timeline(self):
+        return self.cfg.getint("twtxt", "limit_timeline", fallback=20)
+
+    @property
+    def timeout(self):
+        return self.cfg.getfloat("twtxt", "timeout", fallback=5.0)
+
+    @property
+    def sorting(self):
+        return self.cfg.get("twtxt", "sorting", fallback="descending")
 
     @property
     def post_tweet_hook(self):
-        cfg = self.open_config()
-        return cfg.get("twtxt", "post_tweet_hook", fallback=None)
+        return self.cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
     def add_source(self, source):
-        cfg = self.open_config()
+        """Adds a new source to the config’s following section."""
+        if not self.cfg.has_section("following"):
+            self.cfg.add_section("following")
 
-        if not cfg.has_section("following"):
-            cfg.add_section("following")
+        self.cfg.set("following", source.nick, source.url)
+        self.write_config()
 
-        cfg.set("following", source.nick, source.url)
-        self.write_config(cfg)
+    def get_source_by_nick(self, nick):
+        """Returns the source of the given nick."""
+        url = self.cfg.get("following", nick, fallback=None)
+        return Source(nick, url) if url else None
 
     def remove_source_by_nick(self, nick):
-        cfg = self.open_config()
-
-        if not cfg.has_section("following"):
+        """Removes a source form the config’s following section."""
+        if not self.cfg.has_section("following"):
             return False
 
-        ret_val = cfg.remove_option("following", nick)
-        self.write_config(cfg)
+        ret_val = self.cfg.remove_option("following", nick)
+        self.write_config()
         return ret_val
 
     def build_default_map(self):
-        cfg = self.open_config()
-
-        twtfile = os.path.expanduser(cfg.get("twtxt", "twtfile", fallback="twtxt.txt"))
-        porcelain = cfg.getboolean("twtxt", "porcelain", fallback=False)
-
+        """Maps the set options to the default values used by click."""
         default_map = {
             "following": {
-                "check": cfg.get("twtxt", "check_following", fallback=True),
-                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
-                "porcelain": porcelain,
+                "check": self.check_following,
+                "timeout": self.timeout,
+                "porcelain": self.porcelain,
             },
             "tweet": {
-                "twtfile": twtfile,
+                "twtfile": self.twtfile,
             },
             "timeline": {
-                "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
-                "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
-                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
-                "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
-                "porcelain": porcelain,
-                "twtfile": twtfile,
+                "pager": self.use_pager,
+                "limit": self.limit_timeline,
+                "timeout": self.timeout,
+                "sorting": self.sorting,
+                "porcelain": self.porcelain,
+                "twtfile": self.twtfile,
             },
             "view": {
-                "pager": cfg.getboolean("twtxt", "use_pager", fallback=False),
-                "limit": cfg.getint("twtxt", "limit_timeline", fallback=20),
-                "timeout": cfg.getfloat("twtxt", "timeout", fallback=5.0),
-                "sorting": cfg.get("twtxt", "sorting", fallback="descending"),
-                "porcelain": porcelain,
+                "pager": self.use_pager,
+                "limit": self.limit_timeline,
+                "timeout": self.timeout,
+                "sorting": self.sorting,
+                "porcelain": self.porcelain,
             }
         }
-
         return default_map

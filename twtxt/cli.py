@@ -101,7 +101,7 @@ def tweet(ctx, created_at, twtfile, text):
 def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source):
     """Retrieve your personal timeline."""
     if source:
-        source_obj = ctx.obj["conf"].get_follower_source_by_nick(source)
+        source_obj = ctx.obj["conf"].get_source_by_nick(source)
         if not source_obj:
             logger.debug("Not following {}, trying as URL".format(source))
             source_obj = Source(source, source)
@@ -224,9 +224,8 @@ def quickstart(ctx):
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
 
-    conf = Config(None)
-    conf.create_config(nick, twtfile, add_news)
-    open(os.path.expanduser(twtfile), 'a').close()
+    conf = Config.create_config(nick, twtfile, add_news)
+    open(os.path.expanduser(twtfile), "a").close()
 
     click.echo()
     click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
