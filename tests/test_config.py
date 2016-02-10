@@ -7,7 +7,7 @@ from twtxt.config import Config
 from twtxt.models import Source
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def config_dir(tmpdir_factory):
     cfg = configparser.ConfigParser()
 
@@ -68,7 +68,7 @@ def test_from_file(config_dir):
         Config.from_file("invalid")
     assert "Config file not found." in str(e.value)
 
-    with open(str(config_dir.join("empty")), 'a') as fh:
+    with open(str(config_dir.join("empty")), "a") as fh:
         fh.write("XXX")
     with pytest.raises(ValueError) as e:
         Config.from_file(str(config_dir.join("empty")))
