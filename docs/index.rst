@@ -18,6 +18,7 @@ Contents:
    quickstart
    usage
    configuration
+   twtxtfile
 
 
 .. _Github: https://github.com/buckket/twtxt
