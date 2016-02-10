@@ -18,7 +18,7 @@ coverage:
 
 docs:
 	@echo "---> generating sphinx documentation"
-	@cd docs; make html
+	@$(MAKE) -C docs html
 
 publish:
 	@echo "---> uploading to PyPI"
