@@ -14,6 +14,7 @@ Contents:
    :maxdepth: 2
 
    intro
+   installation
 
 
 .. _Github: https://github.com/buckket/twtxt
