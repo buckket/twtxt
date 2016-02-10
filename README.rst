@@ -58,6 +58,20 @@ Development version:
 
     $ pip3 install -e twtxt/
 
+3) Run tests
+
+Run the tests against all supported python versions:
+
+.. code::
+
+    $ make test
+
+Run the tests against a specific python version:
+
+.. code::
+
+    $ tox -e py34
+
 Usage
 -----
 twtxt features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` or call commands without arguments to get information about all available commands, options and arguments.
