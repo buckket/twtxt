@@ -1,6 +1,6 @@
 twtxt
 ~~~~~
-|pypi| |build| |coverage| |gitter| |license|
+|pypi| |build| |coverage| |docs| |gitter| |license|
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
@@ -58,20 +58,6 @@ Development version:
 
     $ pip3 install -e twtxt/
 
-3) Running tests:
-
-Run the tests against all supported python versions:
-
-.. code::
-
-    $ make test
-
-Run the tests against a specific python version:
-
-.. code::
-
-    $ tox -e py34
-
 Usage
 -----
 twtxt features an excellent command-line interface thanks to `click <http://click.pocoo.org/>`_. Don’t hesitate to append ``--help`` or call commands without arguments to get information about all available commands, options and arguments.
@@ -122,23 +108,6 @@ View your timeline:
 
     ➤ alice (2 hours ago):
     I wonder if this is a thing?
-
-View feed of specific source:
-=============================
-
-.. code::
-
-    $ twtxt view twtxt
-
-    ➤ twtxt (a day ago):
-    Fiat Lux!
-
-.. code::
-
-    $ twtxt view http://example.org/twtxt.txt
-
-    ➤ http://example.org/twtxt.txt (a day ago):
-    Fiat Lux!
 
 Configuration
 -------------
@@ -206,11 +175,14 @@ The file must be encoded with UTF-8 and must use LF (\\n) as line separators.
 
 A status should consist of up to 140 characters, longer status updates are technically possible but discouraged. twtxt will warn the user if a newly composed status update exceeds this limit, and it will also shorten incoming status updates by default. Also note that a status may not contain any control characters.
 
+Mentions are embedded within the text in either `@<source.nick source.url>` or `@<source.url>` format and should be expanded by the client, when rendering the tweets. The `source.url` is available to provide a way to discover new `twtxt.txt` files and distinguish between multiple users using the same nickname locally. The `source.url` can be interpreted as a TWTXT URI.
+
 Take a look at this example file:
 
 .. code::
 
     2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
+    2016-02-03T23:05+01	@<example http://example.org/twtxt.txt> welcome to twtxt!
     2016-02-01T11:00+01	This is just another example.
     2015-12-12T12:00+01	Fiat lux!
 
@@ -250,3 +222,7 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
 .. |demo| image:: https://asciinema.org/a/1w2q3suhgrzh2hgltddvk9ot4.png
     :target: https://asciinema.org/a/1w2q3suhgrzh2hgltddvk9ot4
     :alt: Demo
+
+.. |docs| image:: https://readthedocs.org/projects/twtxt/badge/?version=latest
+    :target: http://twtxt.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
