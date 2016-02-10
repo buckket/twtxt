@@ -8,7 +8,8 @@ twtxt from the CLI. The internals of twtxt are documented in the :ref:`api` chap
 
 Feel free to contribute to this project. The source code is maintained on `Github`_.
 
-Contents:
+User's Guide
+------------
 
 .. toctree::
    :maxdepth: 2
@@ -19,6 +20,17 @@ Contents:
    usage
    configuration
    twtxtfile
+
+
+API Reference
+-------------
+
+This part of the documentation describes the modules, classes, functions and other source code specific details.
+
+.. toctree::
+   :maxdepth: 2
+
+   api
 
 
 .. _Github: https://github.com/buckket/twtxt
