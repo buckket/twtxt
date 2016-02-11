@@ -11,10 +11,9 @@
 import configparser
 import logging
 import os
-
 import click
 
-from twtxt.models import Source
+from .models import Source
 
 logger = logging.getLogger(__name__)
 

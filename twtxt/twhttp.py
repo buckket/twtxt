@@ -8,12 +8,11 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import asyncio
 import logging
-
+import asyncio
 import aiohttp
 
-from twtxt.parser import parse_tweets
+from .parser import parse_tweets
 
 logger = logging.getLogger(__name__)
 

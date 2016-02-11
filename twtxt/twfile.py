@@ -10,7 +10,7 @@
 
 import logging
 
-from twtxt.parser import parse_tweets
+from .parser import parse_tweets
 
 logger = logging.getLogger(__name__)
 
