@@ -11,6 +11,7 @@
 import logging
 from datetime import datetime, timezone
 
+import click
 import dateutil.parser
 
 from twtxt.models import Tweet
@@ -76,4 +77,4 @@ def parse_tweet(raw_tweet, source, now=None):
     if created_at > now:
         raise ValueError("Tweet is from the future")
 
-    return Tweet(text.strip(), created_at, source)
+    return Tweet(click.unstyle(text.strip()), created_at, source)
