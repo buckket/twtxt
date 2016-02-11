@@ -119,6 +119,10 @@ class Config:
         return self.cfg.getboolean("twtxt", "use_pager", fallback=False)
 
     @property
+    def use_cache(self):
+        return self.cfg.getboolean("twtxt", "use_cache", fallback=True)
+
+    @property
     def porcelain(self):
         return self.cfg.getboolean("twtxt", "porcelain", fallback=False)
 
@@ -173,6 +177,7 @@ class Config:
             },
             "timeline": {
                 "pager": self.use_pager,
+                "cache": self.use_cache,
                 "limit": self.limit_timeline,
                 "timeout": self.timeout,
                 "sorting": self.sorting,
@@ -181,6 +186,7 @@ class Config:
             },
             "view": {
                 "pager": self.use_pager,
+                "cache": self.use_cache,
                 "limit": self.limit_timeline,
                 "timeout": self.timeout,
                 "sorting": self.sorting,
