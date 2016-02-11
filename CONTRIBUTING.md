@@ -4,7 +4,7 @@ Thank you for helping twtxt to get a better piece of software.
 
 ## Support
 
-If you have any questions regarding the usage of twtxt please visit us in the #twtxt IRC channel on FreeNode
+If you have any questions regarding the usage of twtxt please visit us in the #twtxt IRC channel on [freenode.net](https://freenode.net/)
 or post your question on [StackOverflow](https://stackoverflow.com).
 
 ## Reporting Issues / Proposing Features
@@ -61,5 +61,5 @@ The build directory of the documentation is located in *docs/_build/html*.
 To open this documentation just open the *index.html* with your preferred browser:
 
 ```
-firefox docs/_build/html/index.html
+open docs/_build/html/index.html
 ```
