@@ -11,10 +11,9 @@
 import shlex
 import subprocess
 import sys
-
 import click
 
-from twtxt.parser import parse_iso8601
+from .parser import parse_iso8601
 
 
 def style_timeline(tweets, porcelain=False):

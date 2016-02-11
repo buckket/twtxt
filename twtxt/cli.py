@@ -12,18 +12,17 @@ import logging
 import os
 import sys
 import textwrap
-
 import click
 
-from twtxt.config import Config
-from twtxt.twfile import get_local_tweets, add_local_tweet
-from twtxt.helper import run_post_tweet_hook
-from twtxt.helper import sort_and_truncate_tweets
-from twtxt.helper import style_timeline, style_source, style_source_with_status
-from twtxt.helper import validate_created_at, validate_text
-from twtxt.twhttp import get_remote_tweets, get_remote_status
-from twtxt.log import init_logging
-from twtxt.models import Tweet, Source
+from .config import Config
+from .twfile import get_local_tweets, add_local_tweet
+from .helper import run_post_tweet_hook
+from .helper import sort_and_truncate_tweets
+from .helper import style_timeline, style_source, style_source_with_status
+from .helper import validate_created_at, validate_text
+from .twhttp import get_remote_tweets, get_remote_status
+from .log import init_logging
+from .models import Tweet, Source
 
 logger = logging.getLogger(__name__)
 

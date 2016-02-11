@@ -8,13 +8,12 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import click
 import logging
+import dateutil.parser
 from datetime import datetime, timezone
 
-import click
-import dateutil.parser
-
-from twtxt.models import Tweet
+from .models import Tweet
 
 logger = logging.getLogger(__name__)
 

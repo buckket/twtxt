@@ -9,10 +9,9 @@
 """
 
 import textwrap
+import humanize
 from datetime import datetime, timezone
 from dateutil.tz import tzlocal
-
-import humanize
 
 
 class Tweet:
