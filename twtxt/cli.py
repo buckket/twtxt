@@ -174,15 +174,25 @@ def following(ctx, check, timeout, porcelain):
 @cli.command()
 @click.argument("nick")
 @click.argument("url")
+@click.option("--force", "-f", flag_value=True,
+              help="Force adding and overwriting nick")
 @click.pass_context
-def follow(ctx, nick, url):
+def follow(ctx, nick, url, force):
     """Add a new source to your followings."""
     source = Source(nick, url)
     sources = ctx.obj['conf'].following
 
-    if source.nick in (source.nick for source in sources):
-        click.confirm("➤ You’re already following {}. Overwrite?".format(
-            click.style(source.nick, bold=True)), default=False, abort=True)
+    if not force:
+        if source.nick in (source.nick for source in sources):
+            click.confirm("➤ You’re already following {}. Overwrite?".format(
+                click.style(source.nick, bold=True)), default=False, abort=True)
+
+        _, status = get_remote_status([source])[0]
+        if status != 200:
+            click.confirm("➤ The feed of {0} at {1} is not available. Follow anyway?".format(
+                click.style(source.nick, bold=True),
+                click.style(source.url, bold=True)), default=False, abort=True)
+
     ctx.obj['conf'].add_source(source)
     click.echo("✓ You’re now following {}.".format(
         click.style(source.nick, bold=True)))
