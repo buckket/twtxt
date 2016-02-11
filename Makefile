@@ -25,3 +25,6 @@ publish:
 	@python3 setup.py register
 	@python3 setup.py sdist bdist_wheel upload
 	@rm -fr build dist .egg
+
+authors:
+	@git log --format="%aN <%aE>" | sort -f | uniq
