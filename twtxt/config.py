@@ -143,6 +143,10 @@ class Config:
         return Source(self.nick, self.twturl)
 
     @property
+    def pre_tweet_hook(self):
+        return self.cfg.get("twtxt", "pre_tweet_hook", fallback=None)
+
+    @property
     def post_tweet_hook(self):
         return self.cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
