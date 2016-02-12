@@ -159,6 +159,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     limit_timeline = 20
     timeout = 5.0
     sorting = descending
+    pre_tweet_hook = "scp buckket@example.org:~/public_html/twtxt.txt {twtfile}"
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
     # post_tweet_hook = "aws s3 {twtfile} s3://mybucket.org/twtxt.txt --acl public-read --storage-class REDUCED_REDUNDANCY --cache-control 'max-age=60,public'"
 
@@ -192,10 +193,12 @@ Here’s an example ``conf`` file, showing every currently supported option:
 +-------------------+-------+------------+---------------------------------------------------+
 | sorting           | TEXT  | descending | sort timeline either descending or ascending      |
 +-------------------+-------+------------+---------------------------------------------------+
+| pre_tweet_hook    | TEXT  |            | command to be executed before tweeting            |
++-------------------+-------+------------+---------------------------------------------------+
 | post_tweet_hook   | TEXT  |            | command to be executed after tweeting             |
 +-------------------+-------+------------+---------------------------------------------------+
 
-``post_tweet_hook`` is very useful if you want to push your twtxt file to a remote (web) server. Check the example above tho see how it’s used with ``scp``.
+``pre_tweet_hook`` and ``post_tweet_hook`` are very useful if you want to push your twtxt file to a remote (web) server. Check the example above tho see how it’s used with ``scp``.
 
 [followings] section:
 =====================

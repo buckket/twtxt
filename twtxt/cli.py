@@ -17,7 +17,7 @@ import click
 
 from twtxt.cache import Cache
 from twtxt.config import Config
-from twtxt.helper import run_post_tweet_hook
+from twtxt.helper import run_pre_tweet_hook, run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
 from twtxt.helper import validate_created_at, validate_text
@@ -72,12 +72,19 @@ def tweet(ctx, created_at, twtfile, text):
     """Append a new tweet to your twtxt file."""
     text = expand_mentions(text)
     tweet = Tweet(text, created_at) if created_at else Tweet(text)
+
+    pre_tweet_hook = ctx.obj["conf"].pre_tweet_hook
+    if pre_tweet_hook:
+        if not run_pre_tweet_hook(pre_tweet_hook, ctx.obj["conf"].options):
+            click.echo("✗ pre_tweet_hook returned non-zero")
+            raise click.Abort
+
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
     else:
-        hook = ctx.obj["conf"].post_tweet_hook
-        if hook:
-            run_post_tweet_hook(hook, ctx.obj["conf"].options)
+        post_tweet_hook = ctx.obj["conf"].post_tweet_hook
+        if post_tweet_hook:
+            run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options)
 
 
 @cli.command()

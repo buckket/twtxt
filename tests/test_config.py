@@ -23,6 +23,7 @@ def config_dir(tmpdir_factory):
     cfg.set("twtxt", "timeout", "1.0")
     cfg.set("twtxt", "sorting", "ascending")
     cfg.set("twtxt", "post_tweet_hook", "echo {twtfile")
+    cfg.set("twtxt", "pre_tweet_hook", "echo {twtfile")
 
     cfg.add_section("following")
     cfg.set("following", "foo", "https://example.org/foo.twtxt")
@@ -50,6 +51,7 @@ def test_defaults():
     assert empty_conf.timeout == 5.0
     assert empty_conf.sorting == "descending"
     assert empty_conf.post_tweet_hook is None
+    assert empty_conf.pre_tweet_hook is None
 
 
 def check_cfg(cfg):
@@ -64,6 +66,7 @@ def check_cfg(cfg):
     assert cfg.timeout == 1.0
     assert cfg.sorting == "ascending"
     assert cfg.post_tweet_hook == "echo {twtfile"
+    assert cfg.pre_tweet_hook == "echo {twtfile"
 
 
 def test_from_file(config_dir):
