@@ -3,6 +3,19 @@ Changelog
 
 These are all the changes in twtxt since the first public release.
 
+1.2.0
+-----
+
+- twtxt package is now executable
+- twtxt is now available as wheel archive
+- Check status of feed before following a new source
+- Added a source option to timeline command to only show one specific source
+- Added a view command which is basically an alias for the source option
+- Added support for local caching of remote twtxt files
+- Added support for mentions, see README.rst for more information
+- Added a pre_tweet_hook option, works like post_tweet_hook
+- Added a porcelain option, styles output script-friendly
+
 1.1.0
 -----
 
