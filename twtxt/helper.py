@@ -11,10 +11,12 @@
 import shlex
 import subprocess
 import sys
+import textwrap
 
 import click
 
 from twtxt.parser import parse_iso8601
+from twtxt.mentions import format_mentions
 
 
 def style_timeline(tweets, porcelain=False):
@@ -31,9 +33,11 @@ def style_tweet(tweet, porcelain=False):
             url=tweet.source.url,
             tweet=str(tweet))
     else:
+        styled_text = format_mentions(tweet.text)
+        len_styling = len(styled_text) - len(click.unstyle(styled_text))
         return "➤ {nick} ({time}):\n{tweet}".format(
             nick=click.style(tweet.source.nick, bold=True),
-            tweet=tweet.limited_text,
+            tweet=textwrap.shorten(styled_text, 140 + len_styling),
             time=click.style(tweet.relative_datetime, dim=True))
 
 

@@ -135,6 +135,10 @@ class Config:
         return self.cfg.get("twtxt", "sorting", fallback="descending")
 
     @property
+    def source(self):
+        return Source(self.nick, self.twturl)
+
+    @property
     def post_tweet_hook(self):
         return self.cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
