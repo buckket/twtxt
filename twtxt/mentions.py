@@ -54,13 +54,15 @@ def expand_mentions(text, embed_names=True):
 
 def format_mention(name, url):
     source = get_source_by_url(url)
-    if source is not None and not name:
+    if source:
         if source.nick == click.get_current_context().obj["conf"].nick:
             return click.style("@{}".format(source.nick), fg="magenta", bold=True)
         else:
             return click.style("@{}".format(source.nick), bold=True)
-    else:
+    elif name:
         return "@{}".format(name)
+    else:
+        return "@<{}>".format(url)
 
 
 def format_mentions(text, format_callback=format_mention):
@@ -70,8 +72,9 @@ def format_mentions(text, format_callback=format_mention):
     "@<bob http://example.org/twtxt.txt>" will result in "@bob"
 
     If you follow a source: source.nick will be bold
-    If you are the mentioned source: nick.nick will be bold and coloured
+    If you are the mentioned source: source.nick will be bold and coloured
     If nothing from the above is true: nick will be unstyled
+    If nothing from the above is true and nick is not given: url will be used
     """
 
     def handle_mention(match):
