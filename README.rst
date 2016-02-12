@@ -154,6 +154,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     twturl = http://example.org/twtxt.txt
     check_following = True
     use_pager = False
+    use_cache = True
     porcelain = False
     limit_timeline = 20
     timeout = 5.0
@@ -180,6 +181,8 @@ Here’s an example ``conf`` file, showing every currently supported option:
 | check_following   | BOOL  | True       | try to resolve URLs when listing followings       |
 +-------------------+-------+------------+---------------------------------------------------+
 | use_pager         | BOOL  | False      | use a pager (less) to display your timeline       |
++-------------------+-------+------------+---------------------------------------------------+
+| use_cache         | BOOL  | True       | cache remote twtxt files locally                  |
 +-------------------+-------+------------+---------------------------------------------------+
 | porcelain         | BOOL  | False      | style output in an easy-to-parse format           |
 +-------------------+-------+------------+---------------------------------------------------+

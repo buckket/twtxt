@@ -17,6 +17,7 @@ def config_dir(tmpdir_factory):
     cfg.set("twtxt", "twturl", "https://axample.org/twtxt.txt")
     cfg.set("twtxt", "check_following", "False")
     cfg.set("twtxt", "use_pager", "True")
+    cfg.set("twtxt", "use_cache", "False")
     cfg.set("twtxt", "porcelain", "True")
     cfg.set("twtxt", "limit_timeline", "50")
     cfg.set("twtxt", "timeout", "1.0")
@@ -43,6 +44,7 @@ def test_defaults():
     assert empty_conf.twturl is None
     assert empty_conf.check_following is True
     assert empty_conf.use_pager is False
+    assert empty_conf.use_cache is True
     assert empty_conf.porcelain is False
     assert empty_conf.limit_timeline == 20
     assert empty_conf.timeout == 5.0
@@ -56,6 +58,7 @@ def check_cfg(cfg):
     assert cfg.twturl == "https://axample.org/twtxt.txt"
     assert cfg.check_following is False
     assert cfg.use_pager is True
+    assert cfg.use_cache is False
     assert cfg.porcelain is True
     assert cfg.limit_timeline == 50
     assert cfg.timeout == 1.0
@@ -134,6 +137,7 @@ def test_build_default_map():
         },
         "timeline": {
             "pager": empty_conf.use_pager,
+            "cache": empty_conf.use_cache,
             "limit": empty_conf.limit_timeline,
             "timeout": empty_conf.timeout,
             "sorting": empty_conf.sorting,
@@ -142,6 +146,7 @@ def test_build_default_map():
         },
         "view": {
             "pager": empty_conf.use_pager,
+            "cache": empty_conf.use_cache,
             "limit": empty_conf.limit_timeline,
             "timeout": empty_conf.timeout,
             "sorting": empty_conf.sorting,

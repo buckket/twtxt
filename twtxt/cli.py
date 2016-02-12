@@ -15,6 +15,7 @@ import textwrap
 
 import click
 
+from twtxt.cache import Cache
 from twtxt.config import Config
 from twtxt.helper import run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
@@ -99,8 +100,11 @@ def tweet(ctx, created_at, twtfile, text):
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.option("--source", "-s",
               help="Only show feed of the given source. (Can be nick or URL)")
+@click.option("--cache/--no-cache",
+              is_flag=True,
+              help="Cache remote twtxt files locally. (Default: True")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -111,7 +115,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source):
     else:
         sources = ctx.obj["conf"].following
 
-    tweets = get_remote_tweets(sources, limit, timeout)
+    tweets = get_remote_tweets(sources, limit, timeout, cache)
 
     if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
@@ -143,9 +147,12 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source):
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
+@click.option("--cache/--no-cache",
+              is_flag=True,
+              help="Cache remote twtxt files locally. (Default: True")
 @click.argument("source")
 @click.pass_context
-def view(ctx, pager, limit, sorting, timeout, porcelain, source):
+def view(ctx, pager, limit, sorting, timeout, porcelain, cache, source):
     """Show feed of given source."""
     ctx.forward(timeline)
 
@@ -205,6 +212,14 @@ def follow(ctx, nick, url, force):
 @click.pass_context
 def unfollow(ctx, nick):
     """Remove an existing source from your followings."""
+    source = ctx.obj['conf'].get_source_by_nick(nick)
+
+    try:
+        with Cache.discover() as cache:
+            cache.remove_tweets(source.url)
+    except OSError as e:
+        logger.debug(e)
+
     ret_val = ctx.obj['conf'].remove_source_by_nick(nick)
     if ret_val:
         click.echo("✓ You’ve unfollowed {}.".format(
