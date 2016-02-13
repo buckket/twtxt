@@ -159,7 +159,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
               help="Cache remote twtxt files locally. (Default: True")
 @click.argument("source")
 @click.pass_context
-def view(ctx, pager, limit, sorting, timeout, porcelain, cache, source):
+def view(ctx, **kwargs):
     """Show feed of given source."""
     ctx.forward(timeline)
 
