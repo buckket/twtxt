@@ -45,7 +45,7 @@ def expand_mentions(text, embed_names=True):
     def handle_mention(match):
         source = get_source_by_name(match.group(1))
         if source is None:
-            return "@{}".format(match.group(1))
+            return "@{0}".format(match.group(1))
         return mention_format.format(
             name=source.nick,
             url=source.url)
@@ -57,13 +57,13 @@ def format_mention(name, url):
     source = get_source_by_url(url)
     if source:
         if source.nick == click.get_current_context().obj["conf"].nick:
-            return click.style("@{}".format(source.nick), fg="magenta", bold=True)
+            return click.style("@{0}".format(source.nick), fg="magenta", bold=True)
         else:
-            return click.style("@{}".format(source.nick), bold=True)
+            return click.style("@{0}".format(source.nick), bold=True)
     elif name:
-        return "@{}".format(name)
+        return "@{0}".format(name)
     else:
-        return "@<{}>".format(url)
+        return "@<{0}>".format(url)
 
 
 def format_mentions(text, format_callback=format_mention):

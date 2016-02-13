@@ -23,7 +23,7 @@ def style_timeline(tweets, porcelain=False):
     if porcelain:
         return "\n".join(style_tweet(tweet, porcelain) for tweet in tweets)
     else:
-        return "\n{}\n".format("\n\n".join(style_tweet(tweet, porcelain) for tweet in tweets))
+        return "\n{0}\n".format("\n\n".join(style_tweet(tweet, porcelain) for tweet in tweets))
 
 
 def style_tweet(tweet, porcelain=False):
@@ -76,7 +76,7 @@ def validate_created_at(ctx, param, value):
         try:
             return parse_iso8601(value)
         except (ValueError, OverflowError) as e:
-            raise click.BadParameter("{}.".format(e))
+            raise click.BadParameter("{0}.".format(e))
 
 
 def validate_text(ctx, param, value):
