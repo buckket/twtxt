@@ -100,7 +100,7 @@ class Config:
 
     @property
     def nick(self):
-        return self.cfg.get("twtxt", "nick", fallback=os.environ.get("USER", ""))
+        return self.cfg.get("twtxt", "nick", fallback=os.environ.get("USER", "").lower())
 
     @property
     def twtfile(self):

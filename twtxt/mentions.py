@@ -20,14 +20,15 @@ def get_source_by_url(url):
     conf = click.get_current_context().obj["conf"]
     if url == conf.twturl:
         return conf.source
-    return next((source for source in conf.following if source.url == url), None)
+    return next((source for source in conf.following if url == source.url), None)
 
 
 def get_source_by_name(nick):
+    nick = nick.lower()
     conf = click.get_current_context().obj["conf"]
     if nick == conf.nick and conf.twturl:
         return conf.source
-    return next((source for source in conf.following if source.nick == nick), None)
+    return next((source for source in conf.following if nick == source.nick), None)
 
 
 def expand_mentions(text, embed_names=True):

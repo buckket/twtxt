@@ -230,7 +230,7 @@ def unfollow(ctx, nick):
     ret_val = ctx.obj['conf'].remove_source_by_nick(nick)
     if ret_val:
         click.echo("✓ You’ve unfollowed {}.".format(
-            click.style(nick, bold=True)))
+            click.style(source.nick, bold=True)))
     else:
         click.echo("✗ You’re not following {}.".format(
             click.style(nick, bold=True)))
