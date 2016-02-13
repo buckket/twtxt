@@ -43,7 +43,7 @@ class Cache:
             cache = shelve.open(file)
             return cls(file, cache)
         except OSError as e:
-            logger.debug("Loading {} failed".format(file))
+            logger.debug("Loading {0} failed".format(file))
             raise e
 
     @classmethod

@@ -116,7 +116,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
         if not source_obj:
-            logger.debug("Not following {}, trying as URL".format(source))
+            logger.debug("Not following {0}, trying as URL".format(source))
             source_obj = Source(source, source)
         sources = [source_obj]
     else:
@@ -200,7 +200,7 @@ def follow(ctx, nick, url, force):
 
     if not force:
         if source.nick in (source.nick for source in sources):
-            click.confirm("➤ You’re already following {}. Overwrite?".format(
+            click.confirm("➤ You’re already following {0}. Overwrite?".format(
                 click.style(source.nick, bold=True)), default=False, abort=True)
 
         _, status = get_remote_status([source])[0]
@@ -210,7 +210,7 @@ def follow(ctx, nick, url, force):
                 click.style(source.url, bold=True)), default=False, abort=True)
 
     ctx.obj['conf'].add_source(source)
-    click.echo("✓ You’re now following {}.".format(
+    click.echo("✓ You’re now following {0}.".format(
         click.style(source.nick, bold=True)))
 
 
@@ -229,10 +229,10 @@ def unfollow(ctx, nick):
 
     ret_val = ctx.obj['conf'].remove_source_by_nick(nick)
     if ret_val:
-        click.echo("✓ You’ve unfollowed {}.".format(
+        click.echo("✓ You’ve unfollowed {0}.".format(
             click.style(source.nick, bold=True)))
     else:
-        click.echo("✗ You’re not following {}.".format(
+        click.echo("✗ You’re not following {0}.".format(
             click.style(nick, bold=True)))
 
 
@@ -262,7 +262,7 @@ def quickstart(ctx):
     open(os.path.expanduser(twtfile), "a").close()
 
     click.echo()
-    click.echo("✓ Created config file at '{}'.".format(click.format_filename(conf.config_file)))
+    click.echo("✓ Created config file at '{0}'.".format(click.format_filename(conf.config_file)))
 
 
 main = cli
