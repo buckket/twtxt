@@ -237,8 +237,7 @@ def unfollow(ctx, nick):
 
 
 @cli.command()
-@click.pass_context
-def quickstart(ctx):
+def quickstart():
     """Quickstart wizard for setting up twtxt."""
     width = click.get_terminal_size()[0]
     width = width if width <= 79 else 79
@@ -247,9 +246,9 @@ def quickstart(ctx):
     click.secho("==================", fg="cyan")
     click.echo()
 
-    help = "This wizard will generate a basic configuration file for twtxt with all mandatory options set. " \
-           "Have a look at the README.rst to get information about the other available options and their meaning."
-    click.echo(textwrap.fill(help, width))
+    help_text = "This wizard will generate a basic configuration file for twtxt with all mandatory options set. " \
+                "Have a look at the README.rst to get information about the other available options and their meaning."
+    click.echo(textwrap.fill(help_text, width))
 
     click.echo()
     nick = click.prompt("➤ Please enter your desired nick", default=os.environ.get("USER", ""))
