@@ -69,7 +69,7 @@ class Tweet:
     def relative_datetime(self):
         now = datetime.now(timezone.utc)
         tense = "from now" if self.created_at > now else "ago"
-        return "{} {}".format(humanize.naturaldelta(now - self.created_at), tense)
+        return "{0} {1}".format(humanize.naturaldelta(now - self.created_at), tense)
 
     @property
     def limited_text(self):

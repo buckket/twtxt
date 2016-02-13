@@ -49,7 +49,7 @@ def parse_tweets(raw_tweets, source, now=None):
         try:
             tweet = parse_tweet(line, source, now)
         except (ValueError, OverflowError) as e:
-            logger.debug("{} - {}".format(source.url, e))
+            logger.debug("{0} - {1}".format(source.url, e))
         else:
             tweets.append(tweet)
 
