@@ -5,13 +5,13 @@ python:
 
 install:
   - pip install --editable .
-  - pip install --upgrade codecov
+  - pip install --upgrade coveralls
   - pip install --upgrade pytest pytest-cov
 
 script: make pytest
 
 after_success:
-  codecov
+  coveralls
 
 notifications:
   webhooks:
