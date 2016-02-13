@@ -161,6 +161,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     sorting = descending
     pre_tweet_hook = "scp buckket@example.org:~/public_html/twtxt.txt {twtfile}"
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
+    # post_tweet_hook = "tail -1 {twtfile} | cut -f2 | sed -e 's/^/twt=/'| curl -s -d @- -d 'name=foo' -d 'password=bar' http://htwtxt.plomlompom.com/feeds"
     # post_tweet_hook = "aws s3 cp {twtfile} s3://mybucket.org/twtxt.txt --acl public-read --storage-class REDUCED_REDUNDANCY --cache-control 'max-age=60,public'"
 
     [following]
