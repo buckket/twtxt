@@ -161,7 +161,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     sorting = descending
     pre_tweet_hook = "scp buckket@example.org:~/public_html/twtxt.txt {twtfile}"
     post_tweet_hook = "scp {twtfile} buckket@example.org:~/public_html/twtxt.txt"
-    # post_tweet_hook = "aws s3 {twtfile} s3://mybucket.org/twtxt.txt --acl public-read --storage-class REDUCED_REDUNDANCY --cache-control 'max-age=60,public'"
+    # post_tweet_hook = "aws s3 cp {twtfile} s3://mybucket.org/twtxt.txt --acl public-read --storage-class REDUCED_REDUNDANCY --cache-control 'max-age=60,public'"
 
     [following]
     bob = https://example.org/bob.txt
@@ -231,6 +231,7 @@ Contributions
 - A twtxt-to-atom converter in sh by `erlehmann <http://news.dieweltistgarnichtso.net/>`_: http://news.dieweltistgarnichtso.net/bin/twtxt2atom
 - A twitter-to-twtxt converter in node.js by `DracoBlue <https://github.com/DracoBlue>`_: https://gist.github.com/DracoBlue/488466eaabbb674c636f
 - A port to node.js / npm by `Melvin Carvalho <https://github.com/melvincarvalho>`_: https://github.com/webize/twtxt
+- A patched version of TweetNest, adding `twtxt.php` which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
 
 License
 -------
