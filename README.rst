@@ -156,6 +156,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     use_pager = False
     use_cache = True
     porcelain = False
+    disclose_identity = False
     limit_timeline = 20
     timeout = 5.0
     sorting = descending
@@ -187,6 +188,8 @@ Here’s an example ``conf`` file, showing every currently supported option:
 | use_cache         | BOOL  | True       | cache remote twtxt files locally                  |
 +-------------------+-------+------------+---------------------------------------------------+
 | porcelain         | BOOL  | False      | style output in an easy-to-parse format           |
++-------------------+-------+------------+---------------------------------------------------+
+| disclose_identity | BOOL  | False      | include nick and twturl in twtxt’s user-agent     |
 +-------------------+-------+------------+---------------------------------------------------+
 | limit_timeline    | INT   | 20         | limit amount of tweets shown in your timeline     |
 +-------------------+-------+------------+---------------------------------------------------+

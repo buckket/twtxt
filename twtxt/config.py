@@ -127,6 +127,10 @@ class Config:
         return self.cfg.getboolean("twtxt", "porcelain", fallback=False)
 
     @property
+    def disclose_identity(self):
+        return self.cfg.getboolean("twtxt", "disclose_identity", fallback=False)
+
+    @property
     def limit_timeline(self):
         return self.cfg.getint("twtxt", "limit_timeline", fallback=20)
 

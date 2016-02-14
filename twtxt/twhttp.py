@@ -14,6 +14,7 @@ import logging
 import aiohttp
 
 from twtxt.cache import Cache
+from twtxt.helper import generate_user_agent
 from twtxt.parser import parse_tweets
 
 logger = logging.getLogger(__name__)
@@ -102,7 +103,8 @@ def process_sources_for_file(client, sources, limit, cache=None):
 
 def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
     conn = aiohttp.TCPConnector(conn_timeout=timeout, use_dns_cache=True)
-    with aiohttp.ClientSession(connector=conn) as client:
+    headers = generate_user_agent()
+    with aiohttp.ClientSession(connector=conn, headers=headers) as client:
         loop = asyncio.get_event_loop()
 
         def start_loop(client, sources, limit, cache=None):
@@ -123,7 +125,8 @@ def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
 
 def get_remote_status(sources, timeout=5.0):
     conn = aiohttp.TCPConnector(conn_timeout=timeout, use_dns_cache=True)
-    with aiohttp.ClientSession(connector=conn) as client:
+    headers = generate_user_agent()
+    with aiohttp.ClientSession(connector=conn, headers=headers) as client:
         loop = asyncio.get_event_loop()
         result = loop.run_until_complete(process_sources_for_status(client, sources))
     return result
