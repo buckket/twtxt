@@ -11,7 +11,6 @@
 import textwrap
 from datetime import datetime, timezone
 from dateutil.tz import tzlocal
-
 import humanize
 
 
@@ -77,7 +76,16 @@ class Tweet:
 
 
 class Source:
+    """ This contains one twtxt of a user. """
+
     def __init__(self, nick, url=None, file=None):
+        """ Initializes new :class:`Source` object.
+
+        :param str nick: Representing the nickname of a user
+        :param str url: Representing the url to the users twtxt-file (feed URL)
+        :param str file: Representing a path to the local twtxt-file if
+            available. This is only needed for the users own feed.
+        """
         self.nick = nick.lower()
         self.url = url
         self.file = file
