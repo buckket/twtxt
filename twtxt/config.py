@@ -26,18 +26,23 @@ class Config:
     def __init__(self, config_file, cfg):
         """Initializes new :class:`Config` object.
 
-        :param config_file: full path to the loaded config file.
-        :param cfg: a ConfigParser object, with config loaded.
+        :param str config_file: full path to the loaded config file.
+        :param configparser.ConfigParser cfg: a ConfigParser object
+            with config loaded.
         """
         self.config_file = config_file
         self.cfg = cfg
 
     @classmethod
     def from_file(cls, file):
-        """Try loading given config file."""
+        """Try loading given config file.
+        :param str file: full path to the config file.
+        """
         if not os.path.exists(file):
             raise ValueError("Config file not found.")
+
         cfg = configparser.ConfigParser()
+
         try:
             cfg.read(file)
             return cls(file, cfg)
@@ -52,7 +57,12 @@ class Config:
 
     @classmethod
     def create_config(cls, nick, twtfile, add_news):
-        """Creates a new config file at the default location."""
+        """Creates a new config file at the default location.
+
+        :param str nick: nickname to use for tweets
+        :param str twtfile: path to file which contains tweets
+        :param bool add_news: if true adds the twtxt-news group to [following]
+        """
         if not os.path.exists(Config.config_dir):
             os.makedirs(Config.config_dir)
         file = os.path.join(Config.config_dir, Config.config_name)
@@ -155,7 +165,11 @@ class Config:
         return self.cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
     def add_source(self, source):
-        """Adds a new source to the config’s following section."""
+        """Adds a new source to the config’s following section.
+
+        :param models.Source source: the :class:`models.Source` to add to
+            the following-list
+        """
         if not self.cfg.has_section("following"):
             self.cfg.add_section("following")
 
@@ -163,12 +177,18 @@ class Config:
         self.write_config()
 
     def get_source_by_nick(self, nick):
-        """Returns the source of the given nick."""
+        """Returns the source of the given nick.
+
+        :param str nick: nickname for which will be searched in the config
+        """
         url = self.cfg.get("following", nick, fallback=None)
         return Source(nick, url) if url else None
 
     def remove_source_by_nick(self, nick):
-        """Removes a source form the config’s following section."""
+        """Removes a source form the config’s following section.
+
+        :param str nick: nickname for which will be searched in the config
+        """
         if not self.cfg.has_section("following"):
             return False
 
