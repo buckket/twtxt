@@ -1,0 +1,12 @@
+@import url("alabaster.css");
+
+
+div.sphinxsidebar #searchbox input[type="text"] {
+    width: 142px;
+}
+
+div.sphinxsidebarwrapper p.logo {
+    margin: -10px 0 10px 0;
+    text-align: center;
+    width: 75%;
+}

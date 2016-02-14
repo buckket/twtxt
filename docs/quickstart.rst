@@ -5,7 +5,7 @@ Quickstart
 
 Use twtxt's **quickstart** command to bootstrap a default configuration:
 
-.. code::
+.. code-block:: console
 
     $ twtxt quickstart
 
