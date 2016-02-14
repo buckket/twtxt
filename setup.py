@@ -33,7 +33,7 @@ setup(
     },
 
     description='Decentralised, minimalist microblogging service for hackers.',
-    long_description=open('./README.rst', 'r').read(),
+    long_description=open('./README.rst', 'r', encoding='utf-8').read(),
 
     keywords=['microblogging', 'twitter', 'twtxt'],
 
