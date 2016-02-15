@@ -109,7 +109,7 @@ def tweet(ctx, created_at, twtfile, text):
               help="Only show feed of the given source. (Can be nick or URL)")
 @click.option("--cache/--no-cache",
               is_flag=True,
-              help="Cache remote twtxt files locally. (Default: True")
+              help="Cache remote twtxt files locally. (Default: True)")
 @click.pass_context
 def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
     """Retrieve your personal timeline."""
