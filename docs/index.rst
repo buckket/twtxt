@@ -20,6 +20,7 @@ User's Guide
    usage
    configuration
    twtxtfile
+   registry
 
 
 API Reference
