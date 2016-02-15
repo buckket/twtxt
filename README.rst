@@ -236,6 +236,7 @@ Contributions
 - A twitter-to-twtxt converter in node.js by `DracoBlue <https://github.com/DracoBlue>`_: https://gist.github.com/DracoBlue/488466eaabbb674c636f
 - A port to node.js / npm by `Melvin Carvalho <https://github.com/melvincarvalho>`_: https://github.com/webize/twtxt
 - A patched version of TweetNest, adding `twtxt.php` which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
+- A twtxt registry api by `DracoBlue <https://github.com/DracoBlue>`_: https://registry.twtxt.org
 
 License
 -------
