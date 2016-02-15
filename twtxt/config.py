@@ -41,11 +41,16 @@ class Config:
         if not os.path.exists(file):
             raise ValueError("Config file not found.")
 
-        cfg = configparser.ConfigParser()
-
         try:
-            cfg.read(file)
-            return cls(file, cfg)
+            config_parser = configparser.ConfigParser()
+            config_parser.read(file)
+            configuration = cls(file, config_parser)
+            config_errors = configuration.check_config_sanity()
+
+            if config_errors != 0:
+                raise ValueError("Error in Config file")
+
+            return configuration
         except configparser.Error:
             raise ValueError("Config file is invalid.")
 
@@ -233,3 +238,23 @@ class Config:
             }
         }
         return default_map
+
+    def check_config_sanity(self):
+        errors = 0
+
+        # This extracts some properties which cannot be checked like "nick",
+        # but it is definitely better than writing the property names as a
+        # string literal
+        properties = [property_name for property_name, obj
+                      in self.__class__.__dict__.items()
+                      if isinstance(obj, property)]
+
+        for property_name in properties:
+            try:
+                getattr(self, property_name)
+            except ValueError as ve:
+                click.echo("✗ config error on " + property_name + " - " +
+                           ve.args[0])
+                errors += 1
+
+        return errors
