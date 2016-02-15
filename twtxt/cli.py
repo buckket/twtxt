@@ -156,7 +156,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.option("--cache/--no-cache",
               is_flag=True,
-              help="Cache remote twtxt files locally. (Default: True")
+              help="Cache remote twtxt files locally. (Default: True)")
 @click.argument("source")
 @click.pass_context
 def view(ctx, **kwargs):
