@@ -1,7 +1,7 @@
 Welcome to twtxt!
 =================
 
-Current release: v\ |version|.
+Release: v\ |version|.
 
 Welcome to twtxt’s documentation. This documentation is divided into multiple parts.
 We recommend you to get started with the :ref:`installation` and then head over to the
@@ -39,9 +39,6 @@ This part of the documentation describes the modules, classes, functions and oth
    :maxdepth: 2
 
    api
-
-
-
 
 .. _GitHub: https://github.com/buckket/twtxt
 .. _irc.freenode.net: https://freenode.net/
