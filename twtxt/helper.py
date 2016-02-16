@@ -12,12 +12,12 @@ import shlex
 import subprocess
 import sys
 import textwrap
-
 import click
 import pkg_resources
+import dateparser
 
 from twtxt.mentions import format_mentions
-from twtxt.parser import parse_iso8601
+from twtxt.parser import parse_iso8601, make_aware
 
 
 def style_timeline(tweets, porcelain=False):
@@ -112,6 +112,20 @@ def validate_config_key(ctx, param, value):
         raise click.BadArgumentUsage("Given key does not contain a section name.")
     else:
         return section, item
+
+
+def validate_human_datetime(ctx, param, value):
+    """Validate a human readable datetime"""
+    if not value:
+        return value
+
+    try:
+        parsed = dateparser.parse(value)
+        if not parsed:
+            raise ValueError
+        return make_aware(parsed)
+    except ValueError:
+        raise click.BadParameter("Cannot parse date time: '{0}'".format(value))
 
 
 def run_pre_tweet_hook(hook, options):
