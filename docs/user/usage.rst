@@ -10,7 +10,7 @@ Here are a few of the most common operations you may encounter when using twtxt:
 Follow a source
 ---------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt follow bob http://bobsplace.xyz/twtxt
     ✓ You’re now following bob.
@@ -18,7 +18,7 @@ Follow a source
 List all sources you’re following
 ---------------------------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt following
     ➤ alice @ https://example.org/alice.txt
@@ -27,7 +27,7 @@ List all sources you’re following
 Unfollow a source
 -----------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt unfollow bob
     ✓ You’ve unfollowed bob.
@@ -35,14 +35,14 @@ Unfollow a source
 Post a status update
 --------------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt tweet "Hello, this is twtxt!"
 
 View your timeline
 ------------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt timeline
 
@@ -55,14 +55,14 @@ View your timeline
 View feed of specific source
 ----------------------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt view twtxt
 
     ➤ twtxt (a day ago):
     Fiat Lux!
 
-.. code::
+.. code-block:: console
 
     $ twtxt view http://example.org/twtxt.txt
 

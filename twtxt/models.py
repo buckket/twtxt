@@ -8,14 +8,20 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import textwrap
 from datetime import datetime, timezone
-from dateutil.tz import tzlocal
 
 import humanize
+from dateutil.tz import tzlocal
 
 
 class Tweet:
+    """A :class:`Tweet` represents a single tweet.
+
+    :param str text: text of the tweet in raw format
+    :param ~datetime.datetime created_at: (optional) when the tweet was created, defaults to :meth:`~datetime.datetime.now` when no value is given
+    :param Source source: (optional) the :class:`Source` the tweet is from
+    """
+
     def __init__(self, text, created_at=None, source=None):
         if text:
             self.text = text
@@ -67,16 +73,20 @@ class Tweet:
 
     @property
     def relative_datetime(self):
+        """Human-readable relative time string."""
         now = datetime.now(timezone.utc)
         tense = "from now" if self.created_at > now else "ago"
         return "{0} {1}".format(humanize.naturaldelta(now - self.created_at), tense)
 
-    @property
-    def limited_text(self):
-        return textwrap.shorten(self.text, 140)
-
 
 class Source:
+    """A :class:`Source` represents a twtxt feed, remote as well as local.
+
+    :param str nick: nickname of twtxt user
+    :param str url: URL to remote twtxt file
+    :param str file: path to local twtxt file
+    """
+
     def __init__(self, nick, url=None, file=None):
         self.nick = nick.lower()
         self.url = url

@@ -1,14 +1,24 @@
+import ast
+import re
 import sys
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
+
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
 
 
 if sys.version_info < (3, 4, 1):
     raise RuntimeError("twtxt requires Python 3.4.1+")
 
+with open('twtxt/__init__.py', 'rb') as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode('utf-8')).group(1)))
+
 
 setup(
     name='twtxt',
-    version='1.2.0',
+    version=version,
 
     url='https://github.com/buckket/twtxt',
 

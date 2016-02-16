@@ -13,7 +13,7 @@ import re
 import click
 
 mention_re = re.compile(r'@<(?:(?P<name>\S+?)\s+)?(?P<url>\S+?://.*?)>')
-short_mention_re = re.compile(r'@(?P<name>\S+)')
+short_mention_re = re.compile(r'@(?P<name>\w+)')
 
 
 def get_source_by_url(url):
