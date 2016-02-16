@@ -13,6 +13,7 @@ So you want to get some thoughts out on the internet in a convenient and slick w
 
 Features
 --------
+
 - A beautiful command-line interface thanks to click.
 - Asynchronous HTTP requests thanks to asyncio/aiohttp and Python 3.
 - Integrates well with existing tools (scp, cut, echo, date, etc.) and your shell.
@@ -23,19 +24,26 @@ Documentation
 
 Check out the full documentation at: http://twtxt.readthedocs.org/en/latest/
 
+Community
+---------
+
+- twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
+
 Contributions
 -------------
+
 - A web-based directory of twtxt users by `reednj <https://twitter.com/reednj>`_: http://twtxt.reednj.com/
 - A web-based directory of twtxt users by `xena <https://git.xeserv.us/xena>`_: https://twtxtlist.cf
 - A web-based twtxt feed hoster for the masses by `plomlompom <http://www.plomlompom.de/>`_: https://github.com/plomlompom/htwtxt
 - A twtxt-to-atom converter in sh by `erlehmann <http://news.dieweltistgarnichtso.net/>`_: http://news.dieweltistgarnichtso.net/bin/twtxt2atom
 - A twitter-to-twtxt converter in node.js by `DracoBlue <https://github.com/DracoBlue>`_: https://gist.github.com/DracoBlue/488466eaabbb674c636f
 - A port to node.js / npm by `Melvin Carvalho <https://github.com/melvincarvalho>`_: https://github.com/webize/twtxt
-- A patched version of TweetNest, adding `twtxt.php` which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
+- A patched version of TweetNest, which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
 - A twtxt registry api by `DracoBlue <https://github.com/DracoBlue>`_: https://registry.twtxt.org
 
 License
 -------
+
 twtxt is released under the MIT License. See the bundled LICENSE file for details.
 
 
@@ -66,3 +74,5 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
 .. |docs| image:: https://readthedocs.org/projects/twtxt/badge/?version=latest
     :target: http://twtxt.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
+
+.. _irc.freenode.net: https://freenode.net/
