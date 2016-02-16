@@ -84,7 +84,8 @@ def tweet(ctx, created_at, twtfile, text):
     else:
         post_tweet_hook = ctx.obj["conf"].post_tweet_hook
         if post_tweet_hook:
-            run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options)
+            if not run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options):
+                click.echo("✗ post_tweet_hook returned non-zero")
 
 
 @cli.command()
