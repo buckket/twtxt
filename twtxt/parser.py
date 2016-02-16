@@ -58,7 +58,7 @@ def parse_tweets(raw_tweets, source, now=None):
     else:
         tweets = [
             Tweet(
-                click.unstyle(m.title.strip()),
+                click.unstyle(m.title.strip()) + ' ' + m.links[0].href,
                 parse_iso8601(m.updated),
                 source
                 ) for m in dom.entries
