@@ -17,13 +17,13 @@ User Guide
 .. toctree::
    :maxdepth: 2
 
-   intro
-   installation
-   quickstart
-   usage
-   configuration
-   twtxtfile
-   registry
+   user/intro
+   user/installation
+   user/quickstart
+   user/usage
+   user/configuration
+   user/twtxtfile
+   user/registry
 
 Community
 ---------
