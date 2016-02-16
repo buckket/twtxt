@@ -3,6 +3,14 @@ Changelog
 
 These are all the changes in twtxt since the first public release.
 
+1.2.1
+-----
+
+- Fixed a bug in the mention handling code
+- Nicks are now case-insensitive throughout twtxt
+- Added a character_limit option, to specify when to shorten tweets
+- Added option to include user’s nick and url in twtxt’s user-agent string for greater discovery
+
 1.2.0
 -----
 
