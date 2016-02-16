@@ -13,7 +13,7 @@ The client will support multiple registries at the same time, to circumvent poss
 registries should sync each others user list by using the `users` endpoint.
 
 Format specification
-----------------------------
+--------------------
 
 **Writing to the registry**
 
@@ -32,7 +32,7 @@ text.
 2. All lists support the `page` query parameter to get the next page of the result set.
 3. The response must be encoded with UTF-8 and must use LF (\\n) as line separators.
 
-Api Endpoints
+API Endpoints
 -------------
 
 The url to the registry consists of its basepath (e.g. `https://registry.twtxt.org/api/`). The format (e.g. `plain`) is
@@ -51,21 +51,21 @@ Add new User
 
 Add a new Twtxt User to the Registry (Status Code is 200):
 
-.. code::
+.. code-block:: console
 
 	$ curl -X POST https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt&nickname=example
 	OK
 
 If it fails to add a new Twtxt User to the Registry (Status Code is 400):
 
-.. code::
+.. code-block:: console
 
 	$ curl -X POST https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt
 	Bad Request: `nickname` is missing
 
 See latest tweets in the Registry (e.g. <https://registry.twtxt.org/api/plain/tweets>):
 
-.. code::
+.. code-block:: console
 
 	$ curl https://registry.twtxt.org/api/plain/tweets
 	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
@@ -76,7 +76,7 @@ Search for tweets
 
 To query for tweets, which contain a specific word, use the tweets endpoint and the q query parameter.
 
-.. code::
+.. code-block:: console
 
 	$ curl https://registry.twtxt.org/api/plain/tweets?q=twtxt
 	@<buckket https://buckket.org/twtxt.txt>	2016-02-09T12:42:26.000Z	Do we need an IRC channel for twtxt?
@@ -87,7 +87,7 @@ Query for mentions
 
 To query for all tweets, which mention a specific user, use the mentions endpoint and the url query parameter.
 
-.. code::
+.. code-block:: console
 
 	$ curl https://registry.twtxt.org/api/plain/mentions?url=https://buckket.org/twtxt.txt
 	@<example https://example.org/twtxt.txt>	2016-02-09T12:57:59.000Z	@<buckket https://buckket.org/twtxt.txt> something like https://gitter.im/ or a freenode channel?
@@ -98,7 +98,7 @@ Query for tags
 
 To query for all tweets, which contain a specific tag like `#twtxt`, use the tags endpoint and prepend the tag.
 
-.. code::
+.. code-block:: console
 
 	$ curl https://registry.twtxt.org/api/plain/tags/twtxt
 	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
@@ -109,7 +109,7 @@ Query for users
 
 To query for a user list, use the users endpoint and refine with the q query parameter.
 
-.. code::
+.. code-block:: console
 
 	$ curl https://registry.twtxt.org/api/plain/users?q=example
 	<@example https://example.org/twtxt.txt>	2016-02-09T12:42:26.000Z	example
