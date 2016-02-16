@@ -20,23 +20,23 @@ logger = logging.getLogger(__name__)
 
 
 class Config:
+    """:class:`Config` interacts with the configuration file.
+
+    :param str config_file: full path to the loaded config file
+    :param ~configparser.ConfigParser cfg: a :class:`~configparser.ConfigParser` object with config loaded
+    """
     config_dir = click.get_app_dir("twtxt")
     config_name = "config"
 
     def __init__(self, config_file, cfg):
-        """Initializes new :class:`Config` object.
-
-        :param str config_file: full path to the loaded config file.
-        :param configparser.ConfigParser cfg: a ConfigParser object
-            with config loaded.
-        """
         self.config_file = config_file
         self.cfg = cfg
 
     @classmethod
     def from_file(cls, file):
         """Try loading given config file.
-        :param str file: full path to the config file.
+
+        :param str file: full path to the config file to load
         """
         if not os.path.exists(file):
             raise ValueError("Config file not found.")
@@ -57,11 +57,11 @@ class Config:
 
     @classmethod
     def create_config(cls, nick, twtfile, add_news):
-        """Creates a new config file at the default location.
+        """Create a new config file at the default location.
 
-        :param str nick: nickname to use for tweets
-        :param str twtfile: path to file which contains tweets
-        :param bool add_news: if true adds the twtxt-news group to [following]
+        :param str nick: nickname to use for own tweets
+        :param str twtfile: path to the local twtxt file
+        :param bool add_news: if true follow twtxt news feed
         """
         if not os.path.exists(Config.config_dir):
             os.makedirs(Config.config_dir)
@@ -82,13 +82,13 @@ class Config:
         return conf
 
     def write_config(self):
-        """Writes ConfigParser object to file."""
+        """Writes `self.cfg` to `self.config_file`."""
         with open(self.config_file, "w") as config_file:
             self.cfg.write(config_file)
 
     @property
     def following(self):
-        """Returns a list of all source objects."""
+        """A :class:`list` of all :class:`Source` objects."""
         following = []
         try:
             for (nick, url) in self.cfg.items("following"):
@@ -101,7 +101,7 @@ class Config:
 
     @property
     def options(self):
-        """Returns a dict of all config options."""
+        """A :class:`dict` of all config options."""
         try:
             return dict(self.cfg.items("twtxt"))
         except configparser.NoSectionError as e:
@@ -165,11 +165,7 @@ class Config:
         return self.cfg.get("twtxt", "post_tweet_hook", fallback=None)
 
     def add_source(self, source):
-        """Adds a new source to the config’s following section.
-
-        :param models.Source source: the :class:`models.Source` to add to
-            the following-list
-        """
+        """Adds a new :class:`Source` to the config’s following section."""
         if not self.cfg.has_section("following"):
             self.cfg.add_section("following")
 
@@ -177,7 +173,7 @@ class Config:
         self.write_config()
 
     def get_source_by_nick(self, nick):
-        """Returns the source of the given nick.
+        """Returns the :class:`Source` of the given nick.
 
         :param str nick: nickname for which will be searched in the config
         """
@@ -185,7 +181,7 @@ class Config:
         return Source(nick, url) if url else None
 
     def remove_source_by_nick(self, nick):
-        """Removes a source form the config’s following section.
+        """Removes a :class:`Source` form the config’s following section.
 
         :param str nick: nickname for which will be searched in the config
         """
@@ -197,7 +193,7 @@ class Config:
         return ret_val
 
     def build_default_map(self):
-        """Maps the set options to the default values used by click."""
+        """Maps config options to the default values used by click, returns :class:`dict`."""
         default_map = {
             "following": {
                 "check": self.check_following,
