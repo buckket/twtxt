@@ -18,6 +18,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     use_cache = True
     porcelain = False
     disclose_identity = False
+    character_limit = 140
     limit_timeline = 20
     timeout = 5.0
     sorting = descending
@@ -51,6 +52,8 @@ Here’s an example ``conf`` file, showing every currently supported option:
 | porcelain         | BOOL  | False      | style output in an easy-to-parse format           |
 +-------------------+-------+------------+---------------------------------------------------+
 | disclose_identity | BOOL  | False      | include nick and twturl in twtxt’s user-agent     |
++-------------------+-------+------------+---------------------------------------------------+
+| character_limit   | INT   | None       | limit amount of characters a tweet can have       |
 +-------------------+-------+------------+---------------------------------------------------+
 | limit_timeline    | INT   | 20         | limit amount of tweets shown in your timeline     |
 +-------------------+-------+------------+---------------------------------------------------+

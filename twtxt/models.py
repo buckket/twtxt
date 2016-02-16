@@ -8,7 +8,6 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import textwrap
 from datetime import datetime, timezone
 
 import humanize
@@ -78,11 +77,6 @@ class Tweet:
         now = datetime.now(timezone.utc)
         tense = "from now" if self.created_at > now else "ago"
         return "{0} {1}".format(humanize.naturaldelta(now - self.created_at), tense)
-
-    @property
-    def limited_text(self):
-        """Shortened tweet text. (140 characters)"""
-        return textwrap.shorten(self.text, 140)
 
 
 class Source:

@@ -46,12 +46,6 @@ def test_tweet_relative_datetime():
     assert tweet.relative_datetime == "an hour ago"
 
 
-def test_tweet_limited_text():
-    tweet = Tweet("A " * 100)
-    assert tweet.text == "A " * 100
-    assert len(tweet.limited_text) <= 140
-
-
 def test_tweet_ordering():
     now = datetime.now(timezone.utc)
     tweet_1 = Tweet("A", now)

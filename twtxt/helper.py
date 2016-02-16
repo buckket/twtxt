@@ -28,6 +28,9 @@ def style_timeline(tweets, porcelain=False):
 
 
 def style_tweet(tweet, porcelain=False):
+    conf = click.get_current_context().obj["conf"]
+    limit = conf.character_limit
+
     if porcelain:
         return "{nick}\t{url}\t{tweet}".format(
             nick=tweet.source.nick,
@@ -36,9 +39,10 @@ def style_tweet(tweet, porcelain=False):
     else:
         styled_text = format_mentions(tweet.text)
         len_styling = len(styled_text) - len(click.unstyle(styled_text))
+        final_text = textwrap.shorten(styled_text, limit + len_styling) if limit else styled_text
         return "➤ {nick} ({time}):\n{tweet}".format(
             nick=click.style(tweet.source.nick, bold=True),
-            tweet=textwrap.shorten(styled_text, 140 + len_styling),
+            tweet=final_text,
             time=click.style(tweet.relative_datetime, dim=True))
 
 
