@@ -254,11 +254,12 @@ def quickstart():
     click.echo()
     nick = click.prompt("➤ Please enter your desired nick", default=os.environ.get("USER", ""))
     twtfile = click.prompt("➤ Please enter the desired location for your twtxt file", "~/twtxt.txt", type=click.Path())
+    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared", default=False)
 
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
 
-    conf = Config.create_config(nick, twtfile, add_news)
+    conf = Config.create_config(nick, twtfile, disclose_identity, add_news)
     open(os.path.expanduser(twtfile), "a").close()
 
     click.echo()
