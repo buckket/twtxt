@@ -165,3 +165,38 @@ def test_build_default_map():
     }
 
     assert empty_conf.build_default_map() == default_map
+
+
+def test_check_config_file_sanity():
+    conf = Config.discover()
+    errors = conf.check_config_sanity()
+    assert errors is 0
+
+    with open("config_test", 'w+') as config_file:
+        config_file.write('[twtxt]\n')
+        config_file.write('nick = altoyr\n')
+        config_file.write('twtfile = ~/twtxt.txt\n')
+        config_file.write('check_following = TTrue\n')
+        config_file.write('use_pager = Falste\n')
+        config_file.write('use_cache = Trute\n')
+        config_file.write('porcelain = Faltse\n')
+        config_file.write('disclose_identity = Ftalse\n')
+        config_file.write('limit_timeline = 2t0\n')
+        config_file.write('timeout = 5t.0\n')
+        config_file.write('sorting = destcending\n')
+        config_file.write('[following]\n')
+        config_file.write('twtxt = https://buckket.org/twtxt_news.txt\n')
+
+    error_thrown = False
+
+    try:
+        Config.from_file('config_test')
+    except ValueError:
+        error_thrown = True
+
+    assert error_thrown is True
+
+    os.remove('config_test')
+
+
+
