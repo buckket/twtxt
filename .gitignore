@@ -11,3 +11,4 @@ dist
 venv
 htmlcov
 docs/_build
+*.swp
