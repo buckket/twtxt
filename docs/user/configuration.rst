@@ -61,6 +61,8 @@ Here’s an example ``conf`` file, showing every currently supported option:
 +-------------------+-------+------------+---------------------------------------------------+
 | sorting           | TEXT  | descending | sort timeline either descending or ascending      |
 +-------------------+-------+------------+---------------------------------------------------+
+| use_abs_time      | BOOL  | False      | use absolute datetimes in your timeline           |
++-------------------+-------+------------+---------------------------------------------------+
 | pre_tweet_hook    | TEXT  |            | command to be executed before tweeting            |
 +-------------------+-------+------------+---------------------------------------------------+
 | post_tweet_hook   | TEXT  |            | command to be executed after tweeting             |

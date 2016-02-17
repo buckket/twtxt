@@ -73,10 +73,15 @@ class Tweet:
 
     @property
     def relative_datetime(self):
-        """Human-readable relative time string."""
+        """Return human-readable relative time string."""
         now = datetime.now(timezone.utc)
         tense = "from now" if self.created_at > now else "ago"
         return "{0} {1}".format(humanize.naturaldelta(now - self.created_at), tense)
+
+    @property
+    def absolute_datetime(self):
+        """Return human-readable absolute time string."""
+        return self.created_at.strftime("%a, %d %b %Y %H:%M:%S")
 
 
 class Source:
