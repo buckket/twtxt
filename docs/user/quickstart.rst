@@ -19,6 +19,8 @@ Use twtxt's **quickstart** command to bootstrap a default configuration:
     ➤ Please enter your desired nick [$USER]: <NICKNAME>
     ➤ Please enter the desired location for your twtxt
         file [~/twtxt.txt]: <TWTXTX FILE LOCATION>
+    ➤ Do you want to disclose your identity?
+        Your nick and URL will be shared [y/N]:
 
     ➤ Do you want to follow the twtxt news feed? [Y/n]: Y
 
@@ -28,6 +30,8 @@ The quickstart wizard prompts for the following configuration values:
 
 - Your desired nick name (*<NICKNAME>*)
 - The desired location for your twtxt file (*<TWTXTX FILE LOCATION>*)
+- If you want to disclose your identity. If True your nick and URL will be used in the User-Agent
+  attribute when fetching other twtxt files.
 - If you want to follow the twtxt news feed
 
 The configurations can easily be changed in the twtxt configuration file. See :ref:`configuration`.

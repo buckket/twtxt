@@ -95,14 +95,14 @@ def test_discover():
 def test_create_config(config_dir):
     config_dir_old = Config.config_dir
     Config.config_dir = str(config_dir.join("new"))
-    conf_w = Config.create_config("bar", "batz.txt", True)
+    conf_w = Config.create_config("bar", "batz.txt", False, True)
     conf_r = Config.discover()
     assert conf_r.nick == "bar"
     assert conf_r.twtfile == "batz.txt"
     assert conf_r.character_limit == 140
     assert conf_r.following[0].nick == "twtxt"
     assert conf_r.following[0].url == "https://buckket.org/twtxt_news.txt"
-    assert set(conf_r.options.keys()) == {"nick", "twtfile", "character_limit"}
+    assert set(conf_r.options.keys()) == {"nick", "twtfile", "disclose_identity", "character_limit"}
 
     conf_r.cfg.remove_section("twtxt")
     assert conf_r.options == {}

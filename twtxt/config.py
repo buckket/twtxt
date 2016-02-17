@@ -56,11 +56,12 @@ class Config:
         return cls.from_file(file)
 
     @classmethod
-    def create_config(cls, nick, twtfile, add_news):
+    def create_config(cls, nick, twtfile, disclose_identity, add_news):
         """Create a new config file at the default location.
 
         :param str nick: nickname to use for own tweets
         :param str twtfile: path to the local twtxt file
+        :param bool disclose_identity: if true the users id will be disclosed
         :param bool add_news: if true follow twtxt news feed
         """
         if not os.path.exists(Config.config_dir):
@@ -72,6 +73,7 @@ class Config:
         cfg.add_section("twtxt")
         cfg.set("twtxt", "nick", nick)
         cfg.set("twtxt", "twtfile", twtfile)
+        cfg.set("twtxt", "disclose_identity", str(disclose_identity))
         cfg.set("twtxt", "character_limit", "140")
 
         cfg.add_section("following")
