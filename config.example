@@ -6,6 +6,7 @@ check_following = True
 use_pager = False
 use_cache = True
 porcelain = False
+character_limit = 140
 disclose_identity = False
 limit_timeline = 20
 timeout = 5.0
