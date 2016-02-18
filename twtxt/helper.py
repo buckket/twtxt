@@ -119,8 +119,14 @@ def run_pre_tweet_hook(hook, options):
         command = shlex.split(hook.format(**options))
     except KeyError:
         click.echo("✗ Invalid variables in pre_tweet_hook.")
-        return False
-    return not subprocess.call(command, shell=True, stdout=subprocess.PIPE)
+        raise click.Abort
+    try:
+        subprocess.check_output(command, shell=True, universal_newlines=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        click.echo("✗ pre_tweet_hook returned {}.".format(e.returncode))
+        if e.output:
+            click.echo(e.output)
+        raise click.Abort
 
 
 def run_post_tweet_hook(hook, options):
@@ -128,8 +134,13 @@ def run_post_tweet_hook(hook, options):
         command = shlex.split(hook.format(**options))
     except KeyError:
         click.echo("✗ Invalid variables in post_tweet_hook.")
-        return False
-    return not subprocess.call(command, shell=True, stdout=subprocess.PIPE)
+        return
+    try:
+        subprocess.check_output(command, shell=True, universal_newlines=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        click.echo("✗ post_tweet_hook returned {}.".format(e.returncode))
+        if e.output:
+            click.echo(e.output)
 
 
 def sort_and_truncate_tweets(tweets, direction, limit):

@@ -75,17 +75,14 @@ def tweet(ctx, created_at, twtfile, text):
 
     pre_tweet_hook = ctx.obj["conf"].pre_tweet_hook
     if pre_tweet_hook:
-        if not run_pre_tweet_hook(pre_tweet_hook, ctx.obj["conf"].options):
-            click.echo("✗ pre_tweet_hook returned non-zero")
-            raise click.Abort
+        run_pre_tweet_hook(pre_tweet_hook, ctx.obj["conf"].options)
 
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
     else:
         post_tweet_hook = ctx.obj["conf"].post_tweet_hook
         if post_tweet_hook:
-            if not run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options):
-                click.echo("✗ post_tweet_hook returned non-zero")
+            run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options)
 
 
 @cli.command()
@@ -305,5 +302,6 @@ def config(ctx, key, value, remove, edit):
 
     conf.cfg.set(key[0], key[1], value)
     conf.write_config()
+
 
 main = cli
