@@ -24,7 +24,7 @@ def style_timeline(tweets, porcelain=False):
     if porcelain:
         return "\n".join(style_tweet(tweet, porcelain) for tweet in tweets)
     else:
-        return "\n{0}\n".format("\n\n".join(style_tweet(tweet, porcelain) for tweet in tweets))
+        return "\n{0}\n".format("\n\n".join(filter(None, (style_tweet(tweet, porcelain) for tweet in tweets))))
 
 
 def style_tweet(tweet, porcelain=False):
@@ -37,6 +37,8 @@ def style_tweet(tweet, porcelain=False):
             url=tweet.source.url,
             tweet=str(tweet))
     else:
+        if sys.stdin.isatty() and not tweet.text.isprintable():
+            return None
         styled_text = format_mentions(tweet.text)
         len_styling = len(styled_text) - len(click.unstyle(styled_text))
         final_text = textwrap.shorten(styled_text, limit + len_styling) if limit else styled_text
