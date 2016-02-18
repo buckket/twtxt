@@ -40,10 +40,11 @@ def style_tweet(tweet, porcelain=False):
         styled_text = format_mentions(tweet.text)
         len_styling = len(styled_text) - len(click.unstyle(styled_text))
         final_text = textwrap.shorten(styled_text, limit + len_styling) if limit else styled_text
+        timestamp = tweet.absolute_datetime if conf.use_abs_time else tweet.relative_datetime
         return "➤ {nick} ({time}):\n{tweet}".format(
             nick=click.style(tweet.source.nick, bold=True),
             tweet=final_text,
-            time=click.style(tweet.relative_datetime, dim=True))
+            time=click.style(timestamp, dim=True))
 
 
 def style_source(source, porcelain=False):

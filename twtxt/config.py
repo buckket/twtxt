@@ -152,6 +152,10 @@ class Config:
         return self.cfg.getint("twtxt", "limit_timeline", fallback=20)
 
     @property
+    def use_abs_time(self):
+        return self.cfg.getboolean("twtxt", "use_abs_time", fallback=False)
+
+    @property
     def timeout(self):
         return self.cfg.getfloat("twtxt", "timeout", fallback=5.0)
 
