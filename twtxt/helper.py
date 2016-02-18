@@ -37,7 +37,7 @@ def style_tweet(tweet, porcelain=False):
             url=tweet.source.url,
             tweet=str(tweet))
     else:
-        if sys.stdin.isatty() and not tweet.text.isprintable():
+        if sys.stdout.isatty() and not tweet.text.isprintable():
             return None
         styled_text = format_mentions(tweet.text)
         len_styling = len(styled_text) - len(click.unstyle(styled_text))
