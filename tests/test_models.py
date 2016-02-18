@@ -46,6 +46,11 @@ def test_tweet_relative_datetime():
     assert tweet.relative_datetime == "an hour ago"
 
 
+def test_tweet_absolute_datetime():
+    tweet = Tweet("foobar", datetime(2000, 1, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
+    assert tweet.absolute_datetime == "Sat, 01 Jan 2000 01:01:01"
+
+
 def test_tweet_ordering():
     now = datetime.now(timezone.utc)
     tweet_1 = Tweet("A", now)
