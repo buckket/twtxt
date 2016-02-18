@@ -101,6 +101,19 @@ def validate_text(ctx, param, value):
         raise click.BadArgumentUsage("Text can’t be empty.")
 
 
+def validate_config_key(ctx, param, value):
+    """Validate a configuration key according to section.item"""
+    if not value:
+        return value
+
+    try:
+        section, item = value.split(".", 1)
+    except ValueError:
+        raise click.BadArgumentUsage("key does not contain a section")
+    else:
+        return section, item
+
+
 def run_pre_tweet_hook(hook, options):
     try:
         command = shlex.split(hook.format(**options))

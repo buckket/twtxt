@@ -68,3 +68,15 @@ View feed of specific source
 
     ➤ http://example.org/twtxt.txt (a day ago):
     Fiat Lux!
+
+Edit twtxt configuration
+------------------------
+
+.. code::
+
+    $ twtxt config twtxt.nick tuxtimo
+    $ twtxt config twtxt.nick
+    tuxtimo
+    $ twtxt config --remove twtxt.nick
+    $ twtxt config --edit
+    # opens your sensible-editor to edit the config file

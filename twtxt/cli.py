@@ -20,7 +20,7 @@ from twtxt.config import Config
 from twtxt.helper import run_pre_tweet_hook, run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
-from twtxt.helper import validate_created_at, validate_text
+from twtxt.helper import validate_created_at, validate_text, validate_config_key
 from twtxt.log import init_logging
 from twtxt.mentions import expand_mentions
 from twtxt.models import Tweet, Source
@@ -265,5 +265,44 @@ def quickstart():
     click.echo()
     click.echo("✓ Created config file at '{0}'.".format(click.format_filename(conf.config_file)))
 
+
+@cli.command()
+@click.argument("key", required=False, callback=validate_config_key)
+@click.argument("value", required=False)
+@click.option("--remove", flag_value=True,
+              help="Remove given item")
+@click.option("--edit", "-e", flag_value=True,
+              help="Open config file in editor")
+@click.pass_context
+def config(ctx, key, value, remove, edit):
+    """Get or Set config item"""
+    conf = ctx.obj["conf"]
+    if not edit and not key:
+        raise click.BadArgumentUsage("You have to specify either a key or --edit")
+
+    if edit:
+        return click.edit(filename=conf.config_file)
+
+    if remove:
+        try:
+            conf.cfg.remove_option(key[0], key[1])
+        except:
+            pass
+        else:
+            conf.write_config()
+        return
+
+    if not value:
+        try:
+            click.echo(conf.cfg.get(key[0], key[1]))
+        except:
+            pass
+        return
+
+    if not conf.cfg.has_section(key[0]):
+        conf.cfg.add_section(key[0])
+
+    conf.cfg.set(key[0], key[1], value)
+    conf.write_config()
 
 main = cli
