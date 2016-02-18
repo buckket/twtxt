@@ -275,10 +275,11 @@ def quickstart():
               help="Open config file in editor")
 @click.pass_context
 def config(ctx, key, value, remove, edit):
-    """Get or Set config item"""
+    """Get or set config item."""
     conf = ctx.obj["conf"]
+
     if not edit and not key:
-        raise click.BadArgumentUsage("You have to specify either a key or --edit")
+        raise click.BadArgumentUsage("You have to specify either a key or use --edit.")
 
     if edit:
         return click.edit(filename=conf.config_file)
@@ -286,8 +287,8 @@ def config(ctx, key, value, remove, edit):
     if remove:
         try:
             conf.cfg.remove_option(key[0], key[1])
-        except:
-            pass
+        except Exception as e:
+            logger.debug(e)
         else:
             conf.write_config()
         return
@@ -295,8 +296,8 @@ def config(ctx, key, value, remove, edit):
     if not value:
         try:
             click.echo(conf.cfg.get(key[0], key[1]))
-        except:
-            pass
+        except Exception as e:
+            logger.debug(e)
         return
 
     if not conf.cfg.has_section(key[0]):

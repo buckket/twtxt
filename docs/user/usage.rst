@@ -72,7 +72,7 @@ View feed of specific source
 Edit twtxt configuration
 ------------------------
 
-.. code::
+.. code-block:: console
 
     $ twtxt config twtxt.nick tuxtimo
     $ twtxt config twtxt.nick
