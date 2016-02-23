@@ -25,7 +25,7 @@ from twtxt.log import init_logging
 from twtxt.mentions import expand_mentions
 from twtxt.models import Tweet, Source
 from twtxt.twfile import get_local_tweets, add_local_tweet
-from twtxt.twhttp import get_remote_tweets, get_remote_status
+from twtxt.twhttp import get_remote_tweets, get_remote_status, get_cached_tweets
 
 logger = logging.getLogger(__name__)
 

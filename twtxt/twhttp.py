@@ -123,6 +123,15 @@ def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
     return tweets
 
 
+def get_cached_tweets(sources, limit=None):
+    cache = Cache.discover()
+    tweets = []
+    for source in sources:
+        tweets += cache.get_tweets(source.url, limit)
+
+    return tweets
+
+
 def get_remote_status(sources, timeout=5.0):
     conn = aiohttp.TCPConnector(conn_timeout=timeout, use_dns_cache=True)
     headers = generate_user_agent()
