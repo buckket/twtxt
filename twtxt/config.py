@@ -140,6 +140,10 @@ class Config:
         return self.cfg.getboolean("twtxt", "use_cache", fallback=True)
 
     @property
+    def offline(self):
+        return self.cfg.getboolean("twtxt", "offline", fallback=False)
+
+    @property
     def porcelain(self):
         return self.cfg.getboolean("twtxt", "porcelain", fallback=False)
 
