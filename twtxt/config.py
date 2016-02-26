@@ -230,6 +230,7 @@ class Config:
                 "sorting": self.sorting,
                 "porcelain": self.porcelain,
                 "twtfile": self.twtfile,
+                "offline": self.offline,
             },
             "view": {
                 "pager": self.use_pager,
