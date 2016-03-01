@@ -185,7 +185,7 @@ def test_build_default_map():
     assert empty_conf.build_default_map() == default_map
 
 
-def test_check_config_file_sanity_check(capsys, config_dir):
+def test_check_config_file_sanity(capsys, config_dir):
     with pytest.raises(ValueError) as e:
         Config.from_file(str(config_dir.join("config_sanity")))
     assert "Error in config file." in str(e.value)
