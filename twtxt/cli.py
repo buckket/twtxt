@@ -51,8 +51,11 @@ def cli(ctx, config, verbose):
             conf = Config.from_file(config)
         else:
             conf = Config.discover()
-    except ValueError:
-        click.echo("✗ Config file not found or not readable. You may want to run twtxt quickstart.")
+    except ValueError as e:
+        if "Error in config file." in str(e):
+            click.echo("✗ Please correct the errors mentioned above an run twtxt again.")
+        else:
+            click.echo("✗ Config file not found or not readable. You may want to run twtxt quickstart.")
         sys.exit()
 
     ctx.default_map = conf.build_default_map()

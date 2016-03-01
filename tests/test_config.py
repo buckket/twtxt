@@ -31,9 +31,26 @@ def config_dir(tmpdir_factory):
     cfg.set("following", "foo", "https://example.org/foo.twtxt")
 
     config_dir = tmpdir_factory.mktemp("config")
+
     Config.config_dir = str(config_dir)
     with open(str(config_dir.join(Config.config_name)), "w") as config_file:
         cfg.write(config_file)
+
+    # Manually create an invalid config file.
+    with open(str(config_dir.join("config_sanity")), "w") as config_file:
+        config_file.write("[twtxt]\n")
+        config_file.write("nick = altoyr\n")
+        config_file.write("twtfile = ~/twtxt.txt\n")
+        config_file.write("check_following = TTrue\n")
+        config_file.write("use_pager = Falste\n")
+        config_file.write("use_cache = Trute\n")
+        config_file.write("porcelain = Faltse\n")
+        config_file.write("disclose_identity = Ftalse\n")
+        config_file.write("limit_timeline = 2t0\n")
+        config_file.write("timeout = 5t.0\n")
+        config_file.write("sorting = destcending\n")
+        config_file.write("[following]\n")
+        config_file.write("twtxt = https://buckket.org/twtxt_news.txt\n")
 
     return config_dir
 
@@ -73,6 +90,7 @@ def check_cfg(cfg):
     assert cfg.sorting == "ascending"
     assert cfg.post_tweet_hook == "echo {twtfile"
     assert cfg.pre_tweet_hook == "echo {twtfile"
+    assert cfg.check_config_sanity() == True
 
 
 def test_from_file(config_dir):
@@ -167,36 +185,17 @@ def test_build_default_map():
     assert empty_conf.build_default_map() == default_map
 
 
-def test_check_config_file_sanity():
-    conf = Config.discover()
-    errors = conf.check_config_sanity()
-    assert errors is 0
+def test_check_config_file_sanity_check(capsys, config_dir):
+    with pytest.raises(ValueError) as e:
+        Config.from_file(str(config_dir.join("config_sanity")))
+    assert "Error in config file." in str(e.value)
 
-    with open("config_test", 'w+') as config_file:
-        config_file.write('[twtxt]\n')
-        config_file.write('nick = altoyr\n')
-        config_file.write('twtfile = ~/twtxt.txt\n')
-        config_file.write('check_following = TTrue\n')
-        config_file.write('use_pager = Falste\n')
-        config_file.write('use_cache = Trute\n')
-        config_file.write('porcelain = Faltse\n')
-        config_file.write('disclose_identity = Ftalse\n')
-        config_file.write('limit_timeline = 2t0\n')
-        config_file.write('timeout = 5t.0\n')
-        config_file.write('sorting = destcending\n')
-        config_file.write('[following]\n')
-        config_file.write('twtxt = https://buckket.org/twtxt_news.txt\n')
-
-    error_thrown = False
-
-    try:
-        Config.from_file('config_test')
-    except ValueError:
-        error_thrown = True
-
-    assert error_thrown is True
-
-    os.remove('config_test')
-
-
-
+    out, err = capsys.readouterr()
+    for line in ["✗ Config error on limit_timeline - invalid literal for int() with base 10: '2t0'",
+                 "✗ Config error on check_following - Not a boolean: TTrue",
+                 "✗ Config error on porcelain - Not a boolean: Faltse",
+                 "✗ Config error on disclose_identity - Not a boolean: Ftalse",
+                 "✗ Config error on timeout - could not convert string to float: '5t.0'",
+                 "✗ Config error on use_pager - Not a boolean: Falste",
+                 "✗ Config error on use_cache - Not a boolean: Trute"]:
+        assert line in out
