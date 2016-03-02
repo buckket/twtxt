@@ -35,7 +35,6 @@ setup(
         'aiohttp',
         'python-dateutil',
         'humanize',
-        'dateparser',
         'click',
     ],
 

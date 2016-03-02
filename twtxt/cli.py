@@ -20,7 +20,7 @@ from twtxt.config import Config
 from twtxt.helper import run_pre_tweet_hook, run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
-from twtxt.helper import validate_created_at, validate_text, validate_config_key, validate_human_datetime
+from twtxt.helper import validate_created_at, validate_text, validate_config_key
 from twtxt.log import init_logging
 from twtxt.mentions import expand_mentions
 from twtxt.models import Tweet, Source
@@ -102,8 +102,6 @@ def tweet(ctx, created_at, twtfile, text):
               help="Sort timeline in ascending order.")
 @click.option("--descending", "sorting", flag_value="descending",
               help="Sort timeline in descending order. (Default)")
-@click.option("--since", callback=validate_human_datetime,
-              help="Show only tweets since a specific datetime")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
@@ -114,7 +112,7 @@ def tweet(ctx, created_at, twtfile, text):
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, since, timeout, porcelain, source, cache):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -132,9 +130,6 @@ def timeline(ctx, pager, limit, twtfile, sorting, since, timeout, porcelain, sou
         tweets.extend(get_local_tweets(source, limit))
 
     tweets = sort_and_truncate_tweets(tweets, sorting, limit)
-
-    if since:
-        tweets = [t for t in tweets if t.created_at >= since]
 
     if not tweets:
         return
@@ -156,8 +151,6 @@ def timeline(ctx, pager, limit, twtfile, sorting, since, timeout, porcelain, sou
               help="Sort timeline in ascending order.")
 @click.option("--descending", "sorting", flag_value="descending",
               help="Sort timeline in descending order. (Default)")
-@click.option("--since", callback=validate_human_datetime,
-              help="Show only tweets since a specific datetime")
 @click.option("--timeout", type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
