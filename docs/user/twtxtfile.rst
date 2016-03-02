@@ -9,7 +9,7 @@ The location of the twtxt file is configured in the twtxt section in the configu
 Format specification
 --------------------
 
-The twtxt file contains one status per line, each of which is equipped with an ISO 8601 date/time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
+The twtxt file contains one status per line, each of which is equipped with an RFC 3339 date-time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
 The file must be encoded with UTF-8 and must use LF (\\n) as line separators.
 
@@ -21,7 +21,7 @@ Take a look at this example file:
 
 .. code::
 
-    2016-02-04T13:30+01	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
-    2016-02-03T23:05+01	@<example http://example.org/twtxt.txt> welcome to twtxt!
-    2016-02-01T11:00+01	This is just another example.
-    2015-12-12T12:00+01	Fiat lux!
+    2016-02-04T13:30:00+01:00	You can really go crazy here! ┐(ﾟ∀ﾟ)┌
+    2016-02-03T23:05:00+01:00	@<example http://example.org/twtxt.txt> welcome to twtxt!
+    2016-02-01T11:00:00+01:00	This is just another example.
+    2015-12-12T12:00:00+01:00	Fiat lux!
