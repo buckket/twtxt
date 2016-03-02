@@ -52,6 +52,11 @@ View your timeline
     ➤ alice (2 hours ago):
     I wonder if this is a thing?
 
+    $ twtxt timeline --since "10 minutes ago"
+
+    ➤ bob (5 minutes ago):
+    This is my first "tweet". :)
+
 View feed of specific source
 ----------------------------
 
