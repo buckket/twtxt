@@ -24,6 +24,11 @@ Install twtxt using pip_:
     Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip,
     make sure that you append ``~/.local/bin/`` to your ``$PATH``. Using pyvenv and running twtxt from within a virtualenv is also an option!
 
+
+Packages exist for the following systems:
+
+- `Arch Linux (AUR) <https://aur.archlinux.org/packages/twtxt/>`_
+
 Development version
 -------------------
 
