@@ -12,6 +12,8 @@ import logging
 import os
 import shelve
 
+from time import time as timestamp
+
 import click
 
 logger = logging.getLogger(__name__)
@@ -29,6 +31,7 @@ class Cache:
         """
         self.cache_file = cache_file
         self.cache = cache
+        self.cache["last_update"] = self.cache.get("last_update") or 0
 
     def __enter__(self):
         return self
@@ -59,6 +62,14 @@ class Cache:
         except TypeError:
             return False
 
+    def last_updated(self):
+        """Returns *NIX timestamp of last update of the cache."""
+        return self.cache["last_update"]
+
+    def mark_updated(self):
+        """Mark Cache as updated at current *NIX timestamp"""
+        self.cache["last_update"] = timestamp()
+
     def last_modified(self, url):
         """Returns saved 'Last-Modified' header, if available."""
         try:
@@ -70,6 +81,7 @@ class Cache:
         """Adds new tweets to the cache."""
         try:
             self.cache[url] = {"last_modified": last_modified, "tweets": tweets}
+            self.mark_updated()
             return True
         except TypeError:
             return False
@@ -78,6 +90,7 @@ class Cache:
         """Retrieves tweets from the cache."""
         try:
             tweets = self.cache[url]["tweets"]
+            self.mark_updated()
             return sorted(tweets, reverse=True)[:limit]
         except KeyError:
             return []
@@ -86,6 +99,7 @@ class Cache:
         """Tries to remove cached tweets."""
         try:
             del self.cache[url]
+            self.mark_updated()
             return True
         except KeyError:
             return False
