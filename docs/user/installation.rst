@@ -28,6 +28,7 @@ Install twtxt using pip_:
 Packages exist for the following systems:
 
 - `Arch Linux (AUR) <https://aur.archlinux.org/packages/twtxt/>`_
+- `Mac OS X (homebrew) <http://braumeister.org/formula/twtxt>`_
 
 Development version
 -------------------
