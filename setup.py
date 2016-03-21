@@ -38,6 +38,14 @@ setup(
         'click',
     ],
 
+    extras_require={
+        'dev': [
+            'tox',
+            'pytest',
+            'pytest-cov',
+        ],
+    },
+
     entry_points={
         'console_scripts': ['twtxt=twtxt.cli:main']
     },
