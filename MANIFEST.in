@@ -1,2 +1,7 @@
-include LICENSE README.rst config.example
-global-exclude *.py[cdo] __pycache__ *.so *.pyd
+include LICENSE CHANGES README.rst Makefile config.example
+
+graft tests
+graft docs
+prune docs/_build
+
+global-exclude *.py[cdo] __pycache__ *.so .DS_Store
