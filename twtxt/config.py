@@ -162,6 +162,10 @@ class Config:
         return self.cfg.getint("twtxt", "limit_timeline", fallback=20)
 
     @property
+    def timeline_update_interval(self):
+        return self.cfg.getint("twtxt", "timeline_update_interval", fallback = 10)
+
+    @property
     def use_abs_time(self):
         return self.cfg.getboolean("twtxt", "use_abs_time", fallback=False)
 
@@ -232,6 +236,7 @@ class Config:
                 "sorting": self.sorting,
                 "porcelain": self.porcelain,
                 "twtfile": self.twtfile,
+                "update_interval": self.timeline_update_interval,
             },
             "view": {
                 "pager": self.use_pager,

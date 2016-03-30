@@ -12,6 +12,7 @@ import logging
 import os
 import sys
 import textwrap
+from time import time as timestamp
 
 import click
 
@@ -111,8 +112,10 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
+@click.option("--force-update", is_flag=True,
+              help="Force update even when timeline is called multiple times in a short period of time")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, force_update):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -123,7 +126,17 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     else:
         sources = ctx.obj["conf"].following
 
-    tweets = get_remote_tweets(sources, limit, timeout, cache)
+    tweets = []
+    with Cache.discover() as cache:
+        force_update = force_update or timestamp() - cache.last_updated() >= ctx.obj["conf"].timeline_update_interval
+
+    if force_update:
+        tweets = get_remote_tweets(sources, limit, timeout)
+    else:
+        logger.debug("Multiple calls to 'timeline' within {0} seconds. Skipping update".format(ctx.obj["conf"].timeline_update_interval))
+        with Cache.discover() as cache:
+            for source in sources:
+                tweets += cache.get_tweets(source.url)
 
     if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
