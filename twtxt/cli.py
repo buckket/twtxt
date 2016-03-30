@@ -12,7 +12,7 @@ import logging
 import os
 import sys
 import textwrap
-from time import time as timestamp
+from itertools import chain
 
 import click
 
@@ -99,21 +99,26 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--twtfile", "-f",
               type=click.Path(exists=True, file_okay=True, readable=True, resolve_path=True),
               help="Location of your twtxt file. (Default: twtxt.txt")
-@click.option("--ascending", "sorting", flag_value="ascending",
+@click.option("--ascending", "sorting",
+              flag_value="ascending",
               help="Sort timeline in ascending order.")
-@click.option("--descending", "sorting", flag_value="descending",
+@click.option("--descending", "sorting",
+              flag_value="descending",
               help="Sort timeline in descending order. (Default)")
-@click.option("--timeout", type=click.FLOAT,
+@click.option("--timeout",
+              type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
-@click.option("--porcelain", is_flag=True,
+@click.option("--porcelain",
+              is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.option("--source", "-s",
               help="Only show feed of the given source. (Can be nick or URL)")
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
-@click.option("--force-update", is_flag=True,
-              help="Force update even when timeline is called multiple times in a short period of time")
+@click.option("--force-update",
+              is_flag=True,
+              help="Force update even if cache is up-to-date. (Default: False)")
 @click.pass_context
 def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, force_update):
     """Retrieve your personal timeline."""
@@ -126,17 +131,22 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     else:
         sources = ctx.obj["conf"].following
 
-    tweets = []
-    with Cache.discover() as cache:
-        force_update = force_update or timestamp() - cache.last_updated() >= ctx.obj["conf"].timeline_update_interval
-
-    if force_update:
-        tweets = get_remote_tweets(sources, limit, timeout)
+    if cache:
+        try:
+            with Cache.discover(update_interval=ctx.obj["conf"].timeline_update_interval) as cache:
+                force_update = force_update or not cache.is_valid
+                if force_update:
+                    tweets = get_remote_tweets(sources, limit, timeout, cache)
+                else:
+                    logger.debug("Multiple calls to 'timeline' within {0} seconds. Skipping update".format(
+                        cache.update_interval))
+                    # Behold, almighty list comprehensions! (I might have gone overboard here…)
+                    tweets = list(chain.from_iterable([cache.get_tweets(source.url) for source in sources]))
+        except OSError as e:
+            logger.debug(e)
+            tweets = get_remote_tweets(sources, limit, timeout)
     else:
-        logger.debug("Multiple calls to 'timeline' within {0} seconds. Skipping update".format(ctx.obj["conf"].timeline_update_interval))
-        with Cache.discover() as cache:
-            for source in sources:
-                tweets += cache.get_tweets(source.url)
+        tweets = get_remote_tweets(sources, limit, timeout)
 
     if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
@@ -160,17 +170,24 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
 @click.option("--limit", "-l",
               type=click.INT,
               help="Limit total number of shown tweets. (Default: 20)")
-@click.option("--ascending", "sorting", flag_value="ascending",
+@click.option("--ascending", "sorting",
+              flag_value="ascending",
               help="Sort timeline in ascending order.")
-@click.option("--descending", "sorting", flag_value="descending",
+@click.option("--descending", "sorting",
+              flag_value="descending",
               help="Sort timeline in descending order. (Default)")
-@click.option("--timeout", type=click.FLOAT,
+@click.option("--timeout",
+              type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
-@click.option("--porcelain", is_flag=True,
+@click.option("--porcelain",
+              is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
+@click.option("--force-update",
+              is_flag=True,
+              help="Force update even if cache is up-to-date. (Default: False)")
 @click.argument("source")
 @click.pass_context
 def view(ctx, **kwargs):
@@ -182,9 +199,11 @@ def view(ctx, **kwargs):
 @click.option("--check/--no-check",
               is_flag=True,
               help="Check if source URL is valid and readable. (Default: True)")
-@click.option("--timeout", type=click.FLOAT,
+@click.option("--timeout",
+              type=click.FLOAT,
               help="Maximum time requests are allowed to take. (Default: 5.0)")
-@click.option("--porcelain", is_flag=True,
+@click.option("--porcelain",
+              is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.pass_context
 def following(ctx, check, timeout, porcelain):
@@ -204,7 +223,8 @@ def following(ctx, check, timeout, porcelain):
 @cli.command()
 @click.argument("nick")
 @click.argument("url")
-@click.option("--force", "-f", flag_value=True,
+@click.option("--force", "-f",
+              flag_value=True,
               help="Force adding and overwriting nick")
 @click.pass_context
 def follow(ctx, nick, url, force):
@@ -283,7 +303,8 @@ def quickstart():
     twtfile = os.path.expanduser(twtfile)
     overwrite_check(twtfile)
 
-    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared", default=False)
+    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared",
+                                      default=False)
 
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
@@ -303,9 +324,11 @@ def quickstart():
 @cli.command()
 @click.argument("key", required=False, callback=validate_config_key)
 @click.argument("value", required=False)
-@click.option("--remove", flag_value=True,
+@click.option("--remove",
+              flag_value=True,
               help="Remove given item")
-@click.option("--edit", "-e", flag_value=True,
+@click.option("--edit", "-e",
+              flag_value=True,
               help="Open config file in editor")
 @click.pass_context
 def config(ctx, key, value, remove, edit):

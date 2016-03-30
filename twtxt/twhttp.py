@@ -107,7 +107,7 @@ def process_sources_for_file(client, sources, limit, cache=None):
     return sorted(g_tweets, reverse=True)[:limit]
 
 
-def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
+def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
     conn = aiohttp.TCPConnector(conn_timeout=timeout, use_dns_cache=True)
     headers = generate_user_agent()
     with aiohttp.ClientSession(connector=conn, headers=headers) as client:
@@ -116,15 +116,7 @@ def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
         def start_loop(client, sources, limit, cache=None):
             return loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
 
-        if use_cache:
-            try:
-                with Cache.discover() as cache:
-                    tweets = start_loop(client, sources, limit, cache)
-            except OSError as e:
-                logger.debug(e)
-                tweets = start_loop(client, sources, limit)
-        else:
-            tweets = start_loop(client, sources, limit)
+        tweets = start_loop(client, sources, limit, cache)
 
     return tweets
 

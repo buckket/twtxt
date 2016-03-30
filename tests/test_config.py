@@ -23,6 +23,7 @@ def config_dir(tmpdir_factory):
     cfg.set("twtxt", "character_warning", "150")
     cfg.set("twtxt", "disclose_identity", "True")
     cfg.set("twtxt", "limit_timeline", "50")
+    cfg.set("twtxt", "timeline_update_interval", "20")
     cfg.set("twtxt", "timeout", "1.0")
     cfg.set("twtxt", "sorting", "ascending")
     cfg.set("twtxt", "post_tweet_hook", "echo {twtfile")
@@ -71,6 +72,7 @@ def test_defaults():
     assert empty_conf.character_warning is None
     assert empty_conf.disclose_identity is False
     assert empty_conf.limit_timeline == 20
+    assert empty_conf.timeline_update_interval == 10
     assert empty_conf.timeout == 5.0
     assert empty_conf.sorting == "descending"
     assert empty_conf.post_tweet_hook is None
@@ -89,6 +91,7 @@ def check_cfg(cfg):
     assert cfg.character_warning == 150
     assert cfg.disclose_identity is True
     assert cfg.limit_timeline == 50
+    assert cfg.timeline_update_interval == 20
     assert cfg.timeout == 1.0
     assert cfg.sorting == "ascending"
     assert cfg.post_tweet_hook == "echo {twtfile"
@@ -175,6 +178,7 @@ def test_build_default_map():
             "sorting": empty_conf.sorting,
             "porcelain": empty_conf.porcelain,
             "twtfile": empty_conf.twtfile,
+            "update_interval": empty_conf.timeline_update_interval,
         },
         "view": {
             "pager": empty_conf.use_pager,
@@ -183,6 +187,7 @@ def test_build_default_map():
             "timeout": empty_conf.timeout,
             "sorting": empty_conf.sorting,
             "porcelain": empty_conf.porcelain,
+            "update_interval": empty_conf.timeline_update_interval,
         }
     }
 

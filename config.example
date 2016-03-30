@@ -10,6 +10,7 @@ character_limit = 140
 character_warning = 140
 disclose_identity = False
 limit_timeline = 20
+timeline_update_interval = 10
 timeout = 5.0
 sorting = descending
 use_abs_time = False

@@ -163,7 +163,7 @@ class Config:
 
     @property
     def timeline_update_interval(self):
-        return self.cfg.getint("twtxt", "timeline_update_interval", fallback = 10)
+        return self.cfg.getint("twtxt", "timeline_update_interval", fallback=10)
 
     @property
     def use_abs_time(self):
@@ -245,6 +245,7 @@ class Config:
                 "timeout": self.timeout,
                 "sorting": self.sorting,
                 "porcelain": self.porcelain,
+                "update_interval": self.timeline_update_interval,
             }
         }
         return default_map
