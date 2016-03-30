@@ -10,8 +10,10 @@
 
 import asyncio
 import logging
+from ssl import CertificateError
 
 import aiohttp
+import click
 
 from twtxt.cache import Cache
 from twtxt.helper import generate_user_agent
@@ -27,8 +29,12 @@ def retrieve_status(client, source):
         response = yield from client.head(source.url)
         status = response.status
         yield from response.release()
+    except CertificateError as e:
+        click.echo("✗ SSL Certificate Error: The feed's ({0}) SSL certificate is untrusted. Try using HTTP, "
+                   "or contact the feed's owner to report this issue.".format(source.url))
+        logger.debug("{0}: {1}".format(source.url, e))
     except Exception as e:
-        logger.debug(e)
+        logger.debug("{0}: {1}".format(source.url, e))
     finally:
         return source, status
 
@@ -43,10 +49,10 @@ def retrieve_file(client, source, limit, cache):
         content = yield from response.text()
     except Exception as e:
         if is_cached:
-            logger.debug("{}: {} - using cached content".format(source.url, e))
+            logger.debug("{0}: {1} - using cached content".format(source.url, e))
             return cache.get_tweets(source.url, limit)
         else:
-            logger.debug(e)
+            logger.debug("{0}: {1}".format(source.url, e))
             return []
 
     if response.status == 200:
@@ -55,12 +61,12 @@ def retrieve_file(client, source, limit, cache):
         if cache:
             last_modified_header = response.headers.get("Last-Modified")
             if last_modified_header:
-                logger.debug("{} returned 200 and Last-Modified header - adding content to cache".format(source.url))
+                logger.debug("{0} returned 200 and Last-Modified header - adding content to cache".format(source.url))
                 cache.add_tweets(source.url, last_modified_header, tweets)
             else:
-                logger.debug("{} returned 200 but no Last-Modified header - can’t cache content".format(source.url))
+                logger.debug("{0} returned 200 but no Last-Modified header - can’t cache content".format(source.url))
         else:
-            logger.debug("{} returned 200".format(source.url))
+            logger.debug("{0} returned 200".format(source.url))
 
         return sorted(tweets, reverse=True)[:limit]
 
@@ -68,16 +74,16 @@ def retrieve_file(client, source, limit, cache):
         # 410 Gone:
         # The resource requested is no longer available,
         # and will not be available again.
-        logger.debug("{} returned 410 - deleting cached content".format(source.url))
+        logger.debug("{0} returned 410 - deleting cached content".format(source.url))
         cache.remove_tweets(source.url)
         return []
 
     elif is_cached:
-        logger.debug("{} returned {} - using cached content".format(source.url, response.status))
+        logger.debug("{0} returned {1} - using cached content".format(source.url, response.status))
         return cache.get_tweets(source.url, limit)
 
     else:
-        logger.debug("{} returned {}".format(source.url, response.status))
+        logger.debug("{0} returned {1}".format(source.url, response.status))
         return []
 
 
