@@ -44,7 +44,7 @@ def cli(ctx, config, verbose):
     init_logging(debug=verbose)
 
     if ctx.invoked_subcommand == "quickstart":
-        return
+        return  # Skip initializing config file
 
     try:
         if config:
@@ -248,22 +248,43 @@ def quickstart():
     click.echo()
 
     help_text = "This wizard will generate a basic configuration file for twtxt with all mandatory options set. " \
-                "Have a look at the README.rst to get information about the other available options and their meaning."
+                "Have a look at the docs to get information about the other available options and their meaning."
     click.echo(textwrap.fill(help_text, width))
 
     click.echo()
     nick = click.prompt("➤ Please enter your desired nick", default=os.environ.get("USER", ""))
-    twtfile = click.prompt("➤ Please enter the desired location for your twtxt file", "~/twtxt.txt", type=click.Path())
+
+    def overwrite_check(path):
+        if os.path.isfile(path):
+            click.confirm("➤ '{0}' already exists. Overwrite?".format(path), abort=True)
+
+    cfgfile = click.prompt("➤ Please enter the desired location for your config file",
+                           os.path.join(Config.config_dir, Config.config_name),
+                           type=click.Path(readable=True, writable=True, file_okay=True))
+    cfgfile = os.path.expanduser(cfgfile)
+    overwrite_check(cfgfile)
+
+    twtfile = click.prompt("➤ Please enter the desired location for your twtxt file",
+                           os.path.expanduser("~/twtxt.txt"),
+                           type=click.Path(readable=True, writable=True, file_okay=True))
+    twtfile = os.path.expanduser(twtfile)
+    overwrite_check(twtfile)
+
     disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared", default=False)
 
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
 
-    conf = Config.create_config(nick, twtfile, disclose_identity, add_news)
-    open(os.path.expanduser(twtfile), "a").close()
+    conf = Config.create_config(cfgfile, nick, twtfile, disclose_identity, add_news)
+
+    twtfile_dir = os.path.dirname(twtfile)
+    if not os.path.exists(twtfile_dir):
+        os.makedirs(twtfile_dir)
+    open(twtfile, "a").close()
 
     click.echo()
     click.echo("✓ Created config file at '{0}'.".format(click.format_filename(conf.config_file)))
+    click.echo("✓ Created twtxt file at '{0}'.".format(click.format_filename(twtfile)))
 
 
 @cli.command()

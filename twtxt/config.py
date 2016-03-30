@@ -60,17 +60,18 @@ class Config:
         return cls.from_file(file)
 
     @classmethod
-    def create_config(cls, nick, twtfile, disclose_identity, add_news):
+    def create_config(cls, cfgfile, nick, twtfile, disclose_identity, add_news):
         """Create a new config file at the default location.
 
+        :param str cfgfile: path to the config file
         :param str nick: nickname to use for own tweets
         :param str twtfile: path to the local twtxt file
         :param bool disclose_identity: if true the users id will be disclosed
         :param bool add_news: if true follow twtxt news feed
         """
-        if not os.path.exists(Config.config_dir):
-            os.makedirs(Config.config_dir)
-        file = os.path.join(Config.config_dir, Config.config_name)
+        cfgfile_dir = os.path.dirname(cfgfile)
+        if not os.path.exists(cfgfile_dir):
+            os.makedirs(cfgfile_dir)
 
         cfg = configparser.ConfigParser()
 
@@ -84,7 +85,7 @@ class Config:
         if add_news:
             cfg.set("following", "twtxt", "https://buckket.org/twtxt_news.txt")
 
-        conf = cls(file, cfg)
+        conf = cls(cfgfile, cfg)
         conf.write_config()
         return conf
 
