@@ -19,6 +19,7 @@ Here’s an example ``conf`` file, showing every currently supported option:
     porcelain = False
     disclose_identity = False
     character_limit = 140
+    character_warning = 140
     limit_timeline = 20
     timeout = 5.0
     sorting = descending
@@ -53,7 +54,9 @@ Here’s an example ``conf`` file, showing every currently supported option:
 +-------------------+-------+------------+---------------------------------------------------+
 | disclose_identity | BOOL  | False      | include nick and twturl in twtxt’s user-agent     |
 +-------------------+-------+------------+---------------------------------------------------+
-| character_limit   | INT   | None       | limit amount of characters a tweet can have       |
+| character_limit   | INT   | None       | shorten incoming tweets with more characters      |
++-------------------+-------+------------+---------------------------------------------------+
+| character_warning | INT   | None       | warn when composed tweet has more characters      |
 +-------------------+-------+------------+---------------------------------------------------+
 | limit_timeline    | INT   | 20         | limit amount of tweets shown in your timeline     |
 +-------------------+-------+------------+---------------------------------------------------+

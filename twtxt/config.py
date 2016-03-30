@@ -80,6 +80,7 @@ class Config:
         cfg.set("twtxt", "twtfile", twtfile)
         cfg.set("twtxt", "disclose_identity", str(disclose_identity))
         cfg.set("twtxt", "character_limit", "140")
+        cfg.set("twtxt", "character_warning", "140")
 
         cfg.add_section("following")
         if add_news:
@@ -151,6 +152,10 @@ class Config:
     @property
     def character_limit(self):
         return self.cfg.getint("twtxt", "character_limit", fallback=None)
+
+    @property
+    def character_warning(self):
+        return self.cfg.getint("twtxt", "character_warning", fallback=None)
 
     @property
     def limit_timeline(self):

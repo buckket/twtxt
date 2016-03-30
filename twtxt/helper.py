@@ -88,6 +88,7 @@ def validate_created_at(ctx, param, value):
 
 
 def validate_text(ctx, param, value):
+    conf = click.get_current_context().obj["conf"]
     if isinstance(value, tuple):
         value = " ".join(value)
 
@@ -96,8 +97,9 @@ def validate_text(ctx, param, value):
 
     if value:
         value = value.strip()
-        if len(value) > 140:
-            click.confirm("✂ Warning: Tweet is longer than 140 characters. Are you sure?", abort=True)
+        if conf.character_warning and len(value) > conf.character_warning:
+            click.confirm("✂ Warning: Tweet is longer than {0} characters. Are you sure?".format(
+                conf.character_warning), abort=True)
         return value
     else:
         raise click.BadArgumentUsage("Text can’t be empty.")
