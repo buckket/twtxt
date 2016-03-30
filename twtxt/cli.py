@@ -25,7 +25,7 @@ from twtxt.log import init_logging
 from twtxt.mentions import expand_mentions
 from twtxt.models import Tweet, Source
 from twtxt.twfile import get_local_tweets, add_local_tweet
-from twtxt.twhttp import get_remote_tweets, get_remote_status
+from twtxt.twhttp import get_remote_tweets, get_remote_status, get_cached_tweets
 
 logger = logging.getLogger(__name__)
 
@@ -111,8 +111,11 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
+@click.option("--offline/--no-offline",
+              is_flag=True,
+              help="Don't refresh cache.")
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, offline):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -123,7 +126,10 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     else:
         sources = ctx.obj["conf"].following
 
-    tweets = get_remote_tweets(sources, limit, timeout, cache)
+    if ctx.obj["conf"].offline:
+        tweets = get_cached_tweets(sources, limit)
+    else:
+        tweets = get_remote_tweets(sources, limit, timeout, cache)
 
     if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
