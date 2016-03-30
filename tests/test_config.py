@@ -116,7 +116,7 @@ def test_discover():
 def test_create_config(config_dir):
     config_dir_old = Config.config_dir
     Config.config_dir = str(config_dir.join("new"))
-    conf_w = Config.create_config("bar", "batz.txt", False, True)
+    conf_w = Config.create_config(os.path.join(Config.config_dir, Config.config_name), "bar", "batz.txt", False, True)
     conf_r = Config.discover()
     assert conf_r.nick == "bar"
     assert conf_r.twtfile == "batz.txt"
