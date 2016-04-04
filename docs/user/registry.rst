@@ -31,6 +31,7 @@ text.
 1. All lists are sorted by timestamp in descending order (most recent one first)
 2. All lists support the `page` query parameter to get the next page of the result set.
 3. The response must be encoded with UTF-8 and must use LF (\\n) as line separators.
+4. The columns are separated by a tab character (\\t)
 
 API Endpoints
 -------------
@@ -71,8 +72,8 @@ See latest tweets in the Registry (e.g. <https://registry.twtxt.org/api/plain/tw
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/tweets'
-	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
-	@<example https://example.org/twtxt.txt>	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
+	example	https://example.org/twtxt.txt	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
+	example	https://example.org/twtxt.txt	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
 
 Search for tweets
 -----------------
@@ -82,8 +83,8 @@ To query for tweets, which contain a specific word, use the tweets endpoint and 
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/tweets?q=twtxt'
-	@<buckket https://buckket.org/twtxt.txt>	2016-02-09T12:42:26.000Z	Do we need an IRC channel for twtxt?
-	@<buckket https://buckket.org/twtxt.txt>	2016-02-09T12:42:12.000Z	Good Morning, twtxt-world!
+	buckket	https://buckket.org/twtxt.txt	2016-02-09T12:42:26.000Z	Do we need an IRC channel for twtxt?
+	buckket	https://buckket.org/twtxt.txt	2016-02-09T12:42:12.000Z	Good Morning, twtxt-world!
 
 Query for mentions
 ------------------
@@ -93,8 +94,8 @@ To query for all tweets, which mention a specific user, use the mentions endpoin
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/mentions?url=https://buckket.org/twtxt.txt'
-	@<example https://example.org/twtxt.txt>	2016-02-09T12:57:59.000Z	@<buckket https://buckket.org/twtxt.txt> something like https://gitter.im/ or a freenode channel?
-	@<example https://example.org/twtxt.txt>	2016-02-08T22:51:47.000Z	@<buckket https://buckket.org/twtxt.txt> looks nice ;)
+	example	https://example.org/twtxt.txt	2016-02-09T12:57:59.000Z	@<buckket https://buckket.org/twtxt.txt> something like https://gitter.im/ or a freenode channel?
+	example	https://example.org/twtxt.txt	2016-02-08T22:51:47.000Z	@<buckket https://buckket.org/twtxt.txt> looks nice ;)
 
 Query for tags
 --------------
@@ -104,8 +105,8 @@ To query for all tweets, which contain a specific tag like `#twtxt`, use the tag
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/tags/twtxt'
-	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
-	@<example https://example.org/twtxt.txt>	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
+	example	https://example.org/twtxt.txt	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
+	example	https://example.org/twtxt.txt	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
 
 Query for users
 ---------------
@@ -115,8 +116,8 @@ To query for a user list, use the users endpoint and refine with the q query par
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/users?q=example'
-	<@example https://example.org/twtxt.txt>	2016-02-09T12:42:26.000Z	example
-	<@example https://example.org/42.twtxt.txt>	2016-02-10T13:20:10.000Z	example42
+	example	https://example.org/twtxt.txt	2016-02-09T12:42:26.000Z	example
+	example	https://example.org/42.twtxt.txt	2016-02-10T13:20:10.000Z	example42
 
 .. _twtxt-registry (source): https://github.com/DracoBlue/twtxt-registry
 .. _twtxt-registry (demo): https://registry.twtxt.org
