@@ -53,21 +53,24 @@ Add a new Twtxt User to the Registry (Status Code is 200):
 
 .. code-block:: console
 
-	$ curl -X POST https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt&nickname=example
+	$ curl -X POST 'https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt&nickname=example'
 	OK
 
 If it fails to add a new Twtxt User to the Registry (Status Code is 400):
 
 .. code-block:: console
 
-	$ curl -X POST https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt
+	$ curl -X POST 'https://registry.twtxt.org/api/plain/users?url=https://example.org/twtxt.txt'
 	Bad Request: `nickname` is missing
+
+Latest tweets
+-------------
 
 See latest tweets in the Registry (e.g. <https://registry.twtxt.org/api/plain/tweets>):
 
 .. code-block:: console
 
-	$ curl https://registry.twtxt.org/api/plain/tweets
+	$ curl 'https://registry.twtxt.org/api/plain/tweets'
 	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
 	@<example https://example.org/twtxt.txt>	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
 
@@ -78,7 +81,7 @@ To query for tweets, which contain a specific word, use the tweets endpoint and 
 
 .. code-block:: console
 
-	$ curl https://registry.twtxt.org/api/plain/tweets?q=twtxt
+	$ curl 'https://registry.twtxt.org/api/plain/tweets?q=twtxt'
 	@<buckket https://buckket.org/twtxt.txt>	2016-02-09T12:42:26.000Z	Do we need an IRC channel for twtxt?
 	@<buckket https://buckket.org/twtxt.txt>	2016-02-09T12:42:12.000Z	Good Morning, twtxt-world!
 
@@ -89,7 +92,7 @@ To query for all tweets, which mention a specific user, use the mentions endpoin
 
 .. code-block:: console
 
-	$ curl https://registry.twtxt.org/api/plain/mentions?url=https://buckket.org/twtxt.txt
+	$ curl 'https://registry.twtxt.org/api/plain/mentions?url=https://buckket.org/twtxt.txt'
 	@<example https://example.org/twtxt.txt>	2016-02-09T12:57:59.000Z	@<buckket https://buckket.org/twtxt.txt> something like https://gitter.im/ or a freenode channel?
 	@<example https://example.org/twtxt.txt>	2016-02-08T22:51:47.000Z	@<buckket https://buckket.org/twtxt.txt> looks nice ;)
 
@@ -100,7 +103,7 @@ To query for all tweets, which contain a specific tag like `#twtxt`, use the tag
 
 .. code-block:: console
 
-	$ curl https://registry.twtxt.org/api/plain/tags/twtxt
+	$ curl 'https://registry.twtxt.org/api/plain/tags/twtxt'
 	@<example https://example.org/twtxt.txt>	2016-02-06T21:32:02.000Z	@erlehmann is messing with timestamps in @buckket #twtxt :)
 	@<example https://example.org/twtxt.txt>	2016-02-06T12:14:18.000Z	Simple nodejs script to convert your twitter timeline to twtxt: https://t.co/txnWsC5jvA ( find my #twtxt at https://t.co/uN1KDXwJ8B )
 
@@ -111,7 +114,7 @@ To query for a user list, use the users endpoint and refine with the q query par
 
 .. code-block:: console
 
-	$ curl https://registry.twtxt.org/api/plain/users?q=example
+	$ curl 'https://registry.twtxt.org/api/plain/users?q=example'
 	<@example https://example.org/twtxt.txt>	2016-02-09T12:42:26.000Z	example
 	<@example https://example.org/42.twtxt.txt>	2016-02-10T13:20:10.000Z	example42
 
