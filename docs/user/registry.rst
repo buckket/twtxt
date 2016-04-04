@@ -120,8 +120,8 @@ To query for a user list, use the users endpoint and refine with the q query par
 .. code-block:: console
 
 	$ curl 'https://registry.twtxt.org/api/plain/users?q=example'
-	example	https://example.org/twtxt.txt	2016-02-09T12:42:26.000Z	example
-	example	https://example.org/42.twtxt.txt	2016-02-10T13:20:10.000Z	example42
+	https://example.org/twtxt.txt	2016-02-09T12:42:26.000Z	example
+	https://example.org/42.twtxt.txt	2016-02-10T13:20:10.000Z	example42
 
 .. _twtxt-registry (source): https://github.com/DracoBlue/twtxt-registry
 .. _twtxt-registry (demo): https://registry.twtxt.org
