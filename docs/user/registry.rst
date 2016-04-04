@@ -26,6 +26,10 @@ The responses contain one status per line, each of which is equipped with nick o
 poster followed by a TAB, the twtxturl of the poster followed by a TAB and an RFC 3339 date-time string followed by a TAB character (\\t) to separate it from the actual
 text.
 
+.. code-block:: text
+
+	NICK\tURL\tTIMESTAMP\tMESSAGE
+
 **General rules**
 
 1. All lists are sorted by timestamp in descending order (most recent one first)
