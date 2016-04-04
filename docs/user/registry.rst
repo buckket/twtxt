@@ -22,8 +22,8 @@ detailed error message.
 
 **Reading from the registry**
 
-The responses contain one status per line, each of which is equipped with reference to the
-poster followed by a TAB and an RFC 3339 date-time string followed by a TAB character (\\t) to separate it from the actual
+The responses contain one status per line, each of which is equipped with nick of the
+poster followed by a TAB, the twtxturl of the poster followed by a TAB and an RFC 3339 date-time string followed by a TAB character (\\t) to separate it from the actual
 text.
 
 **General rules**
