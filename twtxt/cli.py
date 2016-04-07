@@ -152,10 +152,10 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
         tweets.extend(get_local_tweets(source, limit))
 
-    tweets = sort_and_truncate_tweets(tweets, sorting, limit)
-
     if not tweets:
         return
+
+    tweets = sort_and_truncate_tweets(tweets, sorting, limit)
 
     if pager:
         click.echo_via_pager(style_timeline(tweets, porcelain))
