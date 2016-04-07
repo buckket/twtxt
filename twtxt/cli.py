@@ -281,6 +281,7 @@ def quickstart():
     click.echo()
 
     help_text = "This wizard will generate a basic configuration file for twtxt with all mandatory options set. " \
+                "You can change all of these later with either twtxt itself or by editing the config file manually. " \
                 "Have a look at the docs to get information about the other available options and their meaning."
     click.echo(textwrap.fill(help_text, width))
 
@@ -303,13 +304,16 @@ def quickstart():
     twtfile = os.path.expanduser(twtfile)
     overwrite_check(twtfile)
 
-    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared",
-                                      default=False)
+    twturl = click.prompt("➤ Please enter the URL your twtxt file will be accessible from",
+                          default="https://example.org/twtxt.txt")
+
+    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared when "
+                                      "making HTTP requests", default=False)
 
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
 
-    conf = Config.create_config(cfgfile, nick, twtfile, disclose_identity, add_news)
+    conf = Config.create_config(cfgfile, nick, twtfile, twturl, disclose_identity, add_news)
 
     twtfile_dir = os.path.dirname(twtfile)
     if not os.path.exists(twtfile_dir):
