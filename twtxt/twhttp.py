@@ -7,16 +7,19 @@
     :copyright: (c) 2016 by buckket.
     :license: MIT, see LICENSE for more details.
 """
-
+import re
 import asyncio
 import logging
-
+import click
 import aiohttp
-
+import sys
+import ssl
+from twtxt.models import Source
 from twtxt.cache import Cache
 from twtxt.helper import generate_user_agent
 from twtxt.parser import parse_tweets
-
+from twtxt.models import Tweet
+from twtxt.config import Config
 logger = logging.getLogger(__name__)
 
 
@@ -29,6 +32,15 @@ def retrieve_status(client, source):
         yield from response.release()
     except Exception as e:
         logger.debug(e)
+        #comp490
+        if e==ssl.CertificateError:
+
+            click.echo("Warning unable to validate the source: "+source.nick+"ssl certificate ")
+        elif e==aiohttp.errors.ClientOSError:
+            errorString=str(e)
+            if "[[SSL: CERTIFICATE_VERIFY_FAILED]"in errorString:
+                click.echo("Warning the source: "+source.nick+" has ssl certificate that does not match expected certificate")
+
     finally:
         return source, status
 
@@ -45,6 +57,16 @@ def retrieve_file(client, source, limit, cache):
         if is_cached:
             logger.debug("{}: {} - using cached content".format(source.url, e))
             return cache.get_tweets(source.url, limit)
+        #comp490
+        elif e==ssl.CertificateError:
+
+            click.echo("Warning the source: "+source.nick+" has ssl certificate that does not match expected certificate")
+            raise ssl.CertificateError
+        elif e==aiohttp.errors.ClientOSError:
+
+            if "[[SSL: CERTIFICATE_VERIFY_FAILED" in str(e):
+                click.echo("Warning the source: "+source.nick+"Has a ssl certificate that could not be varified")
+            raise aiohttp.errors.ClientOSError
         else:
             logger.debug(e)
             return []
@@ -63,7 +85,17 @@ def retrieve_file(client, source, limit, cache):
             logger.debug("{} returned 200".format(source.url))
 
         return sorted(tweets, reverse=True)[:limit]
+    #comp490
+    elif response.status==301:
+        cache = Cache.discover()
+        conf=Config.discover()
+        tweets=conf.get_tweets(source.url)
 
+        conf.remove_source_by_nick(source.nick)
+        url=response.headers["Location"]
+        conf.add_source(Source(source.nick,url))
+        for tweet in tweets:
+            cache.add_tweet(url,0,tweet)
     elif response.status == 410 and is_cached:
         # 410 Gone:
         # The resource requested is no longer available,
@@ -82,7 +114,7 @@ def retrieve_file(client, source, limit, cache):
 
 
 @asyncio.coroutine
-def process_sources_for_status(client, sources):
+def process_sources_for_status(client, sources,):
     g_status = []
     coroutines = [retrieve_status(client, source) for source in sources]
     for coroutine in asyncio.as_completed(coroutines):
@@ -104,23 +136,27 @@ def process_sources_for_file(client, sources, limit, cache=None):
 def get_remote_tweets(sources, limit=None, timeout=5.0, use_cache=True):
     conn = aiohttp.TCPConnector(conn_timeout=timeout, use_dns_cache=True)
     headers = generate_user_agent()
-    with aiohttp.ClientSession(connector=conn, headers=headers) as client:
-        loop = asyncio.get_event_loop()
+    try:
+        with aiohttp.ClientSession(connector=conn, headers=headers) as client:
+            loop = asyncio.get_event_loop()
 
-        def start_loop(client, sources, limit, cache=None):
-            return loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
+            def start_loop(client, sources, limit, cache=None):
+                return loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
 
-        if use_cache:
-            try:
-                with Cache.discover() as cache:
-                    tweets = start_loop(client, sources, limit, cache)
-            except OSError as e:
-                logger.debug(e)
+            if use_cache:
+                try:
+                    with Cache.discover() as cache:
+                        tweets = start_loop(client, sources, limit, cache)
+                except OSError as e:
+                    logger.debug(e)
+                    tweets = start_loop(client, sources, limit)
+            else:
                 tweets = start_loop(client, sources, limit)
-        else:
-            tweets = start_loop(client, sources, limit)
 
-    return tweets
+        return tweets
+    except ValueError:
+        click.echo("Error: Either you using outdate version of python or Aiohttp")
+        sys.exit()
 
 
 def get_remote_status(sources, timeout=5.0):

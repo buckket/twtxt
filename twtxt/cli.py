@@ -122,7 +122,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
         sources = [source_obj]
     else:
         sources = ctx.obj["conf"].following
-
+#comp490
     tweets = get_remote_tweets(sources, limit, timeout, cache)
 
     if twtfile and not source:
@@ -198,7 +198,6 @@ def follow(ctx, nick, url, force):
     """Add a new source to your followings."""
     source = Source(nick, url)
     sources = ctx.obj['conf'].following
-
     if not force:
         if source.nick in (source.nick for source in sources):
             click.confirm("➤ You’re already following {0}. Overwrite?".format(
