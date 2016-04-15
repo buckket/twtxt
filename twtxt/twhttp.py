@@ -51,7 +51,7 @@ def retrieve_file(client, source, limit, cache):
     headers = {"If-Modified-Since": cache.last_modified(source.url)} if is_cached else {}
 
     try:
-        response = yield from client.get(source.url, headers=headers)
+        response = yield from client.request("get",source.url, headers=headers,allow_redirects=False)
         content = yield from response.text()
     except Exception as e:
         if is_cached:
