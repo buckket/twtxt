@@ -122,7 +122,7 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
         sources = [source_obj]
     else:
         sources = ctx.obj["conf"].following
-#comp490
+
     tweets = get_remote_tweets(sources, limit, timeout, cache)
 
     if twtfile and not source:

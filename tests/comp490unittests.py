@@ -7,18 +7,24 @@ import twtxt.models
 import twtxt.twhttp
 import twtxt.config
 import twtxt.cli
-
-
+import twtxt.cache
+import asyncio
+#490compsci
 class MyTestCase(unittest.TestCase):
     def test_301url_reroute(self):
         config=twtxt.config.Config.discover()
         name="patrick"
-        url="testfilefor301redirect.html"
+        url="http://127.0.0.1:8081/"
         source=twtxt.models.Source(name,url)
         config.add_source(source)
+        cache=twtxt.cache.Cache.discover()
         with aiohttp.ClientSession() as client:
-            twtxt.twhttp.retrieve_file(client,source,30,config)
+            loop = asyncio.get_event_loop()
+            s=loop.run_until_complete(twtxt.twhttp.retrieve_file(client,source,30,cache))
+
+        config=twtxt.config.Config.discover()
         newSOurce=config.get_source_by_nick(name)
+
         self.assertNotEqual(newSOurce.url,url)
     def test_301reroute_doesnot_effectgodpasswords(self):
         config=twtxt.config.Config.discover()
@@ -33,17 +39,19 @@ class MyTestCase(unittest.TestCase):
     def test_aiohttpdoesnotCrashProgramWhenSOurceCannotBeRead(self):
 
         runner = CliRunner()
-        self.assertEqualsrunner.invoke(twtxt.cli.cli,['timeline'])
+        self.assertNotEqual(runner.invoke(twtxt.cli.cli,['timeline']),None)
 
     def test_iferroristhrownWhenConnectingToPageWithBadCertificate(self):
         config=twtxt.config.Config.discover()
         name="mdom"
         url="https://expired.badssl.com/"
         source=twtxt.models.Source(name,url)
+        cache=twtxt.cache.Cache.discover()
         config.add_source(source)
         with aiohttp.ClientSession() as client:
-            self.assertRaises(aiohttp.errors.ClientOSError,twtxt.twhttp.retrieve_file,client,source,30,config)
-
+            loop = asyncio.get_event_loop()
+            testoutput=loop.run_until_complete(twtxt.twhttp.retrieve_file(client,source,30,cache))
+            self.assertEquals(testoutput,[])
 
 
 
