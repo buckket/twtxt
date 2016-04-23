@@ -42,7 +42,7 @@ def retrieve_status(client, source):
                 click.echo("Warning the source: "+source.nick+" is unsafe: The ssl certificate has expired")
                 return []
             elif "[SSL: EXCESSIVE_MESSAGE_SIZE]" in str(e):
-                click.echo("Warning the source: "+source.nick+" is unsafe: source has sent an invalid response")
+                click.echo("Warpning the source: "+source.nick+" is unsafe: source has sent an invalid response")
     #COMP490
     finally:
         return source, status
