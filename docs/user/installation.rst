@@ -51,7 +51,12 @@ Install the package via pip_ in developer mode:
 
 .. code-block:: console
 
-    $ pip3 install -e twtxt/
+    $ pip3 install -e twtxt/[dev]
+
+.. note::
+
+    Appending ``[dev]`` to the package name or target location will also install the packages required for testing twtxt,
+    by making use of `setuptool’s extra <https://pythonhosted.org/setuptools/setuptools.html#declaring-extras-optional-features-with-their-own-dependencies>`_ functionality.
 
 
 .. _Python: https://www.python.org/

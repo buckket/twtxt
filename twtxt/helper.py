@@ -159,11 +159,12 @@ def sort_and_truncate_tweets(tweets, direction, limit):
 
 def generate_user_agent():
     try:
+        conf = click.get_current_context().obj["conf"]
         version = pkg_resources.require("twtxt")[0].version
     except pkg_resources.DistributionNotFound:
         version = "unknown"
 
-    conf = click.get_current_context().obj["conf"]
+
     if conf.disclose_identity and conf.nick and conf.twturl:
         user_agent = "twtxt/{version} (+{url}; @{nick})".format(
             version=version, url=conf.twturl, nick=conf.nick)

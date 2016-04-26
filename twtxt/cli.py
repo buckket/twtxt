@@ -198,7 +198,6 @@ def follow(ctx, nick, url, force):
     """Add a new source to your followings."""
     source = Source(nick, url)
     sources = ctx.obj['conf'].following
-
     if not force:
         if source.nick in (source.nick for source in sources):
             click.confirm("➤ You’re already following {0}. Overwrite?".format(
