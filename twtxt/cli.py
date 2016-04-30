@@ -20,7 +20,8 @@ from twtxt.config import Config
 from twtxt.helper import run_pre_tweet_hook, run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
-from twtxt.helper import validate_created_at, validate_text, validate_config_key
+from twtxt.helper import validate_created_at, validate_text
+from twtxt.helper import get_new_tweets
 from twtxt.log import init_logging
 from twtxt.mentions import expand_mentions
 from twtxt.models import Tweet, Source
@@ -51,11 +52,8 @@ def cli(ctx, config, verbose):
             conf = Config.from_file(config)
         else:
             conf = Config.discover()
-    except ValueError as e:
-        if "Error in config file." in str(e):
-            click.echo("✗ Please correct the errors mentioned above an run twtxt again.")
-        else:
-            click.echo("✗ Config file not found or not readable. You may want to run twtxt quickstart.")
+    except ValueError:
+        click.echo("✗ Config file not found or not readable. You may want to run twtxt quickstart.")
         sys.exit()
 
     ctx.default_map = conf.build_default_map()
@@ -78,14 +76,17 @@ def tweet(ctx, created_at, twtfile, text):
 
     pre_tweet_hook = ctx.obj["conf"].pre_tweet_hook
     if pre_tweet_hook:
-        run_pre_tweet_hook(pre_tweet_hook, ctx.obj["conf"].options)
+        if not run_pre_tweet_hook(pre_tweet_hook, ctx.obj["conf"].options):
+            click.echo("✗ pre_tweet_hook returned non-zero")
+            raise click.Abort
 
     if not add_local_tweet(tweet, twtfile):
         click.echo("✗ Couldn’t write to file.")
     else:
         post_tweet_hook = ctx.obj["conf"].post_tweet_hook
         if post_tweet_hook:
-            run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options)
+            if not run_post_tweet_hook(post_tweet_hook, ctx.obj["conf"].options):
+                click.echo("✗ post_tweet_hook returned non-zero")
 
 
 @cli.command()
@@ -111,8 +112,13 @@ def tweet(ctx, created_at, twtfile, text):
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
+#comp490 -begin
+@click.option("--newtweets", "-nt",
+              is_flag=True,
+              help="Only shows tweets that have not been viewed yet.")
+#comp490 -end
 @click.pass_context
-def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, newtweets):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -136,8 +142,18 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
 
     if pager:
         click.echo_via_pager(style_timeline(tweets, porcelain))
+        updateLastViewed = ctx.obj["conf"].update_last_viewed()
+    #comp490 begin
+    elif newtweets:
+        lastViewed = ctx.obj["conf"].get_last_viewed()
+        tweets = get_new_tweets(tweets, lastViewed)
+        click.echo(tweets)
+        ctx.obj["conf"].update_last_viewed()
+    #comp490 end
     else:
         click.echo(style_timeline(tweets, porcelain))
+        updateLastViewed = ctx.obj["conf"].update_last_viewed()
+        click.echo("There was a timeline here a minute ago...")
 
 
 @cli.command()
@@ -158,6 +174,10 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
 @click.option("--cache/--no-cache",
               is_flag=True,
               help="Cache remote twtxt files locally. (Default: True)")
+#comp490 -begin
+#@click.option("--new", "-n",
+#              help="Only shows tweets that have not been viewed yet.")
+#comp490 -end
 @click.argument("source")
 @click.pass_context
 def view(ctx, **kwargs):
@@ -173,8 +193,10 @@ def view(ctx, **kwargs):
               help="Maximum time requests are allowed to take. (Default: 5.0)")
 @click.option("--porcelain", is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
+@click.option("--lastmodified", "-lm",
+              help="Shows the last modified date of your followings")      
 @click.pass_context
-def following(ctx, check, timeout, porcelain):
+def following(ctx, check, timeout, porcelain, lastmodified):
     """Return the list of sources you’re following."""
     sources = ctx.obj['conf'].following
 
@@ -198,6 +220,7 @@ def follow(ctx, nick, url, force):
     """Add a new source to your followings."""
     source = Source(nick, url)
     sources = ctx.obj['conf'].following
+
     if not force:
         if source.nick in (source.nick for source in sources):
             click.confirm("➤ You’re already following {0}. Overwrite?".format(
@@ -253,57 +276,15 @@ def quickstart():
     click.echo()
     nick = click.prompt("➤ Please enter your desired nick", default=os.environ.get("USER", ""))
     twtfile = click.prompt("➤ Please enter the desired location for your twtxt file", "~/twtxt.txt", type=click.Path())
-    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared", default=False)
 
     click.echo()
     add_news = click.confirm("➤ Do you want to follow the twtxt news feed?", default=True)
 
-    conf = Config.create_config(nick, twtfile, disclose_identity, add_news)
+    conf = Config.create_config(nick, twtfile, add_news)
     open(os.path.expanduser(twtfile), "a").close()
 
     click.echo()
     click.echo("✓ Created config file at '{0}'.".format(click.format_filename(conf.config_file)))
-
-
-@cli.command()
-@click.argument("key", required=False, callback=validate_config_key)
-@click.argument("value", required=False)
-@click.option("--remove", flag_value=True,
-              help="Remove given item")
-@click.option("--edit", "-e", flag_value=True,
-              help="Open config file in editor")
-@click.pass_context
-def config(ctx, key, value, remove, edit):
-    """Get or set config item."""
-    conf = ctx.obj["conf"]
-
-    if not edit and not key:
-        raise click.BadArgumentUsage("You have to specify either a key or use --edit.")
-
-    if edit:
-        return click.edit(filename=conf.config_file)
-
-    if remove:
-        try:
-            conf.cfg.remove_option(key[0], key[1])
-        except Exception as e:
-            logger.debug(e)
-        else:
-            conf.write_config()
-        return
-
-    if not value:
-        try:
-            click.echo(conf.cfg.get(key[0], key[1]))
-        except Exception as e:
-            logger.debug(e)
-        return
-
-    if not conf.cfg.has_section(key[0]):
-        conf.cfg.add_section(key[0])
-
-    conf.cfg.set(key[0], key[1], value)
-    conf.write_config()
 
 
 main = cli
