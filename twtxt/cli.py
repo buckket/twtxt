@@ -153,7 +153,6 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     else:
         click.echo(style_timeline(tweets, porcelain))
         updateLastViewed = ctx.obj["conf"].update_last_viewed()
-        click.echo("There was a timeline here a minute ago...")
 
 
 @cli.command()
