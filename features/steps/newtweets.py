@@ -44,3 +44,5 @@ def step_impl(context):
 @then("show the new tweets in the timeline")
 def step_impl(context):
 	assert(len(context.tweets) > 0)
+	
+#useless
