@@ -27,14 +27,12 @@ Check out the full documentation at: http://twtxt.readthedocs.org/en/latest/
 Community
 ---------
 
-- twtxt gitter chat: https://gitter.im/buckket/twtxt
 - twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
 
 Contributions
 -------------
 
 - A web-based directory of twtxt users by `reednj <https://twitter.com/reednj>`_: http://twtxt.reednj.com/
-- A web-based directory of twtxt users by `xena <https://git.xeserv.us/xena>`_: https://twtxtlist.cf
 - A web-based twtxt feed hoster for the masses by `plomlompom <http://www.plomlompom.de/>`_: https://github.com/plomlompom/htwtxt
 - A twtxt-to-atom converter in sh by `erlehmann <http://news.dieweltistgarnichtso.net/>`_: http://news.dieweltistgarnichtso.net/bin/twtxt2atom
 - A twitter-to-twtxt converter in node.js by `DracoBlue <https://github.com/DracoBlue>`_: https://gist.github.com/DracoBlue/488466eaabbb674c636f
@@ -42,7 +40,6 @@ Contributions
 - A patched version of TweetNest, which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
 - A twtxt registry api by `DracoBlue <https://github.com/DracoBlue>`_: https://registry.twtxt.org
 - A twtxt client written in perl by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnix
-- A web-based directory and registry by `mdom <https://github.com/mdom>`_: http://roster.twtxt.org
 
 License
 -------
