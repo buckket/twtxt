@@ -3,7 +3,10 @@
 Configuration
 =============
 
-twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it. On Linux twtxt checks ``~/.config/twtxt/config`` for its configuration. OSX uses ``~/Library/Application Support/twtxt/config``. Consult :func:`click.get_app_dir` to find out the config directory for other operating systems.
+twtxt uses a simple INI-like configuration file. It’s recommended to use ``twtxt quickstart`` to create it.
+On Linux twtxt checks ``~/.config/twtxt/config`` for its configuration.
+On OSX it uses ``~/Library/Application Support/twtxt/config``.
+Consult :func:`click.get_app_dir` to find out the config directory for other operating systems.
 
 Here’s an example ``conf`` file, showing every currently supported option:
 

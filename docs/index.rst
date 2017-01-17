@@ -24,11 +24,11 @@ User Guide
    user/configuration
    user/twtxtfile
    user/registry
+   user/discoverability
 
 Community
 ---------
 
-- twtxt gitter chat: https://gitter.im/buckket/twtxt
 - twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
 
 API Reference

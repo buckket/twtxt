@@ -9,7 +9,7 @@ The location of the twtxt file is configured in the twtxt section in the configu
 Format specification
 --------------------
 
-The twtxt file contains one status per line, each of which is equipped with an RFC 3339 date-time string followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
+The twtxt file contains one status per line, each of which is equipped with an RFC 3339 date-time string (with or without UTC offset) followed by a TAB character (\\t) to separate it from the actual text. A specific ordering of the statuses is not mandatory.
 
 The file must be encoded with UTF-8 and must use LF (\\n) as line separators.
 

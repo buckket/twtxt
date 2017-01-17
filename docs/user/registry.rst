@@ -1,4 +1,4 @@
-.. registry:
+.. _registry:
 
 Registry
 ========

@@ -40,7 +40,7 @@ The quickstart wizard prompts for the following configuration values:
 - The desired location for your twtxt file (*<TWTXTX FILE LOCATION>*)
 - The URL your twtxt file will be accessible from remotely (*<TWTXT URL>*)
 - If you want to disclose your identity. If True your nick and URL will be used in the User-Agent
-  header attribute when fetching other twtxt files via HTTP.
+  header attribute when fetching other twtxt files via HTTP, see :ref:`discoverability`.
 - If you want to follow the official twtxt news feed
 
 The configurations can easily be changed in the twtxt configuration file. See :ref:`configuration`.

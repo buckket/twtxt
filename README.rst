@@ -1,6 +1,6 @@
 twtxt
 ~~~~~
-|pypi| |build| |coverage| |docs| |gitter| |license|
+|pypi| |build| |coverage| |docs| |license|
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
@@ -58,10 +58,6 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
 .. |coverage| image:: https://img.shields.io/coveralls/buckket/twtxt/master.svg?style=flat
     :target: https://coveralls.io/r/buckket/twtxt?branch=master
     :alt: Test coverage
-
-.. |gitter| image:: https://img.shields.io/gitter/room/buckket/twtxt.svg?style=flat
-    :target: https://gitter.im/buckket/twtxt
-    :alt: Chat on gitter
 
 .. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
     :target: https://raw.githubusercontent.com/buckket/twtxt/master/LICENSE
