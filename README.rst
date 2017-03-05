@@ -40,6 +40,8 @@ Contributions
 - A patched version of TweetNest, which serves TweetNest archives in twtxt format, by `texttheater <https://github.com/texttheater>`_: https://github.com/texttheater/tweetnest/tree/feat/twtxt
 - A twtxt registry api by `DracoBlue <https://github.com/DracoBlue>`_: https://registry.twtxt.org
 - A twtxt client written in perl by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnix
+- A twtxt client with minimal dependencies by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnish
+- A self-hosted twitter to twtxt gateway by `trqx <https://github.com/trqx>`_: https://github.com/trqx/twgwtxt
 
 License
 -------
