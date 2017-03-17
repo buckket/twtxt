@@ -32,7 +32,7 @@ Community
 Contributions
 -------------
 
-- A curated list of active twtxt users: https://github.com/mdom/we-are-twtxt
+- A curated list of active twtxt users by `mdom <https://github.com/mdom>`_: https://github.com/mdom/we-are-twtxt
 - A web-based directory of twtxt users by `reednj <https://twitter.com/reednj>`_: http://twtxt.reednj.com/
 - A web-based twtxt feed hoster for the masses by `plomlompom <http://www.plomlompom.de/>`_: https://github.com/plomlompom/htwtxt
 - A twtxt-to-atom converter in sh by `erlehmann <http://news.dieweltistgarnichtso.net/>`_: http://news.dieweltistgarnichtso.net/bin/twtxt2atom
