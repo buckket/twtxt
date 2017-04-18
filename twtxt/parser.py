@@ -10,6 +10,7 @@
 
 import logging
 from datetime import datetime, timezone
+from feedparser import parse as parse_feed
 
 import click
 import dateutil.parser
@@ -44,14 +45,24 @@ def parse_tweets(raw_tweets, source, now=None):
     if now is None:
         now = datetime.now(timezone.utc)
 
-    tweets = []
-    for line in raw_tweets:
-        try:
-            tweet = parse_tweet(line, source, now)
-        except (ValueError, OverflowError) as e:
-            logger.debug("{0} - {1}".format(source.url, e))
-        else:
-            tweets.append(tweet)
+    dom = parse_feed('\n'.join(raw_tweets))
+    if dom.bozo:
+        tweets = []
+        for line in raw_tweets:
+            try:
+                tweet = parse_tweet(line, source, now)
+            except (ValueError, OverflowError) as e:
+                logger.debug("{0} - {1}".format(source.url, e))
+            else:
+                tweets.append(tweet)
+    else:
+        tweets = [
+            Tweet(
+                click.unstyle(m.title.strip()) + ' ' + m.links[0].href,
+                parse_iso8601(m.updated),
+                source
+                ) for m in dom.entries
+            ]
 
     return tweets
 

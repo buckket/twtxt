@@ -30,6 +30,7 @@ setup(
 
     install_requires=[
         'aiohttp',
+        'feedparser',
         'python-dateutil',
         'humanize',
         'click',
