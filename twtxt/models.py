@@ -14,7 +14,7 @@ import humanize
 from dateutil.tz import tzlocal
 
 
-class Tweet:
+class Tweet(object):
     """A :class:`Tweet` represents a single tweet.
 
     :param str text: text of the tweet in raw format
@@ -84,7 +84,7 @@ class Tweet:
         return self.created_at.strftime("%a, %d %b %Y %H:%M:%S")
 
 
-class Source:
+class Source(object):
     """A :class:`Source` represents a twtxt feed, remote as well as local.
 
     :param str nick: nickname of twtxt user
