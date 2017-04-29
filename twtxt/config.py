@@ -19,7 +19,7 @@ from twtxt.models import Source
 logger = logging.getLogger(__name__)
 
 
-class Config:
+class Config(object):
     """:class:`Config` interacts with the configuration file.
 
     :param str config_file: full path to the loaded config file

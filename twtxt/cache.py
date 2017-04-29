@@ -18,7 +18,7 @@ from click import get_app_dir
 logger = logging.getLogger(__name__)
 
 
-class Cache:
+class Cache(object):
     cache_dir = get_app_dir("twtxt")
     cache_name = "cache"
 
