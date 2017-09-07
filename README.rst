@@ -43,6 +43,7 @@ Contributions
 - A twtxt client written in perl by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnix
 - A twtxt client with minimal dependencies by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnish
 - A self-hosted twitter to twtxt gateway by `trqx <gopher://tx.god.jp>`_: https://tx.god.jp/code/twgwtxt/file/README.md.html
+- A read-only timeline of the last 3000 tweets via gopher by `trqx <gopher://tx.god.jp>`_: gopher://tx.god.jp/1/twtxt
 
 License
 -------
