@@ -17,7 +17,7 @@ Features
 - A beautiful command-line interface thanks to click.
 - Asynchronous HTTP requests thanks to asyncio/aiohttp and Python 3.
 - Integrates well with existing tools (scp, cut, echo, date, etc.) and your shell.
-- Don’t like the official client? Tweet using ``echo -e "`date +%FT%T%:z`\tHello world!" >> twtxt.txt``!
+- Don’t like the official client? Tweet using ``echo -e "`date -Isecond`\tHello world!" >> twtxt.txt``!
 
 Documentation
 -------------
