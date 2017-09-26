@@ -4,7 +4,7 @@
 
     This module handles HTTP requests via aiohttp/asyncio.
 
-    :copyright: (c) 2016 by buckket.
+    :copyright: (c) 2016-2017 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 

@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'twtxt'
-copyright = u'2016, buckket'
+copyright = u'2017, buckket'
 author = u'buckket'
 
 # The version info for the project you're documenting, acts as replacement for

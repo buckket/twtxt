@@ -3,6 +3,12 @@ Changelog
 
 These are all the changes in twtxt since the first public release.
 
+1.2.2
+-----
+
+- Fixed two minor bugs in cli.py
+- Adopt to 2.x changes in aiohttp
+
 1.2.1
 -----
 

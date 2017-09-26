@@ -4,7 +4,7 @@
 
     This module implements a caching system for storing tweets.
 
-    :copyright: (c) 2016 by buckket.
+    :copyright: (c) 2016-2017 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 
