@@ -131,6 +131,8 @@ def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, ca
     else:
         sources = ctx.obj["conf"].following
 
+    tweets = []
+
     if cache:
         try:
             with Cache.discover(update_interval=ctx.obj["conf"].timeline_update_interval) as cache:
@@ -238,7 +240,7 @@ def follow(ctx, nick, url, force):
                 click.style(source.nick, bold=True)), default=False, abort=True)
 
         _, status = get_remote_status([source])[0]
-        if status != 200:
+        if not status or status.status_code != 200:
             click.confirm("➤ The feed of {0} at {1} is not available. Follow anyway?".format(
                 click.style(source.nick, bold=True),
                 click.style(source.url, bold=True)), default=False, abort=True)
