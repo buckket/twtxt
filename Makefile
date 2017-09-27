@@ -22,8 +22,8 @@ docs:
 
 publish:
 	@echo "---> uploading to PyPI"
-	@python3 setup.py register
-	@python3 setup.py sdist bdist_wheel upload
+	@python3 setup.py sdist bdist_wheel
+	@twine upload dist/*
 	@rm -fr build dist .egg
 
 authors:
