@@ -76,6 +76,7 @@ def retrieve_status(client, source):
 def retrieve_file(client, source, limit, cache):
     is_cached = cache.is_cached(source.url) if cache else None
     headers = {"If-Modified-Since": cache.last_modified(source.url)} if is_cached else {}
+    headers['Accept'] = 'text/plain,*/*;q=0.8'
 
     try:
         response = yield from client.get(source.url, headers=headers)
@@ -143,6 +144,7 @@ def process_sources_for_file(client, sources, limit, cache=None):
 def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
     conn = aiohttp.TCPConnector(use_dns_cache=True)
     headers = generate_user_agent()
+    headers['Accept'] = 'text/plain,*/*;q=0.8'
     with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
         loop = asyncio.get_event_loop()
 
@@ -157,6 +159,7 @@ def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
 def get_remote_status(sources, timeout=5.0):
     conn = aiohttp.TCPConnector(use_dns_cache=True)
     headers = generate_user_agent()
+    headers['Accept'] = 'text/plain,*/*;q=0.8'
     with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
         loop = asyncio.get_event_loop()
         result = loop.run_until_complete(process_sources_for_status(client, sources))
