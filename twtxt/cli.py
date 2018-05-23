@@ -309,7 +309,7 @@ def quickstart():
     twturl = click.prompt("➤ Please enter the URL your twtxt file will be accessible from",
                           default="https://example.org/twtxt.txt")
 
-    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Your nick and URL will be shared when "
+    disclose_identity = click.confirm("➤ Do you want to disclose your identity? Otherwise your nick and URL will be shared when "
                                       "making HTTP requests", default=False)
 
     click.echo()
