@@ -28,6 +28,7 @@ Community
 ---------
 
 - twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
+- An (inofficial) twtxt xmpp chat:  `twtxt@chat.mdosch.de  <https://yax.im/i/#twtxt@chat.mdosch.de?join>`_
 
 Contributions
 -------------
@@ -46,7 +47,6 @@ Contributions
 - A self-hosted twitter to twtxt gateway by `trqx <gopher://tx.god.jp>`_: https://tx.god.jp/code/twgwtxt/file/README.md.html
 - A read-only timeline of the last 3000 tweets via gopher by `trqx <gopher://tx.god.jp>`_: gopher://tx.god.jp/1/twtxt
 - A bot for using twtxt over xmpp by `mdosch <https://blog.mdosch.de>`_: https://salsa.debian.org/mdosch-guest/goxtxt
-- An (inofficial) twtxt xmpp chat:  `twtxt@chat.mdosch.de  <https://yax.im/i/#twtxt@chat.mdosch.de?join>`_
 
 License
 -------
