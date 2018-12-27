@@ -43,7 +43,6 @@ Contributions
 - A twtxt client written in perl by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnix
 - A twtxt client with minimal dependencies by `mdom <https://github.com/mdom>`_: https://github.com/mdom/txtnish
 - A twtxt client written in C by `dertuxmalwieder <https://github.com/dertuxmalwieder>`_: https://hub.darcs.net/dertuxmalwieder/twtxtc
-- A self-hosted twitter to twtxt gateway by `trqx <gopher://tx.god.jp>`_: https://tx.god.jp/code/twgwtxt/file/README.md.html
 - A read-only timeline of the last 3000 tweets via gopher by `trqx <gopher://tx.god.jp>`_: gopher://tx.god.jp/1/twtxt
 - A bot for using twtxt over xmpp by `mdosch <https://blog.mdosch.de>`_: https://salsa.debian.org/mdosch-guest/goxtxt
 
