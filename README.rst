@@ -1,6 +1,9 @@
 twtxt
 ~~~~~
-|pypi| |build| |coverage| |docs| |license|
+|pypi| |build| |coverage| |docs| |license| |oc|
+
+
+
 
 **twtxt** is a decentralised, minimalist microblogging service for hackers.
 
@@ -48,6 +51,38 @@ Contributions
 - twtxt registry server written in Go by `gbmor <https://github.com/gbmor>`_: https://github.com/getwtxt/getwtxt
 - A twtxt parsing library written in Rust by `gbmor <https://github.com/gbmor>`_: https://github.com/rustwtxt/rustwtxt
 
+Contributors
+------------------
+
+Code Contributors
+------------------
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+
+.. image:: https://opencollective.com/twtxt/contributors.svg?width=890&button=false 
+
+Financial Contributors
+------------------
+
+Become a financial contributor and help us sustain our community. Contribute_
+
+Individuals
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: https://opencollective.com/twtxt/individuals.svg?width=890
+    :target: https://opencollective.com/twtxt
+
+Organizations
+~~~~~~~~~~~~~~~~~~~~~~
+
+Support this project with your organization. Your logo will show up here with a link to your website. Contribute_
+
+.. image:: https://opencollective.com/twtxt/organization/0/avatar.svg
+    :target: https://opencollective.com/twtxt/organization/0/website
+
+.. _Contribute: https://opencollective.com/twtxt
+
+
 License
 -------
 
@@ -77,5 +112,8 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
 .. |docs| image:: https://readthedocs.org/projects/twtxt/badge/?version=latest
     :target: http://twtxt.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
+
+.. |oc| image:: https://opencollective.com/twtxt/all/badge.svg?label=financial+contributors
+    :alt: Financial Contributors on Open Collective
 
 .. _irc.freenode.net: https://freenode.net/
