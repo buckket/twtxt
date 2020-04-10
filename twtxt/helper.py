@@ -69,7 +69,7 @@ def style_source_with_status(source, status, porcelain=False):
             content_length=status.content_length,
             last_modified=status.last_modified)
     else:
-        if status.status_code == 200:
+        if hasattr(status, 'status_code') and status.status_code == 200:
             scolor, smessage = "green", str(status.status_code)
         elif status:
             scolor, smessage = "red", str(status.status_code)
