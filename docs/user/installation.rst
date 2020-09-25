@@ -22,7 +22,7 @@ Install twtxt using pip_:
 .. note::
 
     Instead of installing the package globally (as root), you may want to install this package locally by passing ``--user`` to pip,
-    make sure that you append ``~/.local/bin/`` to your ``$PATH``. Using pyvenv and running twtxt from within a virtualenv is also an option!
+    make sure that you append ``~/.local/bin/`` to your ``$PATH``. You may also install it using ``pipx`` with ``pipx install twtxt``. Or use ``pyvenv`` and run ``twtxt`` from within a virtualenv.
 
 
 Packages exist for the following systems:
