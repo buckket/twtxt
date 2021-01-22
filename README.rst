@@ -49,6 +49,8 @@ Contributions
 - A twtxt parsing library written in Rust by `gbmor <https://github.com/gbmor>`_: https://github.com/rustwtxt/rustwtxt
 - A twtxt WordPress plugin, that provides the blog-posts as twtxt file, written by `pfefferle <https://github.com/pfefferle>`_: https://github.com/pfefferle/wordpress-twtxt
 - A twtxt client for Emacs by `deadblackclover <https://github.com/deadblackclover>`_: https://github.com/deadblackclover/twtxt-el
+- An php interface for publishing to your selfhosted twtxt.txt by `sorenpeter <https://github.com/sorenpeter>`_: https://github.com/sorenpeter/phpub2twtxt/
+
 
 License
 -------
