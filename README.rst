@@ -50,6 +50,8 @@ Contributions
 - A twtxt WordPress plugin, that provides the blog-posts as twtxt file, written by `pfefferle <https://github.com/pfefferle>`_: https://github.com/pfefferle/wordpress-twtxt
 - A twtxt client for Emacs by `deadblackclover <https://github.com/deadblackclover>`_: https://github.com/deadblackclover/twtxt-el
 - An php interface for publishing to your selfhosted twtxt.txt by `sorenpeter <https://github.com/sorenpeter>`_: https://github.com/sorenpeter/phpub2twtxt/
+- A graphical twtxt client written in Tcl/Tk, RSS-to-twtxt converter, and mentions extractor by `dbohdan <https://dbohdan.com>`_: https://gitlab.com/dbohdan/twtxt.tcl
+
 
 
 License
