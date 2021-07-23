@@ -29,7 +29,7 @@ User Guide
 Community
 ---------
 
-- twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
+- twtxt IRC channel: **#twtxt** on `irc.libera.chat`_
 
 API Reference
 -------------
@@ -42,4 +42,4 @@ This part of the documentation describes the modules, classes, functions and oth
    api
 
 .. _GitHub: https://github.com/buckket/twtxt
-.. _irc.freenode.net: https://freenode.net/
+.. _irc.libera.chat: https://libera.chat/
