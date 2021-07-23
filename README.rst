@@ -82,4 +82,4 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
     :target: http://twtxt.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. _irc.freenode.net: https://freenode.net/
+.. _irc.libera.chat: https://libera.chat/
