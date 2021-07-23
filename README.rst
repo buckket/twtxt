@@ -27,7 +27,7 @@ Check out the full documentation at: http://twtxt.readthedocs.org/en/latest/
 Community
 ---------
 
-- twtxt IRC channel: **#twtxt** on `irc.freenode.net`_
+- twtxt IRC channel: **#twtxt** on `irc.libera.chat`_
 
 Contributions
 -------------
