@@ -29,7 +29,7 @@ setup(
     platforms='any',
 
     install_requires=[
-        'aiohttp>=2.2.5,<3',
+        'aiohttp>=2.2.5,<4',
         'python-dateutil>=2.6.1,<3',
         'humanize>=0.5.1,<1',
         'click>=6.7,<7',
