@@ -28,11 +28,13 @@ setup(
 
     platforms='any',
 
+    python_requires='>=3.7',
     install_requires=[
-        'aiohttp>=2.2.5,<3',
+        'aiohttp>=3.8.1,<4',
+        'nest_asyncio>=1.5.4,<2',
         'python-dateutil>=2.6.1,<3',
-        'humanize>=0.5.1,<1',
-        'click>=6.7,<7',
+        'humanize>=4.0.0,<5',
+        'click>=8.0.0,<9',
     ],
 
     extras_require={
@@ -56,8 +58,10 @@ setup(
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Operating System :: OS Independent',
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

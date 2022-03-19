@@ -22,7 +22,7 @@ class Cache:
     cache_dir = get_app_dir("twtxt")
     cache_name = "cache"
 
-    def __init__(self, cache_file, cache, update_interval):
+    def __init__(self, cache_file, cache, update_interval=0):
         """Initializes new :class:`Cache` object.
 
         :param str cache_file: full path to the loaded cache file.
