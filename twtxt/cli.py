@@ -12,6 +12,7 @@ import logging
 import os
 import sys
 import textwrap
+import shutil
 from itertools import chain
 
 import click
@@ -280,7 +281,7 @@ def unfollow(ctx, nick):
 @cli.command()
 def quickstart():
     """Quickstart wizard for setting up twtxt."""
-    width = click.get_terminal_size()[0]
+    width = shutil.get_terminal_size()[0]
     width = width if width <= 79 else 79
 
     click.secho("twtxt - quickstart", fg="cyan")
