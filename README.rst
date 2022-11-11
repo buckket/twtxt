@@ -64,8 +64,8 @@ twtxt is released under the MIT License. See the bundled LICENSE file for detail
     :target: https://pypi.python.org/pypi/twtxt
     :alt: Latest version released on PyPi
 
-.. |build| image:: https://img.shields.io/travis/buckket/twtxt/master.svg?style=flat
-    :target: http://travis-ci.org/buckket/twtxt
+.. |build| image:: https://github.com/buckket/twtxt/actions/workflows/python.yml/badge.svg
+    :target: https://github.com/buckket/twtxt/actions/workflows/python.yml
     :alt: Build status of the master branch
 
 .. |coverage| image:: https://img.shields.io/coveralls/buckket/twtxt/master.svg?style=flat
