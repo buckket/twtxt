@@ -10,7 +10,9 @@
 
 import asyncio
 import logging
+import nest_asyncio
 from datetime import datetime, timezone
+from itertools import chain
 from email.utils import parsedate_to_datetime
 from ssl import CertificateError
 
@@ -22,7 +24,7 @@ from twtxt.helper import generate_user_agent
 from twtxt.parser import parse_tweets
 
 logger = logging.getLogger(__name__)
-
+nest_asyncio.apply()
 
 class SourceResponse:
     """A :class:`SourceResponse` contains information about a :class:`Source`’s HTTP request.
@@ -52,11 +54,10 @@ class SourceResponse:
             return "{0} {1}".format(humanize.naturaldelta(now - last_modified), tense)
 
 
-@asyncio.coroutine
-def retrieve_status(client, source):
+async def retrieve_status(client, source):
     status = None
     try:
-        response = yield from client.head(source.url)
+        response = await client.head(source.url)
         if response.headers.get("Content-Length"):
             content_length = response.headers.get("Content-Length")
         else:
@@ -64,7 +65,7 @@ def retrieve_status(client, source):
         status = SourceResponse(status_code=response.status,
                                 content_length=content_length,
                                 last_modified=response.headers.get("Last-Modified"))
-        yield from response.release()
+        await response.release()
     except CertificateError as e:
         click.echo("✗ SSL Certificate Error: The feed's ({0}) SSL certificate is untrusted. Try using HTTP, "
                    "or contact the feed's owner to report this issue.".format(source.url))
@@ -75,14 +76,13 @@ def retrieve_status(client, source):
         return source, status
 
 
-@asyncio.coroutine
-def retrieve_file(client, source, limit, cache):
+async def retrieve_file(client, source, limit, cache):
     is_cached = cache.is_cached(source.url) if cache else None
     headers = {"If-Modified-Since": cache.last_modified(source.url)} if is_cached else {}
 
     try:
-        response = yield from client.get(source.url, headers=headers)
-        content = yield from response.text()
+        response = await client.get(source.url, headers=headers)
+        content = await response.text()
     except Exception as e:
         if is_cached:
             logger.debug("{0}: {1} - using cached content".format(source.url, e))
@@ -123,44 +123,39 @@ def retrieve_file(client, source, limit, cache):
         return []
 
 
-@asyncio.coroutine
-def process_sources_for_status(client, sources):
-    g_status = []
-    coroutines = [retrieve_status(client, source) for source in sources]
-    for coroutine in asyncio.as_completed(coroutines):
-        status = yield from coroutine
-        g_status.append(status)
-    return sorted(g_status, key=lambda x: x[0].nick)
+async def process_sources_for_status(client, sources):
+    tasks = [retrieve_status(client, source) for source in sources]
+    statuses = await asyncio.gather(*tasks)
+
+    return sorted(statuses, key=lambda x: x[0].nick)
 
 
-@asyncio.coroutine
-def process_sources_for_file(client, sources, limit, cache=None):
-    g_tweets = []
-    coroutines = [retrieve_file(client, source, limit, cache) for source in sources]
-    for coroutine in asyncio.as_completed(coroutines):
-        tweets = yield from coroutine
-        g_tweets.extend(tweets)
-    return sorted(g_tweets, reverse=True)[:limit]
+async def process_sources_for_file(client, sources, limit, cache=None):
+    tasks = [retrieve_file(client, source, limit, cache) for source in sources]
+    tweets_by_source = await asyncio.gather(*tasks)
+
+    all_tweets = list(chain.from_iterable(tweets_by_source))
+
+    return sorted(all_tweets, reverse=True)[:limit]
 
 
-def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
+async def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
     conn = aiohttp.TCPConnector(use_dns_cache=True)
     headers = generate_user_agent()
-    with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
+
+    async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
         loop = asyncio.get_event_loop()
-
-        def start_loop(client, sources, limit, cache=None):
-            return loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
-
-        tweets = start_loop(client, sources, limit, cache)
+        tweets = loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
 
     return tweets
 
 
-def get_remote_status(sources, timeout=5.0):
+async def get_remote_status(sources, timeout=5.0):
     conn = aiohttp.TCPConnector(use_dns_cache=True)
     headers = generate_user_agent()
-    with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
+
+    async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
         loop = asyncio.get_event_loop()
         result = loop.run_until_complete(process_sources_for_status(client, sources))
+
     return result

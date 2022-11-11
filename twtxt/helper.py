@@ -12,7 +12,9 @@ import shlex
 import subprocess
 import sys
 import textwrap
+from functools import wraps
 
+import asyncio
 import click
 import pkg_resources
 
@@ -69,7 +71,7 @@ def style_source_with_status(source, status, porcelain=False):
             content_length=status.content_length,
             last_modified=status.last_modified)
     else:
-        if hasattr(status, 'status_code') and status.status_code == 200:
+        if hasattr(status, "status_code") and status.status_code == 200:
             scolor, smessage = "green", str(status.status_code)
         elif status:
             scolor, smessage = "red", str(status.status_code)
@@ -177,3 +179,10 @@ def generate_user_agent():
         user_agent = "twtxt/{version}".format(version=version)
 
     return {"User-Agent": user_agent}
+
+def coro(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        return asyncio.run(f(*args, **kwargs))
+
+    return wrapper
