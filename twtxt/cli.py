@@ -264,7 +264,7 @@ def unfollow(ctx, nick):
     source = ctx.obj['conf'].get_source_by_nick(nick)
 
     try:
-        with Cache.discover() as cache:
+        with Cache.discover(update_interval=ctx.obj["conf"].timeline_update_interval) as cache:
             cache.remove_tweets(source.url)
     except OSError as e:
         logger.debug(e)
