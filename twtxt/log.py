@@ -4,7 +4,7 @@
 
     This module configures the logging module for twtxt.
 
-    :copyright: (c) 2016-2017 by buckket.
+    :copyright: (c) 2016-2022 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 

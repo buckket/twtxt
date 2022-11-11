@@ -4,7 +4,7 @@
 
     This module implements the command-line interface of twtxt.
 
-    :copyright: (c) 2016-2017 by buckket.
+    :copyright: (c) 2016-2022 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 
@@ -16,11 +16,9 @@ import shutil
 from itertools import chain
 
 import click
-import asyncio
 
 from twtxt.cache import Cache
 from twtxt.config import Config
-from twtxt.helper import coro
 from twtxt.helper import run_pre_tweet_hook, run_post_tweet_hook
 from twtxt.helper import sort_and_truncate_tweets
 from twtxt.helper import style_timeline, style_source, style_source_with_status
@@ -123,8 +121,7 @@ def tweet(ctx, created_at, twtfile, text):
               is_flag=True,
               help="Force update even if cache is up-to-date. (Default: False)")
 @click.pass_context
-@coro
-async def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, force_update):
+def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, source, cache, force_update):
     """Retrieve your personal timeline."""
     if source:
         source_obj = ctx.obj["conf"].get_source_by_nick(source)
@@ -142,7 +139,7 @@ async def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, sour
             with Cache.discover(update_interval=ctx.obj["conf"].timeline_update_interval) as cache:
                 force_update = force_update or not cache.is_valid
                 if force_update:
-                    tweets = await get_remote_tweets(sources, limit, timeout, cache)
+                    tweets = get_remote_tweets(sources, limit, timeout, cache)
                 else:
                     logger.debug("Multiple calls to 'timeline' within {0} seconds. Skipping update".format(
                         cache.update_interval))
@@ -150,9 +147,9 @@ async def timeline(ctx, pager, limit, twtfile, sorting, timeout, porcelain, sour
                     tweets = list(chain.from_iterable([cache.get_tweets(source.url) for source in sources]))
         except OSError as e:
             logger.debug(e)
-            tweets = await get_remote_tweets(sources, limit, timeout)
+            tweets = get_remote_tweets(sources, limit, timeout)
     else:
-        tweets = await get_remote_tweets(sources, limit, timeout)
+        tweets = get_remote_tweets(sources, limit, timeout)
 
     if twtfile and not source:
         source = Source(ctx.obj["conf"].nick, ctx.obj["conf"].twturl, file=twtfile)
@@ -212,13 +209,12 @@ def view(ctx, **kwargs):
               is_flag=True,
               help="Style output in an easy-to-parse format. (Default: False)")
 @click.pass_context
-@coro
-async def following(ctx, check, timeout, porcelain):
+def following(ctx, check, timeout, porcelain):
     """Return the list of sources you’re following."""
     sources = ctx.obj['conf'].following
 
     if check:
-        sources = await get_remote_status(sources, timeout)
+        sources = get_remote_status(sources, timeout)
         for (source, status) in sources:
             click.echo(style_source_with_status(source, status, porcelain))
     else:
@@ -234,8 +230,7 @@ async def following(ctx, check, timeout, porcelain):
               flag_value=True,
               help="Force adding and overwriting nick")
 @click.pass_context
-@coro
-async def follow(ctx, nick, url, force):
+def follow(ctx, nick, url, force):
     """Add a new source to your followings."""
     source = Source(nick, url)
     sources = ctx.obj['conf'].following
@@ -245,7 +240,7 @@ async def follow(ctx, nick, url, force):
             click.confirm("➤ You’re already following {0}. Overwrite?".format(
                 click.style(source.nick, bold=True)), default=False, abort=True)
 
-        _, status = (await get_remote_status([source]))[0]
+        _, status = (get_remote_status([source]))[0]
         if not status or status.status_code != 200:
             click.confirm("➤ The feed of {0} at {1} is not available. Follow anyway?".format(
                 click.style(source.nick, bold=True),

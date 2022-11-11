@@ -31,7 +31,6 @@ setup(
     python_requires='>=3.7',
     install_requires=[
         'aiohttp>=3.8.1,<4',
-        'nest_asyncio>=1.5.4,<2',
         'python-dateutil>=2.6.1,<3',
         'humanize>=4.0.0,<5',
         'click>=8.0.0,<9',

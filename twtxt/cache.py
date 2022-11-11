@@ -4,7 +4,7 @@
 
     This module implements a caching system for storing tweets.
 
-    :copyright: (c) 2016-2017 by buckket.
+    :copyright: (c) 2016-2022 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 
@@ -52,7 +52,7 @@ class Cache:
 
     @classmethod
     def discover(cls, *args, **kwargs):
-        """Make a guess about the cache file location an try loading it."""
+        """Make a guess about the cache file location and try loading it."""
         file = os.path.join(Cache.cache_dir, Cache.cache_name)
         return cls.from_file(file, *args, **kwargs)
 

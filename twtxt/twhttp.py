@@ -24,7 +24,7 @@ from twtxt.helper import generate_user_agent
 from twtxt.parser import parse_tweets
 
 logger = logging.getLogger(__name__)
-nest_asyncio.apply()
+
 
 class SourceResponse:
     """A :class:`SourceResponse` contains information about a :class:`Source`’s HTTP request.
@@ -139,23 +139,25 @@ async def process_sources_for_file(client, sources, limit, cache=None):
     return sorted(all_tweets, reverse=True)[:limit]
 
 
-async def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
-    conn = aiohttp.TCPConnector(use_dns_cache=True)
-    headers = generate_user_agent()
+def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
+    async def start_loop():
+        conn = aiohttp.TCPConnector(use_dns_cache=True)
+        headers = generate_user_agent()
 
-    async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
-        loop = asyncio.get_event_loop()
-        tweets = loop.run_until_complete(process_sources_for_file(client, sources, limit, cache))
+        async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
+            return await process_sources_for_file(client, sources, limit, cache)
 
-    return tweets
+    loop = asyncio.get_event_loop()
+    return loop.run_until_complete(start_loop())
 
 
-async def get_remote_status(sources, timeout=5.0):
-    conn = aiohttp.TCPConnector(use_dns_cache=True)
-    headers = generate_user_agent()
+def get_remote_status(sources, timeout=5.0):
+    async def start_loop():
+        conn = aiohttp.TCPConnector(use_dns_cache=True)
+        headers = generate_user_agent()
 
-    async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
-        loop = asyncio.get_event_loop()
-        result = loop.run_until_complete(process_sources_for_status(client, sources))
+        async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
+            return await process_sources_for_status(client, sources)
 
-    return result
+    loop = asyncio.get_event_loop()
+    return loop.run_until_complete(start_loop())
