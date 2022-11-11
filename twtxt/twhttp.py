@@ -43,10 +43,13 @@ class SourceResponse:
 
     @property
     def natural_last_modified(self):
-        last_modified = parsedate_to_datetime(self.last_modified)
-        now = datetime.now(timezone.utc)
-        tense = "from now" if last_modified > now else "ago"
-        return "{0} {1}".format(humanize.naturaldelta(now - last_modified), tense)
+        if self.last_modified is None:
+            return "?"
+        else:
+            last_modified = parsedate_to_datetime(self.last_modified)
+            now = datetime.now(timezone.utc)
+            tense = "from now" if last_modified > now else "ago"
+            return "{0} {1}".format(humanize.naturaldelta(now - last_modified), tense)
 
 
 @asyncio.coroutine
