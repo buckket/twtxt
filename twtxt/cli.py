@@ -10,9 +10,9 @@
 
 import logging
 import os
+import shutil
 import sys
 import textwrap
-import shutil
 from itertools import chain
 
 import click
