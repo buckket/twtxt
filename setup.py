@@ -34,6 +34,7 @@ setup(
         'python-dateutil>=2.6.1,<3',
         'humanize>=4.0.0,<5',
         'click>=8.0.0,<9',
+        'nest-asyncio>=1.5.0,<2'
     ],
 
     extras_require={
