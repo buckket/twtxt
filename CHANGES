@@ -3,6 +3,12 @@ Changelog
 
 These are all the changes in twtxt since the first public release.
 
+1.3.0
+-----
+
+- Bumped all dependencies
+- Python >= 3.7 is now supported
+
 1.2.3
 -----
 
