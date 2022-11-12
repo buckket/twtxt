@@ -32,7 +32,7 @@ setup(
     install_requires=[
         'aiohttp>=3.8.1,<4',
         'python-dateutil>=2.6.1,<3',
-        'humanize>=4.0.0,<5',
+        'humanize>=3.1.0,<5',
         'click>=8.0.0,<9',
     ],
 
