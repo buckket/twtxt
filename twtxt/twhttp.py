@@ -4,16 +4,15 @@
 
     This module handles HTTP requests via aiohttp/asyncio.
 
-    :copyright: (c) 2016-2017 by buckket.
+    :copyright: (c) 2016-2022 by buckket.
     :license: MIT, see LICENSE for more details.
 """
 
 import asyncio
 import logging
-import nest_asyncio
 from datetime import datetime, timezone
-from itertools import chain
 from email.utils import parsedate_to_datetime
+from itertools import chain
 from ssl import CertificateError
 
 import aiohttp
@@ -147,8 +146,7 @@ def get_remote_tweets(sources, limit=None, timeout=5.0, cache=None):
         async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
             return await process_sources_for_file(client, sources, limit, cache)
 
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(start_loop())
+    return asyncio.run(start_loop())
 
 
 def get_remote_status(sources, timeout=5.0):
@@ -159,5 +157,4 @@ def get_remote_status(sources, timeout=5.0):
         async with aiohttp.ClientSession(connector=conn, headers=headers, conn_timeout=timeout) as client:
             return await process_sources_for_status(client, sources)
 
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(start_loop())
+    return asyncio.run(start_loop())
