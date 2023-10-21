@@ -77,4 +77,4 @@ def parse_tweet(raw_tweet, source, now=None):
     if created_at > now:
         raise ValueError("Tweet is from the future")
 
-    return Tweet(click.unstyle(text.strip()), created_at, source)
+    return Tweet(click.unstyle(text.strip().replace("\u2028", "\n")), created_at, source)
