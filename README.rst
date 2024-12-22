@@ -32,6 +32,7 @@ Community
 Contributions
 -------------
 
+- A directory of available twtxt feeds: https://feeds.twtxt.net/feeds
 - A curated list of active twtxt users by `yarn.social <https://yarn.social/>`_: https://git.mills.io/yarnsocial/we-are-twtxt
 - A web-based directory of twtxt users by `reednj <https://twitter.com/reednj>`_: http://twtxt.reednj.com/
 - A web-based twtxt feed hoster for the masses by `plomlompom <http://www.plomlompom.de/>`_: https://github.com/plomlompom/htwtxt
