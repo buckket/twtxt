@@ -28,7 +28,7 @@ setup(
 
     platforms='any',
 
-    python_requires='>=3.7',
+    python_requires='>=3.8',
     install_requires=[
         'aiohttp>=3.8.1,<4',
         'python-dateutil>=2.6.1,<3',
@@ -57,10 +57,11 @@ setup(
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Operating System :: OS Independent',
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

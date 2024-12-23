@@ -14,7 +14,6 @@ import sys
 import textwrap
 
 import click
-import pkg_resources
 
 from twtxt.mentions import format_mentions
 from twtxt.parser import parse_iso8601
@@ -164,10 +163,7 @@ def sort_and_truncate_tweets(tweets, direction, limit):
 
 
 def generate_user_agent():
-    try:
-        version = pkg_resources.require("twtxt")[0].version
-    except pkg_resources.DistributionNotFound:
-        version = "unknown"
+    from twtxt import __version__ as version
 
     conf = click.get_current_context().obj["conf"]
     if conf.disclose_identity and conf.nick and conf.twturl:
